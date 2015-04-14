@@ -1,6 +1,7 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h>
 
 int main(int argc, char **argv)
 {
@@ -26,6 +27,12 @@ int main(int argc, char **argv)
 
 	//Initialsise addons
 	al_init_primitives_addon(); //Initialise primitives
+	al_init_image_addon(); //Initialise images
+
+
+	//Install keyboard & mouse
+	al_install_keyboard();
+	al_install_mouse();
 
 	// create display & check if succesful.
 	display = al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT);
