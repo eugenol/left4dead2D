@@ -6,6 +6,7 @@ int main(int argc, char **argv)
 	//Display width & height, can move to a header file later.
 	const int DISPLAY_HEIGHT = 600;
 	const int DISPLAY_WIDTH = 800;
+	const int FPS = 60; //Framerate
 
 	bool game_done = false; // used for game loop
 	bool redraw = false; // used for rendering
@@ -32,15 +33,66 @@ int main(int argc, char **argv)
 
 	al_set_window_title(display, "Zombie Rush");
 
-	al_clear_to_color(al_map_rgb(0, 0, 0));
+	//Create Timer
+	timer = al_create_timer(1.0 / FPS);
+	if (!timer)
+	{
+		al_show_native_message_box(al_get_current_display(), "Error", "Error", "Allegro failed to create the timer",
+			NULL, ALLEGRO_MESSAGEBOX_ERROR);
+		return -1;
+	}
 
+	//Create Event Queue
+	event_queue = al_create_event_queue();
+	if (!event_queue)
+	{
+		al_show_native_message_box(al_get_current_display(), "Error", "Error", "Allegro failed to create the event queue",
+			NULL, ALLEGRO_MESSAGEBOX_ERROR);
+		return -1;
+	}
+
+	//Register Event Sources
+	al_register_event_source(event_queue, al_get_timer_event_source(timer)); // timer events
+
+
+
+	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_flip_display();
 
-	al_rest(5.0);
+	al_start_timer(timer); //Start the timer
 
-	al_show_native_message_box(al_get_current_display(), "Good", "Good", "If you can read this, then everything is set up correctly",
-		NULL, ALLEGRO_MESSAGEBOX_OK_CANCEL);
+	while (!game_done)
+	{
+		ALLEGRO_EVENT ev;
+		al_wait_for_event(event_queue, &ev); // wait for event
 
+		if (ev.type == ALLEGRO_EVENT_TIMER)
+		{
+
+			redraw = true;
+			//Update code goes here
+		}
+
+		// Capture close windows event
+		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+			game_done = true;
+
+
+		//Rendering
+		if (redraw && al_is_event_queue_empty(event_queue)) //have to wait until event queue is empty befor redrawing.
+		{
+			redraw = false;
+
+			al_clear_to_color(al_map_rgb(0, 0, 0));
+
+			//Rendering code goes here
+
+			al_flip_display();
+		}
+	}
+
+
+	// Cleanup
 	al_destroy_display(display);
 
 	return 0;
