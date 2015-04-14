@@ -1,5 +1,6 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_primitives.h>
 
 int main(int argc, char **argv)
 {
@@ -22,6 +23,9 @@ int main(int argc, char **argv)
 			NULL, ALLEGRO_MESSAGEBOX_ERROR);
 		return -1; //exit program
 	}
+
+	//Initialsise addons
+	al_init_primitives_addon(); //Initialise primitives
 
 	// create display & check if succesful.
 	display = al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT);
