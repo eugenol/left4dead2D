@@ -53,6 +53,7 @@ int main(int argc, char **argv)
 
 	//Register Event Sources
 	al_register_event_source(event_queue, al_get_timer_event_source(timer)); // timer events
+	al_register_event_source(event_queue, al_get_display_event_source(display)); //display events
 
 
 
@@ -93,6 +94,9 @@ int main(int argc, char **argv)
 
 
 	// Cleanup
+	// Destroy everything that you create that doesnt do its own cleanup
+	al_destroy_event_queue(event_queue);
+	al_destroy_timer(timer);
 	al_destroy_display(display);
 
 	return 0;
