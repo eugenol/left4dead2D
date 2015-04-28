@@ -36,6 +36,11 @@ void GameEntity::UpdateAnimation()
 	}
 }
 
+void GameEntity::UpdatePosition(int &verticleMove, int &horizontalMove)
+{
+	pos_x += horizontalMove*speed_x;
+	pos_y += verticleMove*speed_y;
+}
 void GameEntity::update(int horizontalMove, int verticleMove, int damage, int dir)
 {
 	direction = dir;
