@@ -30,8 +30,7 @@ int main(int argc, char **argv)
 	//Initialsise addons
 	al_init_primitives_addon(); //Initialise primitives
 	al_init_image_addon(); //Initialise images
-
-
+	
 	//Install keyboard & mouse
 	al_install_keyboard();
 	al_install_mouse();
