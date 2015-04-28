@@ -4,7 +4,7 @@
 InputManager::InputManager()
 {
 	for (int i = 0; i < 6; i++)
-		keys[i] = false;
+		keys[i] = false; //initialise all keys to unpressed.
 }
 
 
