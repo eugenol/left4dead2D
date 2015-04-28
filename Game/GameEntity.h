@@ -10,6 +10,7 @@ enum IDS{ PLAYER, TERRAIN, ENEMY, PICKUP, PROJECTILE };
 class GameEntity
 {
 protected:
+	int life;
 	int pos_x;
 	int pos_y;
 	int speed_x;
@@ -37,11 +38,13 @@ protected:
 	void UpdatePosition(int &verticleMove, int &horizontalMove); //Updates Position of Entity
 
 public:
-	GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_y, int direction_x, bool active,
+	GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_x, int direction_y, bool active,
 	int hitboxRadius, int ID, ALLEGRO_BITMAP *image);
-	virtual ~GameEntity();
+	GameEntity();
+	virtual ~GameEntity() = 0;
 
 	void draw(); //Draws entity
+	
 	//updates entity, shall call UpdateAnimation and UpdatePosition
 	void update(int horizontalMove, int verticleMove, int damage, int direction);
 	

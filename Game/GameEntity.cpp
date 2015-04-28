@@ -4,6 +4,7 @@
 GameEntity::GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_x, int direction_y, bool active,
 	int hitboxRadius, int ID, ALLEGRO_BITMAP *image)
 {
+	al_init_image_addon;
 	this->pos_x = pos_x;
 	this->pos_y = pos_y;
 	this->speed_x = speed_x;
@@ -14,6 +15,10 @@ GameEntity::GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direc
 	this->hitboxRadius = hitboxRadius;
 	this->ID = ID;
 	this->image = image;
+}
+GameEntity::GameEntity()
+{
+
 }
 
 

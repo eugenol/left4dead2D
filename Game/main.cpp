@@ -3,6 +3,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
 #include "GameEntity.h"
+#include "Player.h"
 
 enum KEYS{UP, DOWN, LEFT, RIGHT, SPACE};
 bool keys[5] = { false, false, false, false, false };
@@ -10,7 +11,8 @@ bool keys[5] = { false, false, false, false, false };
 int main(int argc, char **argv)
 {
 	//Prototype Declarations
-
+	void PlayerUpdate(Player *);
+	//Variable Declarations
 	//Display width & height, can move to a header file later.
 	const int DISPLAY_HEIGHT = 600;
 	const int DISPLAY_WIDTH = 800;
@@ -18,7 +20,8 @@ int main(int argc, char **argv)
 
 	bool game_done = false; // used for game loop
 	bool redraw = false; // used for rendering
-
+	//Game Variable Declatation
+	Player player(30, 30, 100, 4 , 4, DISPLAY_WIDTH, DISPLAY_WIDTH);
 	//ALLEGRO Variables
 	ALLEGRO_DISPLAY *display = NULL; //Pointer to display.
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL; //Pointer to event queue
@@ -33,7 +36,7 @@ int main(int argc, char **argv)
 		return -1; //exit program
 	}
 
-	//Initialsise addons
+	//Initialise addons
 	al_init_primitives_addon(); //Initialise primitives
 	al_init_image_addon(); //Initialise images
 
@@ -88,7 +91,7 @@ int main(int argc, char **argv)
 
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
-
+			PlayerUpdate(&player);
 			redraw = true;
 			//Update code goes here
 		}
@@ -153,7 +156,7 @@ int main(int argc, char **argv)
 		if (redraw && al_is_event_queue_empty(event_queue)) //have to wait until event queue is empty befor redrawing.
 		{
 			redraw = false;
-
+			player.draw();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 
 			//Rendering code goes here
@@ -170,4 +173,25 @@ int main(int argc, char **argv)
 	al_destroy_display(display);
 
 	return 0;
+}
+
+void PlayerUpdate(Player *player)
+{
+	enum Direction { D, L, R, U };
+	if (keys[RIGHT])
+	{
+		player->update(1, 0, 0, R);
+	}
+	if (keys[LEFT])
+	{
+		player->update(-1, 0, 0, L);
+	}
+	if (keys[DOWN])
+	{
+		player->update(0, 1, 0, D);
+	}
+	if (keys[UP])
+	{
+		player->update(0, -1, 0, U);
+	}
 }
