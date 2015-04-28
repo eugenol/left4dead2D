@@ -19,5 +19,7 @@ GameEntity::GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direc
 
 GameEntity::~GameEntity()
 {
-	al_destroy_bitmap(image);
+	//image connot be destroyed here, as it was not created in this object, it is created in main, and a reference is passed to the object,
+	//we do it this way to save memory, otherwise every new enemy will have a new bitmap ionstead of sharing one.
+	//al_destroy_bitmap(image);
 }
