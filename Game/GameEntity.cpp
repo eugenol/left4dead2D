@@ -20,3 +20,25 @@ GameEntity::GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direc
 GameEntity::~GameEntity()
 {
 }
+
+void GameEntity::draw()
+{
+	al_draw_bitmap_region(image, animationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x, pos_y, 0);
+}
+
+void GameEntity::UpdateAnimation()
+{
+	if (++frameCount >= frameDelay)
+	{
+		if (++animationFrame >= maxFrame)
+			animationFrame = 0;
+		frameCount = 0;
+	}
+}
+
+void GameEntity::update(int horizontalMove, int verticleMove, int damage, int dir)
+{
+	direction = dir;
+	UpdatePosition(horizontalMove, verticleMove);
+	UpdateAnimation();
+}

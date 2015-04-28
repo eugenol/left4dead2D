@@ -9,6 +9,8 @@ bool keys[5] = { false, false, false, false, false };
 
 int main(int argc, char **argv)
 {
+	//Prototype Declarations
+
 	//Display width & height, can move to a header file later.
 	const int DISPLAY_HEIGHT = 600;
 	const int DISPLAY_WIDTH = 800;
@@ -17,9 +19,11 @@ int main(int argc, char **argv)
 	bool game_done = false; // used for game loop
 	bool redraw = false; // used for rendering
 
+	//ALLEGRO Variables
 	ALLEGRO_DISPLAY *display = NULL; //Pointer to display.
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL; //Pointer to event queue
 	ALLEGRO_TIMER *timer = NULL; //Pointer to timer
+	ALLEGRO_MOUSE_STATE mouseState; //To Hold State Of Mouse
 
 	//Initialise allegro, if unsuccesful, show error.
 	if (!al_init())
@@ -141,7 +145,10 @@ int main(int argc, char **argv)
 				break;
 			}
 		}
-
+		if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN || ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+		{
+			al_get_mouse_state(&mouseState);
+		}
 		//Rendering
 		if (redraw && al_is_event_queue_empty(event_queue)) //have to wait until event queue is empty befor redrawing.
 		{
