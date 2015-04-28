@@ -1,6 +1,9 @@
 #include "GameEntity.h"
 
+GameEntity::GameEntity()
+{
 
+}
 GameEntity::GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_x, int direction_y, bool active,
 	int hitboxRadius, int ID, ALLEGRO_BITMAP *image)
 {

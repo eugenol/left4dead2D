@@ -28,6 +28,7 @@ protected:
 	int animationFrameHeight;//this is the height of bitmap region
 
 public:
+	GameEntity();
 	GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_y, int direction_x, bool active,
 	int hitboxRadius, int ID, ALLEGRO_BITMAP *image);
 	virtual ~GameEntity();
