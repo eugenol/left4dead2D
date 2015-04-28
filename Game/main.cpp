@@ -2,7 +2,10 @@
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
-#include "Entities.h"
+#include "GameEntity.h"
+
+enum KEYS{UP, DOWN, LEFT, RIGHT, SPACE};
+bool keys[5] = { false, false, false, false, false };
 
 int main(int argc, char **argv)
 {
@@ -42,8 +45,7 @@ int main(int argc, char **argv)
 			NULL, ALLEGRO_MESSAGEBOX_ERROR);
 		return -1; // exit program
 	}
-
-	al_set_window_title(display, "Zombie Rush");
+	al_set_window_title(display, "Zombie Rush"); //Sets title on window
 
 	//Create Timer
 	timer = al_create_timer(1.0 / FPS);
@@ -66,7 +68,8 @@ int main(int argc, char **argv)
 	//Register Event Sources
 	al_register_event_source(event_queue, al_get_timer_event_source(timer)); // timer events
 	al_register_event_source(event_queue, al_get_display_event_source(display)); //display events
-
+	al_register_event_source(event_queue, al_get_keyboard_event_source()); // keyboard events
+	al_register_event_source(event_queue, al_get_mouse_event_source()); // mouse events
 
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -90,6 +93,54 @@ int main(int argc, char **argv)
 		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			game_done = true;
 
+
+		//Capture key input, try to find more elegand approach. using singleton??
+		if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
+		{
+			switch (ev.keyboard.keycode)
+			{
+			case ALLEGRO_KEY_UP:
+				keys[UP] = true;
+				break;
+			case ALLEGRO_KEY_DOWN:
+				keys[DOWN] = true;
+				break;
+			case ALLEGRO_KEY_LEFT:
+				keys[LEFT] = true;
+				break;
+			case ALLEGRO_KEY_RIGHT:
+				keys[RIGHT] = true;
+				break;
+			case ALLEGRO_KEY_SPACE:
+				keys[SPACE] = true;
+				break;
+			case ALLEGRO_KEY_ESCAPE:
+				game_done = true; // exit game loop
+				break;
+			}
+		}
+
+		if (ev.type == ALLEGRO_EVENT_KEY_UP)
+		{
+			switch (ev.keyboard.keycode)
+			{
+			case ALLEGRO_KEY_UP:
+				keys[UP] = false;
+				break;
+			case ALLEGRO_KEY_DOWN:
+				keys[DOWN] = false;
+				break;
+			case ALLEGRO_KEY_LEFT:
+				keys[LEFT] = false;
+				break;
+			case ALLEGRO_KEY_RIGHT:
+				keys[RIGHT] = false;
+				break;
+			case ALLEGRO_KEY_SPACE:
+				keys[SPACE] = false;
+				break;
+			}
+		}
 
 		//Rendering
 		if (redraw && al_is_event_queue_empty(event_queue)) //have to wait until event queue is empty befor redrawing.
