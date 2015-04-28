@@ -19,4 +19,5 @@ GameEntity::GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direc
 
 GameEntity::~GameEntity()
 {
+	al_destroy_bitmap(image);
 }
