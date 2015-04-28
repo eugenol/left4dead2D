@@ -5,9 +5,6 @@
 #include "GameEntity.h"
 #include "InputManager.h"
 
-//enum KEYS{UP, DOWN, LEFT, RIGHT, SPACE};
-//bool keys[5] = { false, false, false, false, false };
-
 int main(int argc, char **argv)
 {
 	//Display width & height, can move to a header file later.
@@ -94,58 +91,13 @@ int main(int argc, char **argv)
 		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			game_done = true;
 
+		//Capture key input
 		InputManager::getInstance().getInput(ev);
 
+		//Escape key pressed? exit game
 		if (InputManager::getInstance().isKeyPressed(ESCAPE))
 			game_done = true;
 
-		//Capture key input, try to find more elegand approach. using singleton??
-		//if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
-		//{
-		//	switch (ev.keyboard.keycode)
-		//	{
-		//	case ALLEGRO_KEY_UP:
-		//		keys[UP] = true;
-		//		break;
-		//	case ALLEGRO_KEY_DOWN:
-		//		keys[DOWN] = true;
-		//		break;
-		//	case ALLEGRO_KEY_LEFT:
-		//		keys[LEFT] = true;
-		//		break;
-		//	case ALLEGRO_KEY_RIGHT:
-		//		keys[RIGHT] = true;
-		//		break;
-		//	case ALLEGRO_KEY_SPACE:
-		//		keys[SPACE] = true;
-		//		break;
-		//	case ALLEGRO_KEY_ESCAPE:
-		//		game_done = true; // exit game loop
-		//		break;
-		//	}
-		//}
-
-		//if (ev.type == ALLEGRO_EVENT_KEY_UP)
-		//{
-		//	switch (ev.keyboard.keycode)
-		//	{
-		//	case ALLEGRO_KEY_UP:
-		//		keys[UP] = false;
-		//		break;
-		//	case ALLEGRO_KEY_DOWN:
-		//		keys[DOWN] = false;
-		//		break;
-		//	case ALLEGRO_KEY_LEFT:
-		//		keys[LEFT] = false;
-		//		break;
-		//	case ALLEGRO_KEY_RIGHT:
-		//		keys[RIGHT] = false;
-		//		break;
-		//	case ALLEGRO_KEY_SPACE:
-		//		keys[SPACE] = false;
-		//		break;
-		//	}
-		//}
 
 		//Rendering
 		if (redraw && al_is_event_queue_empty(event_queue)) //have to wait until event queue is empty befor redrawing.
