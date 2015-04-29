@@ -15,6 +15,7 @@
 #define INPUTMANAGER_H
 
 #include <allegro5/allegro.h>
+#include <vector>
 
 enum KEYS{ UP, DOWN, LEFT, RIGHT, SPACE, ESCAPE };
 
@@ -22,7 +23,8 @@ class InputManager
 {
 private:
 	InputManager(); //Singleton
-	bool keys[6];
+	const int numKeys = 6;
+	std::vector<bool> keys;
 public:
 	~InputManager();
 	static InputManager & getInstance();
