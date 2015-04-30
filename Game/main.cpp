@@ -2,10 +2,10 @@
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include "GameEntity.h"
-
-enum KEYS{UP, DOWN, LEFT, RIGHT, SPACE};
-bool keys[5] = { false, false, false, false, false };
+#include "InputManager.h"
 
 int main(int argc, char **argv)
 {
@@ -20,6 +20,9 @@ int main(int argc, char **argv)
 	ALLEGRO_DISPLAY *display = NULL; //Pointer to display.
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL; //Pointer to event queue
 	ALLEGRO_TIMER *timer = NULL; //Pointer to timer
+	//Background music
+	ALLEGRO_SAMPLE *bg_music = NULL;
+	ALLEGRO_SAMPLE_INSTANCE *bgInstance = NULL;
 
 	//Initialise allegro, if unsuccesful, show error.
 	if (!al_init())
@@ -32,11 +35,28 @@ int main(int argc, char **argv)
 	//Initialsise addons
 	al_init_primitives_addon(); //Initialise primitives
 	al_init_image_addon(); //Initialise images
-
-
+	
 	//Install keyboard & mouse
 	al_install_keyboard();
 	al_install_mouse();
+
+	//Audio
+	al_install_audio();
+	al_init_acodec_addon();
+
+	//Sounds & Musics
+	al_reserve_samples(1);
+	bg_music = al_load_sample("A Night of Dizzy Spells.ogg");
+	bgInstance = al_create_sample_instance(bg_music);
+	al_set_sample_instance_playmode(bgInstance, ALLEGRO_PLAYMODE_LOOP);
+	//can set other properties here such as speed, gain, etc..
+	al_attach_sample_instance_to_mixer(bgInstance, al_get_default_mixer());
+	if (!bg_music)
+	{
+		al_show_native_message_box(al_get_current_display(), "Error", "Error", "Could not load music",
+			NULL, ALLEGRO_MESSAGEBOX_ERROR);
+		//return -1; //exit program
+	}
 
 	// create display & check if succesful.
 	display = al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT);
@@ -75,6 +95,9 @@ int main(int argc, char **argv)
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_flip_display();
 
+	//Start playing the music
+	//al_play_sample_instance(bgInstance);//turned off for now.. it can get irritating!!
+
 	al_start_timer(timer); //Start the timer
 
 	while (!game_done)
@@ -93,54 +116,13 @@ int main(int argc, char **argv)
 		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			game_done = true;
 
+		//Capture key input
+		InputManager::getInstance().getInput(ev);
 
-		//Capture key input, try to find more elegand approach. using singleton??
-		if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
-		{
-			switch (ev.keyboard.keycode)
-			{
-			case ALLEGRO_KEY_UP:
-				keys[UP] = true;
-				break;
-			case ALLEGRO_KEY_DOWN:
-				keys[DOWN] = true;
-				break;
-			case ALLEGRO_KEY_LEFT:
-				keys[LEFT] = true;
-				break;
-			case ALLEGRO_KEY_RIGHT:
-				keys[RIGHT] = true;
-				break;
-			case ALLEGRO_KEY_SPACE:
-				keys[SPACE] = true;
-				break;
-			case ALLEGRO_KEY_ESCAPE:
-				game_done = true; // exit game loop
-				break;
-			}
-		}
+		//Escape key pressed? exit game
+		if (InputManager::getInstance().isKeyPressed(ESCAPE))
+			game_done = true;
 
-		if (ev.type == ALLEGRO_EVENT_KEY_UP)
-		{
-			switch (ev.keyboard.keycode)
-			{
-			case ALLEGRO_KEY_UP:
-				keys[UP] = false;
-				break;
-			case ALLEGRO_KEY_DOWN:
-				keys[DOWN] = false;
-				break;
-			case ALLEGRO_KEY_LEFT:
-				keys[LEFT] = false;
-				break;
-			case ALLEGRO_KEY_RIGHT:
-				keys[RIGHT] = false;
-				break;
-			case ALLEGRO_KEY_SPACE:
-				keys[SPACE] = false;
-				break;
-			}
-		}
 
 		//Rendering
 		if (redraw && al_is_event_queue_empty(event_queue)) //have to wait until event queue is empty befor redrawing.
@@ -161,6 +143,8 @@ int main(int argc, char **argv)
 	al_destroy_event_queue(event_queue);
 	al_destroy_timer(timer);
 	al_destroy_display(display);
+	al_destroy_sample_instance(bgInstance);
+	al_destroy_sample(bg_music);
 
 	return 0;
 }
