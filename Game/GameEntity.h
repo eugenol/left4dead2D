@@ -35,7 +35,7 @@ protected:
 
 	//Update functions
 	void UpdateAnimation();
-	void UpdatePosition();
+	virtual bool UpdatePosition() = 0;
 	virtual void UpdateDirection() = 0;
 public:
 	GameEntity();

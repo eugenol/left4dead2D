@@ -29,13 +29,15 @@ GameEntity::~GameEntity()
 
 void GameEntity::draw()
 {
-
+	al_draw_bitmap_region(image, currentAnimationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x, pos_y, 0);
 }
 void GameEntity::update()
 {
-	UpdateDirection();
-	UpdateAnimation();
-	UpdatePosition();
+	if (UpdatePosition())
+	{
+		UpdateDirection();
+		UpdateAnimation();
+	}
 }
 void GameEntity::UpdateAnimation()
 {
@@ -45,35 +47,5 @@ void GameEntity::UpdateAnimation()
 		if (++currentAnimationFrame >= maxFrameCount)
 			currentAnimationFrame = 0;
 		frameCount = 0;
-	}
-}
-
-void GameEntity::UpdatePosition()
-{
-	int horizontal, vertical;
-	if (InputManager::getInstance().isKeyPressed(UP))
-	{
-		vertical = 1;
-	}
-	else if (InputManager::getInstance().isKeyPressed(DOWN))
-	{
-		vertical = -1;
-	}
-	else if (InputManager::getInstance().isKeyPressed(RIGHT)) 
-	{
-		horizontal = 1;
-	}
-	else if (InputManager::getInstance().isKeyPressed(LEFT)) 
-	{
-		horizontal = -1;
-	}
-
-	if ((!(pos_x + speed_x*horizontal >= (maxXpos - animationFrameWidth))) && (!(pos_x + speed_x*horizontal <= (animationFrameWidth / 2))))
-	{
-		pos_x += speed_x*horizontal;
-	}
-	if ((!(pos_y + speed_y*vertical >= (maxYpos - animationFrameHeight))) && (!(pos_y + speed_y*vertical <= (animationFrameHeight / 2))))
-	{
-		pos_y += speed_y*vertical;
 	}
 }

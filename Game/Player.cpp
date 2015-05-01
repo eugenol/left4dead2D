@@ -40,3 +40,40 @@ void Player::UpdateDirection()
 		direction = L;
 	}
 }
+	bool Player::UpdatePosition()
+	{
+		int horizontal = 0;
+		int vertical = 0;
+		old_pos_x = pos_x;
+		old_pos_y = pos_y;
+		if (InputManager::getInstance().isKeyPressed(UP))
+		{
+			vertical = -1;
+		}
+		if (InputManager::getInstance().isKeyPressed(DOWN))
+		{
+			vertical = 1;
+		}
+		if (InputManager::getInstance().isKeyPressed(RIGHT))
+		{
+			horizontal = 1;
+		}
+		if (InputManager::getInstance().isKeyPressed(LEFT))
+		{
+			horizontal = -1;
+		}
+
+		pos_x += speed_x*horizontal;
+		pos_y += speed_y*vertical;
+		if ((!(pos_x + speed_x*horizontal >= (maxXpos - animationFrameWidth))) && (!(pos_x + speed_x*horizontal <= (animationFrameWidth / 2))))
+		{
+
+		}
+		if ((!(pos_y + speed_y*vertical >= (maxYpos - animationFrameHeight))) && (!(pos_y + speed_y*vertical <= (animationFrameHeight / 2))))
+		{
+
+		}
+		if ((old_pos_x == pos_x) && (old_pos_y == pos_y))
+			return 0;
+		else return 1;
+	}
