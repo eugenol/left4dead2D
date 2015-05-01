@@ -6,8 +6,10 @@
 #include "allegro5\allegro_primitives.h"
 #include "allegro5\allegro_image.h"
 
+
 class Enemy :public GameEntity{
 private:
+	static int count;
 	int rad_x = 15;
 	int rad_y = 15;
 	int type;
@@ -21,6 +23,7 @@ public:
 	void chasePlayer();
 	void draw();
 	void update();
+	int getCount();
 };
 
 #endif

@@ -5,6 +5,7 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include "GameEntity.h"
+#include "Enemy.h"
 #include "InputManager.h"
 
 int main(int argc, char **argv)
@@ -100,6 +101,8 @@ int main(int argc, char **argv)
 
 	al_start_timer(timer); //Start the timer
 
+	GameEntity * entity = new Enemy(ENEMY,0,DISPLAY_WIDTH/2,DISPLAY_HEIGHT/2,0,0,LEFT,UP,0,NULL,true,100,0,0);
+
 	while (!game_done)
 	{
 		ALLEGRO_EVENT ev;
@@ -122,7 +125,7 @@ int main(int argc, char **argv)
 		//Escape key pressed? exit game
 		if (InputManager::getInstance().isKeyPressed(ESCAPE))
 			game_done = true;
-
+		
 
 		//Rendering
 		if (redraw && al_is_event_queue_empty(event_queue)) //have to wait until event queue is empty befor redrawing.
@@ -132,7 +135,7 @@ int main(int argc, char **argv)
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 
 			//Rendering code goes here
-
+			entity->draw();
 			al_flip_display();
 		}
 	}

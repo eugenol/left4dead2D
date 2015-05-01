@@ -21,7 +21,7 @@ protected:
 	int hitboxRadius;//defines radius (for a square) for entity collision detection
 	int ID;
 
-	ALLEGRO_BITMAP *image = NULL;
+	ALLEGRO_BITMAP *image;
 	//possibly moved to sprite class?? will see
 	int animationFrame;//this is the frame we are on
 	int animationFrameWidth;//this is the width of the bitmap region
