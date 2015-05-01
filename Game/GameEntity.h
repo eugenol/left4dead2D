@@ -12,16 +12,17 @@ class GameEntity
 protected:
 	
 	int life;
-	int score;
 	int pos_x;
 	int pos_y;
+	int old_pos_x; //Used to check if the entity has had it's position updated
+	int old_pos_y; //If not then there is no need to update direction or animation (this may differ for enemies?)
 	int speed_x;
 	int speed_y;
-	int direction; //Single Direction Variable from 0 to 3 Describes direction
+	int direction;		  //Single Direction Variable from 0 to 3 Describes direction
 	int maxXpos, maxYpos; //Hold window size to prevent the player from moving off the screen
 
-	bool active = false;//is the entity actively being used?
-	int hitboxRadius;//defines radius (for a square) for entity collision detection
+	bool active = false;	//is the entity actively being used?
+	int hitboxRadius;		//defines radius (for a square) for entity collision detection
 	int ID;
 
 	//Sprite and animation variables (possibly moved to sprite class?? will see)

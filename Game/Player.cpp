@@ -2,7 +2,7 @@
 #include "InputManager.h"
 
 
-Player::Player(int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ,
+Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ,
 	int hitboxR, int Identity, ALLEGRO_BITMAP *imag):GameEntity(lif, maxX, maxY, xPos,yPos,speedX,speedY,Dir,activ,hitboxR,Identity,imag)
 {
 	score = 0;
@@ -63,16 +63,10 @@ void Player::UpdateDirection()
 			horizontal = -1;
 		}
 
-		pos_x += speed_x*horizontal;
 		pos_y += speed_y*vertical;
-		if ((!(pos_x + speed_x*horizontal >= (maxXpos - animationFrameWidth))) && (!(pos_x + speed_x*horizontal <= (animationFrameWidth / 2))))
-		{
+		pos_x += speed_x*horizontal;
 
-		}
-		if ((!(pos_y + speed_y*vertical >= (maxYpos - animationFrameHeight))) && (!(pos_y + speed_y*vertical <= (animationFrameHeight / 2))))
-		{
 
-		}
 		if ((old_pos_x == pos_x) && (old_pos_y == pos_y))
 			return 0;
 		else return 1;
