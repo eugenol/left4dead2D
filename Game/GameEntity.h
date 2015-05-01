@@ -36,13 +36,14 @@ protected:
 	//Update functions
 	void UpdateAnimation();
 	void UpdatePosition();
+	virtual void UpdateDirection() = 0;
 public:
 	GameEntity();
 	GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
 		int hitboxRadius, int ID, ALLEGRO_BITMAP *image);
 	virtual ~GameEntity();
 
-	virtual void draw() = 0;
-	virtual void update() = 0;//general Update Entity, calls specific Update Functions
+	void draw();
+	void update();//general Update Entity, calls specific Update Functions
 };
 #endif

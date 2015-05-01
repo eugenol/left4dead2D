@@ -1,4 +1,5 @@
 #include "GameEntity.h"
+#include "InputManager.h"
 
 GameEntity::GameEntity()
 {
@@ -26,6 +27,16 @@ GameEntity::~GameEntity()
 	//al_destroy_bitmap(image);
 }
 
+void GameEntity::draw()
+{
+
+}
+void GameEntity::update()
+{
+	UpdateDirection();
+	UpdateAnimation();
+	UpdatePosition();
+}
 void GameEntity::UpdateAnimation()
 {
 	//Generates /Advances Animation
@@ -39,5 +50,30 @@ void GameEntity::UpdateAnimation()
 
 void GameEntity::UpdatePosition()
 {
+	int horizontal, vertical;
+	if (InputManager::getInstance().isKeyPressed(UP))
+	{
+		vertical = 1;
+	}
+	else if (InputManager::getInstance().isKeyPressed(DOWN))
+	{
+		vertical = -1;
+	}
+	else if (InputManager::getInstance().isKeyPressed(RIGHT)) 
+	{
+		horizontal = 1;
+	}
+	else if (InputManager::getInstance().isKeyPressed(LEFT)) 
+	{
+		horizontal = -1;
+	}
 
+	if ((!(pos_x + speed_x*horizontal >= (maxXpos - animationFrameWidth))) && (!(pos_x + speed_x*horizontal <= (animationFrameWidth / 2))))
+	{
+		pos_x += speed_x*horizontal;
+	}
+	if ((!(pos_y + speed_y*vertical >= (maxYpos - animationFrameHeight))) && (!(pos_y + speed_y*vertical <= (animationFrameHeight / 2))))
+	{
+		pos_y += speed_y*vertical;
+	}
 }
