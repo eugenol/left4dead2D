@@ -29,7 +29,7 @@ protected:
 	int animationFrameWidth;//this is the width of the bitmap region
 	int animationFrameHeight;//this is the height of bitmap region
 	int currentAnimationFrame;//this is the frame we are on
-	int frameCount; //
+	int frameCount; //frame Count
 	int maxFrameCount; //max no of frames in animation sequence
 	int frameDelay; //delay associated to animation
 

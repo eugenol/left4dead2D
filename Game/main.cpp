@@ -151,6 +151,7 @@ int main(int argc, char **argv)
 	al_destroy_display(display);
 	al_destroy_sample_instance(bgInstance);
 	al_destroy_sample(bg_music);
-
+	//Clear Bitmaps
+	al_destroy_bitmap(playerSpriteSheet);
 	return 0;
 }
