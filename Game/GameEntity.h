@@ -38,8 +38,8 @@ protected:
 	void UpdatePosition();
 public:
 	GameEntity();
-	GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
-	int hitboxRadius, int ID, ALLEGRO_BITMAP *image);
+	GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
+		int hitboxRadius, int ID, ALLEGRO_BITMAP *image);
 	virtual ~GameEntity();
 
 	virtual void draw() = 0;
