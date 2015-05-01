@@ -10,6 +10,8 @@ GameEntity::GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y,
 {
 	this->pos_x = pos_x;
 	this->pos_y = pos_y;
+	this->maxXpos = maxXpos;
+	this->maxYpos = maxYpos;
 	this->speed_x = speed_x;
 	this->speed_y = speed_y;
 	this->direction = direction;

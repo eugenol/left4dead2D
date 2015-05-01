@@ -40,31 +40,40 @@ void Player::UpdateDirection()
 		direction = L;
 	}
 }
-	bool Player::UpdatePosition()
+bool Player::UpdatePosition()
+{
+	int horizontal = 0;
+	int vertical = 0;
+	old_pos_x = pos_x;
+	old_pos_y = pos_y;
+	if (InputManager::getInstance().isKeyPressed(UP))
 	{
-		int horizontal = 0;
-		int vertical = 0;
-		old_pos_x = pos_x;
-		old_pos_y = pos_y;
-		if (InputManager::getInstance().isKeyPressed(UP))
-		{
-			vertical = -1;
-		}
-		if (InputManager::getInstance().isKeyPressed(DOWN))
-		{
-			vertical = 1;
-		}
-		if (InputManager::getInstance().isKeyPressed(RIGHT))
-		{
-			horizontal = 1;
-		}
-		if (InputManager::getInstance().isKeyPressed(LEFT))
-		{
-			horizontal = -1;
-		}
+		vertical = -1;
+	}
+	if (InputManager::getInstance().isKeyPressed(DOWN))
+	{
+		vertical = 1;
+	}
+	if (InputManager::getInstance().isKeyPressed(RIGHT))
+	{
+		horizontal = 1;
+	}
+	if (InputManager::getInstance().isKeyPressed(LEFT))
+	{
+		horizontal = -1;
+	}
 
+	
+
+	if (((pos_x + speed_x*horizontal) > 0) && ((pos_x + speed_x*horizontal) < (maxXpos - animationFrameWidth)))
+	{
+			pos_x += speed_x*horizontal;
+	}
+	if (((pos_y + speed_y*vertical) > 0) && ((pos_y + speed_y*vertical) < (maxYpos - animationFrameHeight)))
+	{
 		pos_y += speed_y*vertical;
-		pos_x += speed_x*horizontal;
+	}
+
 
 
 		if ((old_pos_x == pos_x) && (old_pos_y == pos_y))

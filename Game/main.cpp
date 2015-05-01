@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 	//Game variable initialisation
 	ALLEGRO_BITMAP *playerSpriteSheet;
 	playerSpriteSheet = al_load_bitmap("player_sprite.png");
-	Player player(0, 100, DISPLAY_HEIGHT, DISPLAY_HEIGHT, 100, 100, 4, 4, 0, 1, 32, PLAYER,  playerSpriteSheet);
+	Player player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER,  playerSpriteSheet);
 
 	//Sounds & Musics
 	al_reserve_samples(1);
