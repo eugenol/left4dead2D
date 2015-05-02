@@ -20,6 +20,16 @@ Player::~Player()
 {
 }
 
+void Player::update()
+{
+	hasShot = false;
+	if (InputManager::getInstance().isMouseButtonPressed(LEFTM)) hasShot = true;
+	if (UpdatePosition())
+	{
+		UpdateDirection();
+		UpdateAnimation();
+	}
+}
 void Player::UpdateDirection()
 {
 	enum dir{ D, L, R, U };
@@ -79,4 +89,14 @@ bool Player::UpdatePosition()
 		if ((old_pos_x == pos_x) && (old_pos_y == pos_y))
 			return 0;
 		else return 1;
-	}
+}
+
+int Player::GetPos_X()
+{
+	return pos_x;
+}
+
+int Player::GetPos_Y()
+{
+	return pos_y;
+}
