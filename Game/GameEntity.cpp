@@ -1,18 +1,20 @@
 #include "GameEntity.h"
+#include "InputManager.h"
 
 GameEntity::GameEntity()
 {
 
 }
-GameEntity::GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_x, int direction_y, bool active,
+GameEntity::GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
 	int hitboxRadius, int ID, ALLEGRO_BITMAP *image)
 {
 	this->pos_x = pos_x;
 	this->pos_y = pos_y;
+	this->maxXpos = maxXpos;
+	this->maxYpos = maxYpos;
 	this->speed_x = speed_x;
 	this->speed_y = speed_y;
-	this->direction_x = direction_x;
-	this->direction_y = direction_y;
+	this->direction = direction;
 	this->active = active;
 	this->hitboxRadius = hitboxRadius;
 	this->ID = ID;
@@ -23,6 +25,29 @@ GameEntity::GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direc
 GameEntity::~GameEntity()
 {
 	//image connot be destroyed here, as it was not created in this object, it is created in main, and a reference is passed to the object,
-	//we do it this way to save memory, otherwise every new enemy will have a new bitmap ionstead of sharing one.
+	//we do it this way to save memory, otherwise every new enemy will have a new bitmap instead of sharing one.
 	//al_destroy_bitmap(image);
+}
+
+void GameEntity::draw()
+{
+	al_draw_bitmap_region(image, currentAnimationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x, pos_y, 0);
+}
+void GameEntity::update()
+{
+	if (UpdatePosition())
+	{
+		UpdateDirection();
+		UpdateAnimation();
+	}
+}
+void GameEntity::UpdateAnimation()
+{
+	//Generates /Advances Animation
+	if (++frameCount>= frameDelay)
+	{
+		if (++currentAnimationFrame >= maxFrameCount)
+			currentAnimationFrame = 0;
+		frameCount = 0;
+	}
 }

@@ -7,6 +7,7 @@
 #include "GameEntity.h"
 #include "Enemy.h"
 #include "InputManager.h"
+#include "Player.h"
 
 int main(int argc, char **argv)
 {
@@ -32,7 +33,7 @@ int main(int argc, char **argv)
 			NULL, ALLEGRO_MESSAGEBOX_ERROR);
 		return -1; //exit program
 	}
-
+	//Allegro Installations and Initialisations
 	//Initialsise addons
 	al_init_primitives_addon(); //Initialise primitives
 	al_init_image_addon(); //Initialise images
@@ -44,6 +45,15 @@ int main(int argc, char **argv)
 	//Audio
 	al_install_audio();
 	al_init_acodec_addon();
+
+	//Game variable initialisation
+	ALLEGRO_BITMAP *playerSpriteSheet;
+	playerSpriteSheet = al_load_bitmap("player_sprite.png");
+	Player player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER,  playerSpriteSheet);
+
+	Projectile nullbullet(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, PROJECTILE, playerSpriteSheet);
+	Projectile *bullet = new Projectile(nullbullet);
+	//bullet(20, 50, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 10, 10, 1, 1, 1, 1, 1, PROJECTILE, playerSpriteSheet);
 
 	//Sounds & Musics
 	al_reserve_samples(1);
@@ -97,7 +107,7 @@ int main(int argc, char **argv)
 	al_flip_display();
 
 	//Start playing the music
-	//al_play_sample_instance(bgInstance);//turned off for now.. it can get irritating!!
+	al_play_sample_instance(bgInstance);//turned off for now.. it can get irritating!!
 
 	al_start_timer(timer); //Start the timer
 
@@ -110,8 +120,19 @@ int main(int argc, char **argv)
 
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
+			player.update();
+			if (player.hasShot)
+			{
+				bullet = new Projectile(InputManager::getInstance().getMouseX(), 
+										InputManager::getInstance().getMouseY(), 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 
+										player.GetPos_X()+16, player.GetPos_Y()+16, 10, 10, 1, 1, 1, 
+										PROJECTILE, playerSpriteSheet);
+			}
+			bullet->update();
 
 			redraw = true;
+			
+
 			//Update code goes here
 		}
 
@@ -125,15 +146,17 @@ int main(int argc, char **argv)
 		//Escape key pressed? exit game
 		if (InputManager::getInstance().isKeyPressed(ESCAPE))
 			game_done = true;
-		
+
 
 		//Rendering
-		if (redraw && al_is_event_queue_empty(event_queue)) //have to wait until event queue is empty befor redrawing.
+		if (redraw && al_is_event_queue_empty(event_queue)) //have to wait until event queue is empty before redrawing.
 		{
 			redraw = false;
 
 			al_clear_to_color(al_map_rgb(0, 0, 0));
-
+			player.draw();
+			if (bullet != nullptr)
+				bullet->draw();
 			//Rendering code goes here
 			entity->draw();
 			al_flip_display();
@@ -148,6 +171,7 @@ int main(int argc, char **argv)
 	al_destroy_display(display);
 	al_destroy_sample_instance(bgInstance);
 	al_destroy_sample(bg_music);
-
+	//Clear Bitmaps
+	al_destroy_bitmap(playerSpriteSheet);
 	return 0;
 }
