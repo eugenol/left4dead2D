@@ -46,11 +46,11 @@ int main(int argc, char **argv)
 	al_init_acodec_addon();
 
 	//Game variable initialisation
-	ALLEGRO_BITMAP *playerSpriteSheet;
-	playerSpriteSheet = al_load_bitmap("player_sprite.png");
+	ALLEGRO_BITMAP *playerSpriteSheet = al_load_bitmap("player_sprite.png");
 	Player player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER,  playerSpriteSheet);
 
-	Projectile nullbullet(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, PROJECTILE, playerSpriteSheet);
+	ALLEGRO_BITMAP *bulletSpriteSheet = al_load_bitmap("spike_ball_projectile.png");
+	Projectile nullbullet(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, PROJECTILE, bulletSpriteSheet);
 	Projectile *bullet = new Projectile(nullbullet);
 	//bullet(20, 50, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 10, 10, 1, 1, 1, 1, 1, PROJECTILE, playerSpriteSheet);
 
@@ -122,8 +122,8 @@ int main(int argc, char **argv)
 			{
 				bullet = new Projectile(InputManager::getInstance().getMouseX(), 
 										InputManager::getInstance().getMouseY(), 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 
-										player.GetPos_X()+16, player.GetPos_Y()+16, 10, 10, 1, 1, 1, 
-										PROJECTILE, playerSpriteSheet);
+										player.GetPos_X(), player.GetPos_Y(), 10, 10, 1, 1, 1, 
+										PROJECTILE, bulletSpriteSheet);
 			}
 			bullet->update();
 
@@ -152,8 +152,11 @@ int main(int argc, char **argv)
 
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 			player.draw();
-			if (bullet != nullptr)
+			if (bullet->active)
+			{
 				bullet->draw();
+			}
+			
 			//Rendering code goes here
 			al_flip_display();
 		}
