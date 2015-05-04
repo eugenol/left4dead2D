@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GameEntity.cpp" />
+    <ClCompile Include="InitData.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -95,6 +96,7 @@
   <ItemGroup>
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameEntity.h" />
+    <ClInclude Include="InitData.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />

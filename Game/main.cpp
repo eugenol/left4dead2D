@@ -1,3 +1,12 @@
+/*
+* The function main() contains the initialisation of the allegro libraries, as well as loading of the game assets (bitmaps, audio)
+* and the game loop. Loading of the assets has been moved to a parallel thread, so that a loading animation can be displayed
+* The InitData class is used for the parallel process. it is easy to add on to it if more assets are needed.
+*
+*
+*
+*/
+
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_primitives.h>
@@ -22,6 +31,7 @@ int main(int argc, char **argv)
 	bool game_done = false; // used for game loop
 	bool redraw = false; // used for rendering
 
+	//Allegro 
 	ALLEGRO_DISPLAY *display = NULL; //Pointer to display.
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL; //Pointer to event queue
 	ALLEGRO_TIMER *timer = NULL; //Pointer to timer
