@@ -6,6 +6,7 @@
 #include <allegro5/allegro_image.h>
 
 enum IDS{ PLAYER, TERRAIN, ENEMY, PICKUP, PROJECTILE };
+enum DIRECTIONS{NORTH,NORTHEAST,EAST,SOUTHEAST,SOUTH,SOUTHWEST,WEST,NORTHWEST};
 
 class GameEntity
 {
@@ -31,7 +32,8 @@ protected:
 	int animationFrameHeight;//this is the height of bitmap region
 	int currentAnimationFrame;//this is the frame we are on
 	int frameCount; //frame Count
-	int maxFrameCount; //max no of frames in animation sequence
+	int maxFrameCount = 0; //the last frames of animation sequence
+	int minFrameCount;//the first frame of animation sequence
 	int frameDelay; //delay associated to animation
 
 	//Update functions
@@ -45,6 +47,6 @@ public:
 	virtual ~GameEntity();
 
 	void draw();
-	void update();//general Update Entity, calls specific Update Functions
+	virtual void update();//general Update Entity, calls specific Update Functions
 };
 #endif

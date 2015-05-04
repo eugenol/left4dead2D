@@ -47,7 +47,7 @@ void GameEntity::UpdateAnimation()
 	if (++frameCount>= frameDelay)
 	{
 		if (++currentAnimationFrame >= maxFrameCount)
-			currentAnimationFrame = 0;
+			currentAnimationFrame = minFrameCount;
 		frameCount = 0;
 	}
 }

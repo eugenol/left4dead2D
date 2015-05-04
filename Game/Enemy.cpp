@@ -3,14 +3,17 @@
 #include "allegro5\allegro_primitives.h"
 #include "allegro5\allegro_image.h"
 
-Enemy::Enemy(int ID, int type, int pos_x, int pos_y, int speed_x, int speed_y, int direction_x, int direction_y,
-	int hitboxRadius, ALLEGRO_BITMAP *image, bool active, int hitpoints, int armorType, int regenRate)
-	:GameEntity(pos_x, pos_y, speed_x, speed_y, direction_x, direction_y, active, hitboxRadius, ID, image){
+Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int direction, ALLEGRO_BITMAP *image,
+	bool active, int hitpoints, int armorType, int regenRate, ALLEGRO_DISPLAY * display)
+	:GameEntity(hitpoints,al_get_display_width(display),al_get_display_height(display), pos_x, pos_y, speed_x, speed_y,
+	direction, active, hitboxRadius, ID, image){
 	
-	this->type = type;
+	this->type = Enemytype;
 	this->hitpoints = hitpoints;
+	this->max_hitpoints = hitpoints;
 	this->armortype = armortype;
 	this->regenRate = regenRate;
+	this->ID = ENEMY;
 
 	count++;//increments number of enemy objects
 };
@@ -21,17 +24,25 @@ void Enemy::chasePlayer(){
 	//does nothing right now
 }
 
-void Enemy::draw(){
-	al_draw_filled_rectangle(pos_x-rad_x,pos_y-rad_y,pos_x+rad_x,pos_y+rad_y,al_map_rgb(255,0,0));
-};
 void Enemy::update(){
+	if (UpdatePosition()){
+		UpdateAnimation();
+	}
+	hitpoints += regenRate;
+	if (hitpoints > max_hitpoints){
+		hitpoints = max_hitpoints;
+	}
+};
+bool Enemy::UpdatePosition(){
 	//random roaming, will update when player class is made
 	/*if within certain range, move directly towards player
 	if not in range, move randomly every few ticks, with an added offset of a small number towards
 	player location to ensure entities end up near player*/
-
+	return false;
 };
+
 int Enemy::getCount(){
 	return count;
 }
 int Enemy::count = 0;
+
