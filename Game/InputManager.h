@@ -13,7 +13,7 @@
 * 		mousex = InputManager::getInstance().getMouseX();
 *		mousey = InputManager::getInstance().getMouseY();
 *		if (InputManager::getInstance().isMouseButtonPressed(LEFTM))
-*
+* - E
 */
 
 #ifndef INPUTMANAGER_H

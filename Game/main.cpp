@@ -8,12 +8,16 @@
 #include "InputManager.h"
 #include "Player.h"
 
+//Display width & height, can move to a header file later.
+//Moved here, lots of things might use this. dont need to pass as arguments.
+
+const int DISPLAY_HEIGHT = 600;
+const int DISPLAY_WIDTH = 800;
+const int FPS = 60; //Framerate
+
 int main(int argc, char **argv)
 {
-	//Display width & height, can move to a header file later.
-	const int DISPLAY_HEIGHT = 600;
-	const int DISPLAY_WIDTH = 800;
-	const int FPS = 60; //Framerate
+
 
 	bool game_done = false; // used for game loop
 	bool redraw = false; // used for rendering
