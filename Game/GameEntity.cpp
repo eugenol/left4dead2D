@@ -51,3 +51,15 @@ void GameEntity::UpdateAnimation()
 		frameCount = 0;
 	}
 }
+
+
+bool GameEntity::CheckCollision(GameEntity *otherObject)
+{
+	//colission checking
+	return false; // for now
+}
+
+void GameEntity::Collided(GameEntity *otherObject)
+{
+
+}

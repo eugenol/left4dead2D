@@ -24,7 +24,7 @@ protected:
 	
 	int hitboxRadius;		//defines radius (for a square) for entity collision detection
 	int ID;
-	bool isAlive; //used for EntityManager
+	bool isAlive = true; //used for EntityManager
 
 	//Sprite and animation variables (possibly moved to sprite class?? will see)
 	ALLEGRO_BITMAP *image;
@@ -49,5 +49,9 @@ public:
 	void draw();
 	void update();//general Update Entity, calls specific Update Functions
 	bool getAlive() { return isAlive; } //return Alive state
+
+	// for colissions, can make these virtual, but that can be done later.
+	bool CheckCollision(GameEntity *otherObject);
+	virtual void Collided(GameEntity *otherObject);
 };
 #endif

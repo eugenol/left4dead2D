@@ -21,16 +21,12 @@ public:
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
 	//Images
-	ALLEGRO_BITMAP *player_image = NULL;
+	ALLEGRO_BITMAP *playerSpriteSheet = NULL;
 	ALLEGRO_BITMAP *enemy_image = NULL;
 	ALLEGRO_BITMAP *background = NULL;
-	ALLEGRO_BITMAP *map = NULL;
 	//Background music
 	ALLEGRO_SAMPLE *bg_music = NULL;
 	ALLEGRO_SAMPLE_INSTANCE *bgInstance = NULL;
-	//Gun sound
-	ALLEGRO_SAMPLE *laser_sound = NULL;
-	ALLEGRO_SAMPLE_INSTANCE *laser_sound_instance = NULL;
 	//Mouse cursor
 	ALLEGRO_BITMAP *cursorImage = NULL;
 	ALLEGRO_MOUSE_CURSOR *cursor = NULL;
