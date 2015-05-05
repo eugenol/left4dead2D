@@ -86,7 +86,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GameEntity.cpp" />
+    <ClCompile Include="InitData.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeleeZombie.cpp" />
@@ -95,7 +97,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameEntity.h" />
+    <ClInclude Include="InitData.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MeleeZombie.h" />
     <ClInclude Include="Player.h" />

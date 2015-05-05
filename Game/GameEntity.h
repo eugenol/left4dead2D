@@ -22,9 +22,10 @@ protected:
 	int direction;		  //Single Direction Variable from 0 to 3 Describes direction
 	int maxXpos, maxYpos; //Hold window size to prevent the player from moving off the screen
 
-	bool active = false;	//is the entity actively being used?
+	
 	int hitboxRadius;		//defines radius (for a square) for entity collision detection
 	int ID;
+	bool isAlive = true; //used for EntityManager
 
 	//Sprite and animation variables (possibly moved to sprite class?? will see)
 	ALLEGRO_BITMAP *image;
@@ -46,7 +47,13 @@ public:
 		int hitboxRadius, int ID, ALLEGRO_BITMAP *image);
 	virtual ~GameEntity();
 
+	bool active = false;	//is the entity actively being used?
 	void draw();
-	virtual void update();//general Update Entity, calls specific Update Functions
+	void update();//general Update Entity, calls specific Update Functions
+	bool getAlive() { return isAlive; } //return Alive state
+
+	// for colissions, can make these virtual, but that can be done later.
+	bool CheckCollision(GameEntity *otherObject);
+	virtual void Collided(GameEntity *otherObject);
 };
 #endif

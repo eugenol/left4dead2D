@@ -4,13 +4,22 @@
 
 Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag) : GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag)
 {
+	
+	//Animation Initialisation
+	animationFrameHeight = 15;
+	animationFrameWidth = 15;
+	currentAnimationFrame = 0;
+	frameCount = 0;
+	frameDelay = 3;
+	maxFrameCount = 3;
+	direction = 0;
+
+	//Bullet Path Initialisation
 	old_pos_x = xPos;
 	old_pos_y = yPos;
 	destinationY = destination_y;
 	destinationX = destination_x;
 	angleOfPath = atan2f(destinationY - old_pos_y, destinationX - old_pos_x);
-
-	active = 1;
    
 }
 
@@ -23,17 +32,27 @@ bool Projectile::UpdatePosition()
 {
 	if (active)
 	{
-		pos_x += int(speed_x*cosf(angleOfPath));
-		pos_y += int(speed_y*sinf(angleOfPath));
+		if (((pos_x + int(speed_x*cosf(angleOfPath))) > 0) && ((pos_x + int(speed_x*cosf(angleOfPath))) < (maxXpos - animationFrameWidth)))
+		{
+			pos_x += int(speed_x*cosf(angleOfPath));
+		}
+		else
+		{
+			active = 0;
+		}
+		if (((pos_y + int(speed_y*sinf(angleOfPath))) > 0) && ((pos_y + int(speed_y*sinf(angleOfPath))) < (maxYpos - animationFrameHeight)))
+		{
+			pos_y += int(speed_y*sinf(angleOfPath));
+		}
+		else
+		{
+			active = 0;
+		}
 		return 1;
 	}
 	else return 0;
 }
 
-void Projectile::draw()
-{
-	al_draw_filled_circle(pos_x, pos_y, 20, al_map_rgb(255, 0, 255));
-}
 
 void Projectile::UpdateAnimation()
 {
@@ -43,3 +62,7 @@ void Projectile::UpdateDirection()
 {
 
 }
+//void Projectile::draw()
+//{
+//	al_draw_rotated_bitmap(image, 5, 6, pos_x, pos_y, angleOfPath + 0.7853981634, 0);
+//}
