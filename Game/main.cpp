@@ -117,7 +117,7 @@ int main(int argc, char **argv)
 	//display = data.display;
 	event_queue = data.event_queue;
 	timer = data.timer;
-	playerSpriteSheet = data.playerSpriteSheet;
+	playerSpriteSheet = al_clone_bitmap(data.playerSpriteSheet); //NB, change to video bitmap from memory bitmap
 	bg_music = data.bg_music;
 	bgInstance = data.bgInstance;
 	cursorImage = data.cursorImage;
@@ -172,11 +172,11 @@ int main(int argc, char **argv)
 			{
 				for (std::list<GameEntity*>::iterator iter2 = objects.begin(); iter2 != objects.end(); iter2++)
 				{
-					bool collision = false;
-					if (iter1 != iter2)
-						collision = (*iter1)->CheckCollision(*iter2);
-					if (collision)
-						(*iter1)->Collided(*iter2);
+					if (iter1 != iter2) // Can't collide with yourself
+					{
+						if ((*iter1)->CheckCollision(*iter2)) //Did you collide?
+							(*iter1)->Collided(*iter2); //Do something about it.
+					}				
 				}
 			}
 
