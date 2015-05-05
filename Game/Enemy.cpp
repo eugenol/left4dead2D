@@ -4,25 +4,19 @@
 #include "allegro5\allegro_image.h"
 
 Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int direction, ALLEGRO_BITMAP *image,
-	bool active, int hitpoints, int armorType, int regenRate, ALLEGRO_DISPLAY * display)
+	bool active, int hitpoints, int regenRate, ALLEGRO_DISPLAY * display)
 	:GameEntity(hitpoints,al_get_display_width(display),al_get_display_height(display), pos_x, pos_y, speed_x, speed_y,
 	direction, active, hitboxRadius, ID, image){
 	
 	this->type = Enemytype;
 	this->hitpoints = hitpoints;
 	this->max_hitpoints = hitpoints;
-	this->armortype = armortype;
 	this->regenRate = regenRate;
 	this->ID = ENEMY;
 
-	count++;//increments number of enemy objects
 };
 Enemy::~Enemy(){
-	count--;
 };
-void Enemy::chasePlayer(){
-	//does nothing right now
-}
 
 void Enemy::update(){
 	if (UpdatePosition()){
@@ -40,9 +34,3 @@ bool Enemy::UpdatePosition(){
 	player location to ensure entities end up near player*/
 	return false;
 };
-
-int Enemy::getCount(){
-	return count;
-}
-int Enemy::count = 0;
-

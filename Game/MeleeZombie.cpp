@@ -6,7 +6,7 @@
 #define PI 3.14159265
 
 MeleeZombie::MeleeZombie(int pos_x, int pos_y) : Enemy(MELEEZOMBIE, pos_x, pos_y, defaultSpeed, defaultSpeed, NORTH,
-	al_load_bitmap("zombie_0.png"), true, defaultHitpoints, NONE, defaultRegen, al_get_current_display()){
+	al_load_bitmap("zombie_0.png"), true, defaultHitpoints, defaultRegen, al_get_current_display()){
 	this->old_pos_x = pos_x;
 	this->old_pos_y = pos_y;
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)
@@ -40,7 +40,9 @@ void MeleeZombie::update(){
 	UpdateAnimation();
 };
 
-void MeleeZombie::UpdateDirection(){};
+void MeleeZombie::UpdateDirection(){
+
+};
 //Enemy(int type, int pos_x, int pos_y, int speed_x, int speed_y, int direction,
 //	ALLEGRO_BITMAP *image, bool active, int hitpoints, int armorType,
 //	int regenRate, ALLEGRO_DISPLAY * display);

@@ -243,7 +243,7 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 
 	//Load images
 	Data->playerSpriteSheet = al_load_bitmap("player_sprite.png");
-	//Data->enemy_image = al_load_bitmap("hulk.png");				//Enemy Image
+	//Data->enemy_image = al_load_bitmap("zombie_0.png");				//Enemy Image
 	//Data->background = al_load_bitmap("city_background.png");	//Load Background
 
 	//Sounds & Musics

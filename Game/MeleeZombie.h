@@ -14,9 +14,8 @@ private:
 	void setDirection(int & direction, int pos_x, int pos_y, int dest_x, int dest_y);//sets the animation direction correctly
 public:
 	void update();
-	//quick constructor (uses preset values)
+	//quick constructor (presets most values)
 	MeleeZombie(int pos_x, int pos_y);
-	//advanced constructor (specify ALL values)
 	~MeleeZombie();
 };
 //128x128 tiles.  8 direction, 36 frames per direction.
