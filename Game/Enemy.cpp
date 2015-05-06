@@ -3,6 +3,7 @@
 #include "allegro5\allegro_primitives.h"
 #include "allegro5\allegro_image.h"
 
+Player * Enemy::m_player = NULL;
 Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int direction, ALLEGRO_BITMAP *image,
 	bool active, int hitpoints, int regenRate, ALLEGRO_DISPLAY * display)
 	:GameEntity(hitpoints,al_get_display_width(display),al_get_display_height(display), pos_x, pos_y, speed_x, speed_y,
@@ -33,4 +34,7 @@ bool Enemy::UpdatePosition(){
 	if not in range, move randomly every few ticks, with an added offset of a small number towards
 	player location to ensure entities end up near player*/
 	return false;
+};
+void Enemy::setPlayer(Player *player){
+	m_player = player;
 };

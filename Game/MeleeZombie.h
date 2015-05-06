@@ -15,7 +15,7 @@ private:
 public:
 	void update();
 	//quick constructor (presets most values)
-	MeleeZombie(int pos_x, int pos_y);
+	MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image);
 	~MeleeZombie();
 };
 //128x128 tiles.  8 direction, 36 frames per direction.

@@ -163,7 +163,6 @@ int main(int argc, char **argv)
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			redraw = true;
-			
 			//Update movement etc...
 			for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
 				(*iter)->update();
@@ -243,7 +242,7 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 
 	//Load images
 	Data->playerSpriteSheet = al_load_bitmap("player_sprite.png");
-	//Data->enemy_image = al_load_bitmap("zombie_0.png");				//Enemy Image
+	Data->enemy_image = al_load_bitmap("zombie_0.png");				//Enemy Image
 	//Data->background = al_load_bitmap("city_background.png");	//Load Background
 
 	//Sounds & Musics
@@ -257,7 +256,7 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 
 	Data->player = new Player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER, Data->playerSpriteSheet);
 	EntityManager::getInstance().AddEntity(Data->player);
-	//Enemy::getPlayer(Data->player); //Disable for now, reenable when enemy class is added.
+	//Enemy::setPlayer(Data->player); //Disable for now, reenable when enemy class is added.
 
 	//Create Timer
 	Data->timer = al_create_timer(1.0 / FPS);

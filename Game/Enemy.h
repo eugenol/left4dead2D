@@ -5,6 +5,7 @@
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_primitives.h"
 #include "allegro5\allegro_image.h"
+#include "Player.h"
 enum TYPES{ MELEEZOMBIE };
 class Enemy :public GameEntity{//class contains all enemies
 private:
@@ -16,6 +17,7 @@ protected:
 	int max_hitpoints;//full life hitpoint number
 	int hitpoints;
 	int regenRate;
+	static Player *m_player;//pointer to the player, for creating AI
 public:
 	Enemy(int type, int pos_x, int pos_y,int speed_x,int speed_y,int direction,
 		ALLEGRO_BITMAP *image, bool active, int hitpoints,
@@ -24,6 +26,7 @@ public:
 	void update();
 	bool UpdatePosition();
 	int getCount();
+	void setPlayer(Player *player);//sets player in enemy class
 };
 #endif
 /*GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_x,
