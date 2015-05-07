@@ -23,6 +23,7 @@ public:
 	//Images
 	ALLEGRO_BITMAP *playerSpriteSheet = NULL;
 	ALLEGRO_BITMAP *enemy_image = NULL;
+	ALLEGRO_BITMAP *bulletSpriteSheet = NULL;
 	ALLEGRO_BITMAP *background = NULL;
 	//Background music
 	ALLEGRO_SAMPLE *bg_music = NULL;
