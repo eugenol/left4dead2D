@@ -99,7 +99,7 @@ void Player::ShootCheck()
 	if (InputManager::getInstance().isMouseButtonPressed(LEFTM)) hasShot = true;
 	if (hasShot)
 	{
-		if ((shooting_control == 0) || (shooting_control > 2))
+		if ((shooting_control == 0) || (shooting_control > 3))
 		{
 			int destination_x = InputManager::getInstance().getMouseX();
 			float destination_y = InputManager::getInstance().getMouseY();
