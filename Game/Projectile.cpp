@@ -62,7 +62,3 @@ void Projectile::UpdateDirection()
 {
 
 }
-//void Projectile::draw()
-//{
-//	al_draw_rotated_bitmap(image, 5, 6, pos_x, pos_y, angleOfPath + 0.7853981634, 0);
-//}
