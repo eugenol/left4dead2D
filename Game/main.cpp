@@ -236,6 +236,7 @@ int main(int argc, char **argv)
 	al_destroy_sample(bg_music);
 	//Clear Bitmaps
 	al_destroy_bitmap(playerSpriteSheet);
+	al_destroy_bitmap(bulletSpriteSheet);
 	//Destroy font
 	al_destroy_font(font_72);
 	return 0;
