@@ -39,6 +39,7 @@ bool Projectile::UpdatePosition()
 		else
 		{
 			active = 0;
+			isAlive = 0;
 		}
 		if (((pos_y + int(speed_y*sinf(angleOfPath))) > 0) && ((pos_y + int(speed_y*sinf(angleOfPath))) < (maxYpos - animationFrameHeight)))
 		{
@@ -47,6 +48,7 @@ bool Projectile::UpdatePosition()
 		else
 		{
 			active = 0;
+			isAlive = 0;
 		}
 		return 1;
 	}
@@ -62,7 +64,3 @@ void Projectile::UpdateDirection()
 {
 
 }
-//void Projectile::draw()
-//{
-//	al_draw_rotated_bitmap(image, 5, 6, pos_x, pos_y, angleOfPath + 0.7853981634, 0);
-//}

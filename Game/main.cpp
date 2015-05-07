@@ -133,6 +133,7 @@ int main(int argc, char **argv)
 	cursor = data.cursor;
 	player = data.player;
 	meleeZombieSpriteSheet = al_clone_bitmap(data.enemy_image);
+	playerSpriteSheet = al_clone_bitmap(data.bulletSpriteSheet);
 	
 
 	//Checks
@@ -235,6 +236,7 @@ int main(int argc, char **argv)
 	al_destroy_sample(bg_music);
 	//Clear Bitmaps
 	al_destroy_bitmap(playerSpriteSheet);
+	al_destroy_bitmap(bulletSpriteSheet);
 	//Destroy font
 	al_destroy_font(font_72);
 	return 0;
@@ -260,6 +262,7 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 	//Load images
 	Data->playerSpriteSheet = al_load_bitmap("player_sprite.png");
 	Data->enemy_image = al_load_bitmap("zombie_0.png");				//Enemy Image
+	Data->bulletSpriteSheet = al_load_bitmap("spike_ball_projectile.png");//Bullet Image
 	//Data->background = al_load_bitmap("city_background.png");	//Load Background
 
 	//Sounds & Musics
@@ -271,7 +274,7 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 	al_attach_sample_instance_to_mixer(Data->bgInstance, al_get_default_mixer());
 
 
-	Data->player = new Player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER, Data->playerSpriteSheet);
+	Data->player = new Player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER, Data->playerSpriteSheet, Data->bulletSpriteSheet);
 	EntityManager::getInstance().AddEntity(Data->player);
 	Enemy::setPlayer(Data->player);
 
