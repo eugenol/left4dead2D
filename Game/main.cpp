@@ -273,7 +273,7 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 
 	Data->player = new Player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER, Data->playerSpriteSheet);
 	EntityManager::getInstance().AddEntity(Data->player);
-	//Enemy::setPlayer(Data->player); //Disable for now, reenable when enemy class is added.
+	Enemy::setPlayer(Data->player);
 
 	//Create Timer
 	Data->timer = al_create_timer(1.0 / FPS);

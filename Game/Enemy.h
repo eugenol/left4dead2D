@@ -26,7 +26,7 @@ public:
 	void update();
 	bool UpdatePosition();
 	int getCount();
-	void setPlayer(Player *player);//sets player in enemy class
+	static void setPlayer(Player *player);//sets player in enemy class
 };
 #endif
 /*GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_x,
