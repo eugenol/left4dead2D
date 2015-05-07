@@ -22,6 +22,9 @@
 #include "Player.h"
 #include "EntityManager.h"
 #include "InitData.h"
+#include <cstdlib>
+#include <ctime>
+#include <cstdio>
 
 	//Display width & height, can move to a header file later.
 //Moved here, lots of things might use this. dont need to pass as arguments.
@@ -30,13 +33,16 @@
 	const int DISPLAY_WIDTH = 800;
 	const int FPS = 60; //Framerate
 
-static void*loading_thread(ALLEGRO_THREAD*load, void*data); // Prototype for loading thread
+	static void*loading_thread(ALLEGRO_THREAD*load, void*data); // Prototype for loading thread
 
 int main(int argc, char **argv)
 {
 	// Game loop & rendering variables
 	bool game_done = false; // used for game loop
 	bool redraw = false; // used for rendering
+	int EnemySpawnTimerMax = FPS*(3 + rand() % 3);
+	int EnemySpawnTimerCurrent=0;
+	srand(time(NULL));
 	//Parallel load
 	InitData data;
 
@@ -52,6 +58,7 @@ int main(int argc, char **argv)
 	ALLEGRO_SAMPLE *bg_music = NULL;
 	ALLEGRO_SAMPLE_INSTANCE *bgInstance = NULL;
 	//Bitmaps
+	ALLEGRO_BITMAP *meleeZombieSpriteSheet = NULL;
 	ALLEGRO_BITMAP *playerSpriteSheet = NULL;
 	ALLEGRO_BITMAP *bulletSpriteSheet = NULL;
 	ALLEGRO_THREAD *loading = NULL;
@@ -64,7 +71,7 @@ int main(int argc, char **argv)
 	ALLEGRO_MOUSE_CURSOR *cursor = NULL;
 	//Player
 	Player *player = NULL;
-
+	
 	//Init fonts
 	al_init_font_addon();
 	al_init_ttf_addon();
@@ -125,6 +132,8 @@ int main(int argc, char **argv)
 	cursorImage = data.cursorImage;
 	cursor = data.cursor;
 	player = data.player;
+	meleeZombieSpriteSheet = al_clone_bitmap(data.enemy_image);
+	
 
 	//Checks
 	if (!timer)
@@ -181,6 +190,14 @@ int main(int argc, char **argv)
 				}
 			}
 
+			//Attempt to create new enemy
+			if (++EnemySpawnTimerCurrent == EnemySpawnTimerMax)
+			{
+				EnemySpawnTimerMax = FPS*(3 + rand() % 3);
+				GameEntity * entity = new MeleeZombie(rand()%DISPLAY_WIDTH, rand()%DISPLAY_HEIGHT, meleeZombieSpriteSheet);
+				EntityManager::getInstance().AddEntity(entity);
+				EnemySpawnTimerCurrent = 0;
+			}
 			// Update the entity manager to remove the dead.
 			EntityManager::getInstance().UpdateList();
 		}
