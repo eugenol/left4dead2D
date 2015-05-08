@@ -132,7 +132,6 @@ int main(int argc, char **argv)
 	cursorImage = al_clone_bitmap(data.cursorImage);
 	player = data.player;
 	playerSpriteSheet = al_clone_bitmap(data.bulletSpriteSheet);
-	al_destroy_bitmap(data.bulletSpriteSheet);
 	meleeZombieSpriteSheet = al_clone_bitmap(data.enemy_image);
 	//Mouse cursor
 	cursor = al_create_mouse_cursor(cursorImage, 16, 16);
