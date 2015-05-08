@@ -55,8 +55,14 @@ void GameEntity::UpdateAnimation()
 
 bool GameEntity::CheckCollision(GameEntity *otherObject)
 {
-	//colission checking
-	return false; // for now
+	if ((pos_x > otherObject->pos_x + otherObject->animationFrameWidth) ||
+		(pos_y > otherObject->pos_y + otherObject->animationFrameHeight) ||
+		(otherObject->pos_x > pos_x + animationFrameWidth) ||
+		(otherObject->pos_y > pos_y + animationFrameHeight))
+	{
+		return false;
+	}
+	return true;
 }
 
 void GameEntity::Collided(GameEntity *otherObject)
