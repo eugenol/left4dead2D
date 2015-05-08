@@ -126,14 +126,17 @@ int main(int argc, char **argv)
 	//display = data.display;
 	event_queue = data.event_queue;
 	timer = data.timer;
-	playerSpriteSheet = data.playerSpriteSheet;
+	playerSpriteSheet = al_clone_bitmap(data.playerSpriteSheet);
 	bg_music = data.bg_music;
 	bgInstance = data.bgInstance;
-	cursorImage = data.cursorImage;
-	cursor = data.cursor;
+	cursorImage = al_clone_bitmap(data.cursorImage);
 	player = data.player;
-	meleeZombieSpriteSheet = data.enemy_image;
-	playerSpriteSheet = data.bulletSpriteSheet;
+	playerSpriteSheet = al_clone_bitmap(data.bulletSpriteSheet);
+	al_destroy_bitmap(data.bulletSpriteSheet);
+	meleeZombieSpriteSheet = al_clone_bitmap(data.enemy_image);
+	//Mouse cursor
+	cursor = al_create_mouse_cursor(cursorImage, 16, 16);
+	al_set_mouse_cursor(display, cursor);
 	
 
 	//Checks
@@ -257,17 +260,12 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 
 	//Set up cursor Image
 	Data->cursorImage = al_load_bitmap("target.png");
-	Data->cursorImage = al_clone_bitmap(Data->cursorImage);
 	al_convert_mask_to_alpha(Data->cursorImage, al_map_rgb(255, 255, 255));
-	Data->cursor = al_create_mouse_cursor(Data->cursorImage, 16, 16);
-
+	
 	//Load images
 	Data->playerSpriteSheet = al_load_bitmap("player_sprite.png");
-	Data->playerSpriteSheet = al_clone_bitmap(Data->playerSpriteSheet);
 	Data->enemy_image = al_load_bitmap("zombie_0.png");				//Enemy Image
-	Data->enemy_image = al_clone_bitmap(Data->enemy_image);
 	Data->bulletSpriteSheet = al_load_bitmap("spike_ball_projectile.png");//Bullet Image
-	Data->bulletSpriteSheet = al_clone_bitmap(Data->bulletSpriteSheet);
 
 	//Data->background = al_load_bitmap("city_background.png");	//Load Background
 
@@ -297,8 +295,6 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 
 	al_rest(2.5);
 
-	//Mouse cursor
-	al_set_mouse_cursor(Data->display, Data->cursor);
 
 	Data->done_loading = true;
 
