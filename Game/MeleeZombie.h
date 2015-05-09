@@ -12,7 +12,6 @@ private:
 	void setDirection(int & direction, float angle);//sets the animation direction towards zombie destination
 public:
 	void update();
-	void Collided(GameEntity* OtherEntity);
 	//quick constructor (presets most values)
 	MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image);
 	~MeleeZombie();

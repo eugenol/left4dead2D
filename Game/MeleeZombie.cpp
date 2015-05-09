@@ -49,15 +49,3 @@ void MeleeZombie::UpdateDirection(){
 	setDirection(direction,angle);
 };
 
-void MeleeZombie::Collided(GameEntity* OtherEntity){//handles all collisions involving zombies
-	switch (OtherEntity->getID)
-	{
-		case PLAYER: //zombie hits player
-		(*MeleeZombie::m_player).takeDamage(3);
-		break;
-		
-		case ENEMY://zombies hit each other
-		//bounceback code	
-		break;
-	};
-};
