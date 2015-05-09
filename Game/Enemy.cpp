@@ -47,7 +47,7 @@ void Enemy::takeDamage(int damage){
 void Enemy::Collided(GameEntity* OtherEntity){//handles all collisions involving zombies
 
 	//select which collision we have
-	switch (OtherEntity->getID)
+	switch (OtherEntity->getID())
 	{
 	case PLAYER://collides with player
 		//select damage amount to be done to player
