@@ -43,6 +43,7 @@ void MeleeZombie::UpdateDirection(){
 	float angle = 180.0 / PI*atan2((float)((*m_player).GetPos_Y()-pos_y), (float)((*m_player).GetPos_X() - pos_x));//angle in degrees of path to target
 	pos_x += speed_x*cosf(angle);
 	pos_y += speed_y*sinf(angle);
+	setDirection(direction,angle);
 };
 //Enemy(int type, int pos_x, int pos_y, int speed_x, int speed_y, int direction,
 //	ALLEGRO_BITMAP *image, bool active, int hitpoints, int armorType,
