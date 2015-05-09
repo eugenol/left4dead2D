@@ -46,7 +46,7 @@ void MeleeZombie::UpdateDirection(){
 	setDirection(direction,angle);
 };
 void MeleeZombie::Collided(GameEntity* OtherEntity){
-	if (OtherEntity->getID() == PLAYER){
-		(*MeleeZombie::m_player).takeDamage(3);
-	}
+	//if (OtherEntity->getID() == PLAYER){
+	//	(*MeleeZombie::m_player).takeDamage(3);
+	//}
 };

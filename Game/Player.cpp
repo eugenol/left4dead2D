@@ -89,8 +89,6 @@ bool Player::UpdatePosition()
 	{
 		pos_y += speed_y*vertical;
 	}
-	
-
 
 		if ((old_pos_x == pos_x) && (old_pos_y == pos_y))
 			return 0;
@@ -137,12 +135,14 @@ int Player::GetPos_Y()
 	return pos_y;
 }
 void Player::takeDamage(int damage){
+	if (invulnerabilityCounter) return;
 	life -= damage;
-	makeInvulnerable(0.1);//0.1 second invulerability to slow down the death rate of player
+	makeInvulnerable(0.1);//invulerability to slow down the death rate of player
 	if (life <= 0){
 		life = 100;
 		livesLeft -= 1;
-		makeInvulnerable(2);//2 second invulnerability after dying
+		makeInvulnerable(2);//invulnerability after 'dying'
+		megaShot();
 		}
 	if (livesLeft < 0)
 		isAlive = false;//need to add a way to end the game here!!!
