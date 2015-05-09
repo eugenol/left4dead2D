@@ -19,7 +19,9 @@ MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(M
 	//to provide a slower, more visible animation
 	frameDelay = 4;
 };
+
 MeleeZombie::~MeleeZombie(){};
+
 void MeleeZombie::setDirection(int & direction,float angle)
 {
 	enum Compass{ W, NW, N, NE, E, SE, S, SW };//ordered such that sprite sheet rows correlate correctly to cardinal directions
@@ -34,6 +36,7 @@ void MeleeZombie::setDirection(int & direction,float angle)
 	else if (angle < 180 - 22.5) direction = SW;
 	else direction = W;
 }
+
 void MeleeZombie::update(){
 	UpdateDirection();
 	UpdateAnimation();
@@ -45,8 +48,16 @@ void MeleeZombie::UpdateDirection(){
 	pos_y += speed_y*sinf(angle);
 	setDirection(direction,angle);
 };
-void MeleeZombie::Collided(GameEntity* OtherEntity){
-	//if (OtherEntity->getID() == PLAYER){
-	//	(*MeleeZombie::m_player).takeDamage(3);
-	//}
+
+void MeleeZombie::Collided(GameEntity* OtherEntity){//handles all collisions involving zombies
+	switch (OtherEntity->getID)
+	{
+		case PLAYER: //zombie hits player
+		(*MeleeZombie::m_player).takeDamage(3);
+		break;
+		
+		case ENEMY://zombies hit each other
+		//bounceback code	
+		break;
+	};
 };

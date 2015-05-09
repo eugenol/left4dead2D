@@ -39,3 +39,8 @@ bool Enemy::UpdatePosition(){
 void Enemy::setPlayer(Player *player){
 	m_player = player;
 };
+void Enemy::takeDamage(int damage){
+	life -= damage;
+	if (life < 0)
+		isAlive = false;
+};

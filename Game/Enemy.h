@@ -23,6 +23,7 @@ public:
 		ALLEGRO_BITMAP *image, bool active, int hitpoints,
 		int regenRate,ALLEGRO_DISPLAY * display);
 	~Enemy();
+	void takeDamage(int damage);
 	void update();
 	bool UpdatePosition();
 	int getCount();
