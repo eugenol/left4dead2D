@@ -196,9 +196,11 @@ int main(int argc, char **argv)
 			//Attempt to create new enemy
 			if (++EnemySpawnTimerCurrent == EnemySpawnTimerMax)
 			{
-				EnemySpawnTimerMax = FPS*(3 + rand() % 3);
-				GameEntity * entity = new MeleeZombie(rand()%DISPLAY_WIDTH, rand()%DISPLAY_HEIGHT, meleeZombieSpriteSheet);
-				EntityManager::getInstance().AddEntity(entity);
+				EnemySpawnTimerMax = FPS*(10 + rand() % 4);
+				for (int i = 0, maxSpawns=rand(); i < (maxSpawns % 5); i++){
+					GameEntity * entity = new MeleeZombie(rand() % DISPLAY_WIDTH, rand() % DISPLAY_HEIGHT, meleeZombieSpriteSheet);
+					EntityManager::getInstance().AddEntity(entity);
+				}
 				EnemySpawnTimerCurrent = 0;
 			}
 			// Update the entity manager to remove the dead.
