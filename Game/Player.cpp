@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "InputManager.h"
 #include "EntityManager.h"
-
+#define PI 3.14159265
 
 Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ,
 	int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet) :GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag)
@@ -15,7 +15,7 @@ Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int s
 	frameDelay = 5;
 	maxFrameCount = 8;
 	this->bulletSpriteSheet = bulletSpriteSheet;
-
+	makeInvulnerable(3);
 }
 
 
@@ -26,12 +26,14 @@ Player::~Player()
 void Player::update()
 {
 	ShootCheck();
+	(invulnerabilityCounter > 0) ? invulnerabilityCounter-- : 0;//decrements invulnerability to 0
 	if (UpdatePosition())
 	{
 		UpdateDirection();
 		UpdateAnimation();
 	}
 }
+
 void Player::UpdateDirection()
 {
 	enum dir{ D, L, R, U };
@@ -58,6 +60,8 @@ bool Player::UpdatePosition()
 	int vertical = 0;
 	old_pos_x = pos_x;
 	old_pos_y = pos_y;
+
+	//get inputs
 	if (InputManager::getInstance().isKeyPressed(UP))
 	{
 		vertical = -1;
@@ -76,7 +80,7 @@ bool Player::UpdatePosition()
 	}
 
 	
-
+	//move position
 	if (((pos_x + speed_x*horizontal) > 0) && ((pos_x + speed_x*horizontal) < (maxXpos - animationFrameWidth)))
 	{
 			pos_x += speed_x*horizontal;
@@ -85,7 +89,7 @@ bool Player::UpdatePosition()
 	{
 		pos_y += speed_y*vertical;
 	}
-
+	
 
 
 		if ((old_pos_x == pos_x) && (old_pos_y == pos_y))
@@ -96,7 +100,8 @@ bool Player::UpdatePosition()
 void Player::ShootCheck()
 {
 	hasShot = false;
-	if (InputManager::getInstance().isMouseButtonPressed(LEFTM)) hasShot = true;
+	if (InputManager::getInstance().isMouseButtonPressed(LEFTM))
+		hasShot = true;
 	if (hasShot)
 	{
 		if ((shooting_control == 0) || (shooting_control > 3))
@@ -108,8 +113,19 @@ void Player::ShootCheck()
 			shooting_control = 0;
 		}
 		shooting_control++;
+		
 	}
 	
+}
+void Player::megaShot(){//shoots 24 projectiles radially around the player
+	int destination_x, destination_y;
+	for (int angle = 0; angle < 360; angle += 15)
+	{
+		destination_x = pos_x + 100*cosf(angle*PI/180);
+		destination_y = pos_y + 100*sinf(angle*PI/180);
+		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet);
+		EntityManager::getInstance().AddEntity(bulletPtr);
+	}
 }
 int Player::GetPos_X()
 {
@@ -120,3 +136,18 @@ int Player::GetPos_Y()
 {
 	return pos_y;
 }
+void Player::takeDamage(int damage){
+	life -= damage;
+	makeInvulnerable(0.1);//0.1 second invulerability to slow down the death rate of player
+	if (life <= 0){
+		life = 100;
+		livesLeft -= 1;
+		makeInvulnerable(2);//2 second invulnerability after dying
+		}
+	if (livesLeft < 0)
+		isAlive = false;//need to add a way to end the game here!!!
+};
+
+void Player::makeInvulnerable(int time){//makes player invulnerable for <time> number of seconds
+	invulnerabilityCounter = 60 * time;
+};

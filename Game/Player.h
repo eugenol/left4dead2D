@@ -14,9 +14,12 @@ public:
 	int GetPos_X();
 	int GetPos_Y();
 	void update();
-
+	void takeDamage(int damage);
+	int livesLeft=3;//number of respawns the player has left
 	bool hasShot;
-
+	int invulnerabilityCounter=0;//counter for player to be invulnerable, used for respawning and after taking dmg
+	void megaShot();//do an AOE shot around player
+	void makeInvulnerable(int time);
 protected:
 	int score;
 	int shooting_control;

@@ -64,3 +64,11 @@ void Projectile::UpdateDirection()
 {
 
 }
+void Projectile::update()
+{
+	if (UpdatePosition())
+	{
+		UpdateDirection();
+		UpdateAnimation();
+	}
+}

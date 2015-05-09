@@ -1,6 +1,7 @@
 #ifndef MELEEZOMBIE_H
 #define MELEEZOMBIE_H
 #include "Enemy.h"
+#include "GameEntity.h"
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_image.h"
 
@@ -11,6 +12,7 @@ private:
 	void setDirection(int & direction, float angle);//sets the animation direction towards zombie destination
 public:
 	void update();
+	void Collided(GameEntity* OtherEntity);
 	//quick constructor (presets most values)
 	MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image);
 	~MeleeZombie();

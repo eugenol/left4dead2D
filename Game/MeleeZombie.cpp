@@ -45,6 +45,8 @@ void MeleeZombie::UpdateDirection(){
 	pos_y += speed_y*sinf(angle);
 	setDirection(direction,angle);
 };
-//Enemy(int type, int pos_x, int pos_y, int speed_x, int speed_y, int direction,
-//	ALLEGRO_BITMAP *image, bool active, int hitpoints, int armorType,
-//	int regenRate, ALLEGRO_DISPLAY * display);
+void MeleeZombie::Collided(GameEntity* OtherEntity){
+	if (OtherEntity->getID() == PLAYER){
+		(*MeleeZombie::m_player).takeDamage(3);
+	}
+};

@@ -11,12 +11,11 @@ enum DIRECTIONS{NORTH,NORTHEAST,EAST,SOUTHEAST,SOUTH,SOUTHWEST,WEST,NORTHWEST};
 class GameEntity
 {
 protected:
-	
+	int old_pos_x; //Used to check if the entity has had it's position updated
+	int old_pos_y; //If not then there is no need to update direction or animation (this may differ for enemies?)
 	int life;
 	int pos_x;
 	int pos_y;
-	int old_pos_x; //Used to check if the entity has had it's position updated
-	int old_pos_y; //If not then there is no need to update direction or animation (this may differ for enemies?)
 	int speed_x;
 	int speed_y;
 	int direction;		  //Single Direction Variable from 0 to 3 Describes direction
@@ -47,9 +46,10 @@ public:
 		int hitboxRadius, int ID, ALLEGRO_BITMAP *image);
 	virtual ~GameEntity();
 
+	int getID();
 	bool active = false;	//is the entity actively being used?
 	void draw();
-	virtual void update();//general Update Entity, calls specific Update Functions
+	virtual void update()=0;//general Update Entity, calls specific Update Functions
 	bool getAlive() { return isAlive; } //return Alive state
 
 	// for colissions, can make these virtual, but that can be done later.
