@@ -23,6 +23,8 @@ protected:
 
 	
 	int hitboxRadius;		//defines radius (for a square) for entity collision detection
+	int hitboxWidth;
+	int hitboxHeight;
 	int ID;
 	bool isAlive = true; //used for EntityManager
 

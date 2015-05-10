@@ -11,8 +11,6 @@ class Enemy :public GameEntity{//class contains all enemies
 private:
 protected:
 	int difficulty = 1;
-	int hitboxRadius_x;
-	int hitboxRadius_y;
 	int type;//type of enemy
 	int max_hitpoints;//full life hitpoint number
 	int hitpoints;

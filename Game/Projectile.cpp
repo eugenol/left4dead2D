@@ -20,7 +20,8 @@ Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, 
 	destinationY = destination_y;
 	destinationX = destination_x;
 	angleOfPath = atan2f(destinationY - old_pos_y, destinationX - old_pos_x);
-   
+	hitboxHeight = 15;
+	hitboxWidth = 15;
 }
 
 

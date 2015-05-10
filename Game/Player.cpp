@@ -16,6 +16,8 @@ Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int s
 	maxFrameCount = 8;
 	this->bulletSpriteSheet = bulletSpriteSheet;
 	makeInvulnerable(3);
+	hitboxHeight = 32;
+	hitboxWidth = 32;
 }
 
 

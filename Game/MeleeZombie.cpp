@@ -18,6 +18,8 @@ MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(M
 	animationFrameWidth = 128;
 	//to provide a slower, more visible animation
 	frameDelay = 4;
+	hitboxWidth = 36;
+	hitboxHeight = 60;
 };
 
 MeleeZombie::~MeleeZombie(){};
