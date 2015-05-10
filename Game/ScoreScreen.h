@@ -1,11 +1,11 @@
-#ifndef CREDITSCREEN_H
-#define CREDITSCREEN_H
+#ifndef SCORESCREEN_H
+#define SCORESCREEN_H
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include "InputManager.h"
 
-class CreditScreen
+class ScoreScreen
 {
 private:
 	ALLEGRO_FONT *font18 = NULL;
@@ -15,8 +15,8 @@ private:
 	const int DISPLAY_WIDTH = 800;
 	bool returnToMenu;
 public:
-	CreditScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72);
-	~CreditScreen();
+	ScoreScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72);
+	~ScoreScreen();
 	void update();
 	void draw();
 	bool getReturnToMenu() { return returnToMenu; }

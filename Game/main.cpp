@@ -145,6 +145,8 @@ int main(int argc, char **argv)
 	ScreenManager::getInstance().addMenuScreen(&menu);
 	CreditScreen credits(font_18, font_24, font_72);
 	ScreenManager::getInstance().addCreditScreen(&credits);
+	ScoreScreen scores(font_18, font_24, font_72);
+	ScreenManager::getInstance().addScoreScreen(&scores);
 
 	//Checks
 	if (!timer)
@@ -193,9 +195,9 @@ int main(int argc, char **argv)
 						ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
 						break;
 					}
-					case MenuScreen::RESUMEGAME:
+					case MenuScreen::HIGHSCORES:
 					{
-						ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
+						ScreenManager::getInstance().changeGameState(ScreenManager::HIGHSCORES);
 						break;
 					}
 					case MenuScreen::CREDITS:
@@ -208,10 +210,32 @@ int main(int argc, char **argv)
 						ScreenManager::getInstance().setExitState(true);
 						break;
 					}
+					case MenuScreen::RESUMEGAME:
+					{
+						ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
+						break;
+					}
 
 				}
 				menu.clearCurrentMenuOption();
 			}
+			else if (ScreenManager::getInstance().getScreenState() == ScreenManager::CREDITS)
+			{
+				if (credits.getReturnToMenu())
+				{
+					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
+					credits.setReturnToMenu();
+				}
+			}
+			else if (ScreenManager::getInstance().getScreenState() == ScreenManager::HIGHSCORES)
+			{
+				if (scores.getReturnToMenu())
+				{
+					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
+					scores.setReturnToMenu();
+				}
+			}
+
 			ScreenManager::getInstance().update();
 		}
 
@@ -226,9 +250,11 @@ int main(int argc, char **argv)
 				else if (ScreenManager::getInstance().getScreenState() == ScreenManager::MENU)
 				{
 					if (ScreenManager::getInstance().isGameActive())
-					ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
+						ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
 				}
 				else if (ScreenManager::getInstance().getScreenState() == ScreenManager::CREDITS)
+					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
+				else if (ScreenManager::getInstance().getScreenState() == ScreenManager::HIGHSCORES)
 					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
 			}
 			else if (escapeDelay == 14)

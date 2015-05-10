@@ -60,6 +60,11 @@ void ScreenManager::update()
 			credits->update();
 			break;
 		}
+		case HIGHSCORES:
+		{
+			scores->update();
+			break;
+		}
 	}
 }
 
@@ -80,6 +85,11 @@ void ScreenManager::draw()
 		case CREDITS:
 		{
 			credits->draw();
+			break;
+		}
+		case HIGHSCORES:
+		{
+			scores->draw();
 			break;
 		}
 	}

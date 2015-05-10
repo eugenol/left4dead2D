@@ -48,7 +48,7 @@ void MenuScreen::update()
 			}
 			else if (menuItem == 3)
 			{
-				currentOption = RESUMEGAME;
+				currentOption = HIGHSCORES;
 			}
 			else if (menuItem == 4)
 			{
@@ -73,8 +73,7 @@ void MenuScreen::draw()
 	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "High Scores");
 	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "Credits");
 	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "Exit Game");
-	al_draw_textf(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "%d", currentOption);
-
+	//al_draw_textf(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "%d", currentOption);
 }
 
 int  MenuScreen::getCurrentMenuOption()

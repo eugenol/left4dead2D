@@ -4,6 +4,7 @@
 #include "MenuScreen.h"
 #include "InputManager.h"
 #include "CreditScreen.h"
+#include "ScoreScreen.h"
 class ScreenManager
 {
 private:
@@ -13,6 +14,7 @@ private:
 	GameScreen *game;
 	MenuScreen *menu;
 	CreditScreen *credits;
+	ScoreScreen *scores;
 	ScreenManager();
 
 public:
@@ -24,6 +26,7 @@ public:
 	void addGameScreen(GameScreen *gameScreen) { game = gameScreen; }
 	void addMenuScreen(MenuScreen *menuScreen) { menu = menuScreen; }
 	void addCreditScreen(CreditScreen *creditScreen) { credits = creditScreen; }
+	void addScoreScreen(ScoreScreen *scoreScreen) { scores = scoreScreen; }
 
 	void update();
 	void draw();
