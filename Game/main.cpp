@@ -26,29 +26,31 @@
 #include <ctime>
 #include <cstdio>
 
+#include "ScreenManager.h"
+
 	//Display width & height, can move to a header file later.
 //Moved here, lots of things might use this. dont need to pass as arguments.
 
-	const int DISPLAY_HEIGHT = 600;
-	const int DISPLAY_WIDTH = 800;
-	const int FPS = 60; //Framerate
+const int DISPLAY_HEIGHT = 600;
+const int DISPLAY_WIDTH = 800;
+const int FPS = 60; //Framerate
 
-	static void*loading_thread(ALLEGRO_THREAD*load, void*data); // Prototype for loading thread
+static void*loading_thread(ALLEGRO_THREAD*load, void*data); // Prototype for loading thread
 
 int main(int argc, char **argv)
 {
 	// Game loop & rendering variables
 	bool game_done = false; // used for game loop
 	bool redraw = false; // used for rendering
-	int EnemySpawnTimerMax = FPS*(3 + rand() % 3);
-	int EnemySpawnTimerCurrent=0;
+	//int EnemySpawnTimerMax = FPS*(3 + rand() % 3);
+	//int EnemySpawnTimerCurrent=0;
 	srand(time(NULL));
 	//Parallel load
 	InitData data;
 
 	//Object List
-	std::list<GameEntity*> objects;
-	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
+	//std::list<GameEntity*> objects;
+	//EntityManager::getInstance().getEntityList(&objects); // send to object manager.
 
 	//Allegro variables
 	ALLEGRO_DISPLAY *display = NULL; //Pointer to display.
@@ -137,6 +139,10 @@ int main(int argc, char **argv)
 	cursor = al_create_mouse_cursor(cursorImage, 16, 16);
 	al_set_mouse_cursor(display, cursor);
 	
+	GameScreen game(playerSpriteSheet, bulletSpriteSheet, meleeZombieSpriteSheet);
+	ScreenManager::getInstance().addGameScreen(&game);
+	MenuScreen menu();
+	ScreenManager::getInstance().addMenuScreen(&menu);
 
 	//Checks
 	if (!timer)
@@ -176,35 +182,35 @@ int main(int argc, char **argv)
 		{
 			redraw = true;
 			//Update movement etc...
-			for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-				(*iter)->update();
+			//for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
+			//	(*iter)->update();
 
-			//Check for collisions... Not the most efficient, but ok for now. can be changed later...
-			//for now it campares every object, I can make it sector based later...
-			for (std::list<GameEntity*>::iterator iter1 = objects.begin(); iter1 != objects.end(); iter1++)
-			{
-				for (std::list<GameEntity*>::iterator iter2 = objects.begin(); iter2 != objects.end(); iter2++)
-				{
-					if (iter1 != iter2) // Can't collide with yourself
-					{
-						if ((*iter1)->CheckCollision(*iter2)) //Did you collide?
-							(*iter1)->Collided(*iter2); //Do something about it.
-		}
-				}
-			}
+			////Check for collisions... Not the most efficient, but ok for now. can be changed later...
+			////for now it campares every object, I can make it sector based later...
+			//for (std::list<GameEntity*>::iterator iter1 = objects.begin(); iter1 != objects.end(); iter1++)
+			//{
+			//	for (std::list<GameEntity*>::iterator iter2 = objects.begin(); iter2 != objects.end(); iter2++)
+			//	{
+			//		if (iter1 != iter2) // Can't collide with yourself
+			//		{
+			//			if ((*iter1)->CheckCollision(*iter2)) //Did you collide?
+			//				(*iter1)->Collided(*iter2); //Do something about it.
+			//		}
+			//	}
+			//}
 
-			//Attempt to create new enemy
-			if (++EnemySpawnTimerCurrent == EnemySpawnTimerMax)
-			{
-				EnemySpawnTimerMax = FPS*(10 + rand() % 4);
-				for (int i = 0, maxSpawns=rand(); i < (maxSpawns % 5); i++){
-					GameEntity * entity = new MeleeZombie(rand() % DISPLAY_WIDTH, rand() % DISPLAY_HEIGHT, meleeZombieSpriteSheet);
-					EntityManager::getInstance().AddEntity(entity);
-				}
-				EnemySpawnTimerCurrent = 0;
-			}
-			// Update the entity manager to remove the dead.
-			EntityManager::getInstance().UpdateList();
+			////Attempt to create new enemy
+			//if (++EnemySpawnTimerCurrent == EnemySpawnTimerMax)
+			//{
+			//	EnemySpawnTimerMax = FPS*(10 + rand() % 4);
+			//	for (int i = 0, maxSpawns=rand(); i < (maxSpawns % 5); i++){
+			//		GameEntity * entity = new MeleeZombie(rand() % DISPLAY_WIDTH, rand() % DISPLAY_HEIGHT, meleeZombieSpriteSheet);
+			//		EntityManager::getInstance().AddEntity(entity);
+			//	}
+			//	EnemySpawnTimerCurrent = 0;
+			//}
+			//// Update the entity manager to remove the dead.
+			//EntityManager::getInstance().UpdateList();
 		}
 
 		// Capture close windows event
@@ -223,8 +229,8 @@ int main(int argc, char **argv)
 
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 
-			for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-				(*iter)->draw();
+			//for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
+			//	(*iter)->draw();
 			
 			al_flip_display();
 		}
