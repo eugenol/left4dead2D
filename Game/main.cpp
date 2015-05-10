@@ -29,11 +29,11 @@
 	//Display width & height, can move to a header file later.
 //Moved here, lots of things might use this. dont need to pass as arguments.
 
-	const int DISPLAY_HEIGHT = 600;
-	const int DISPLAY_WIDTH = 800;
-	const int FPS = 60; //Framerate
+const int DISPLAY_HEIGHT = 600;
+const int DISPLAY_WIDTH = 800;
+const int FPS = 60; //Framerate
 
-	static void*loading_thread(ALLEGRO_THREAD*load, void*data); // Prototype for loading thread
+static void*loading_thread(ALLEGRO_THREAD*load, void*data); // Prototype for loading thread
 
 int main(int argc, char **argv)
 {
@@ -45,6 +45,8 @@ int main(int argc, char **argv)
 	srand(time(NULL));
 	//Parallel load
 	InitData data;
+	enum GAMESTATE{MENU, PLAYING, DIED};
+	int currentState = PLAYING;
 
 	//Object List
 	std::list<GameEntity*> objects;
@@ -174,35 +176,46 @@ int main(int argc, char **argv)
 
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
-			redraw = true;
-			//Update movement etc...
-			for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-				(*iter)->update();
-
-			//Check for collisions... Not the most efficient, but ok for now. can be changed later...
-			//for now it campares every object, I can make it sector based later...
-			for (std::list<GameEntity*>::iterator iter1 = objects.begin(); iter1 != objects.end(); iter1++)
+			if (currentState == PLAYING)
 			{
-				for (std::list<GameEntity*>::iterator iter2 = objects.begin(); iter2 != objects.end(); iter2++)
+				redraw = true;
+				//Update movement etc...
+				for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
+					(*iter)->update();
+
+				//Check for collisions... Not the most efficient, but ok for now. can be changed later...
+				//for now it campares every object, I can make it sector based later...
+				for (std::list<GameEntity*>::iterator iter1 = objects.begin(); iter1 != objects.end(); iter1++)
 				{
-					if (iter1 != iter2) // Can't collide with yourself
+					for (std::list<GameEntity*>::iterator iter2 = objects.begin(); iter2 != objects.end(); iter2++)
 					{
-						if ((*iter1)->CheckCollision(*iter2)) //Did you collide?
-							(*iter1)->Collided(*iter2); //Do something about it.
-		}
+						if (iter1 != iter2) // Can't collide with yourself
+						{
+							if ((*iter1)->CheckCollision(*iter2)) //Did you collide?
+								(*iter1)->Collided(*iter2); //Do something about it.
+						}
+					}
 				}
-			}
 
-			//Attempt to create new enemy
-			if (++EnemySpawnTimerCurrent == EnemySpawnTimerMax)
-			{
-				EnemySpawnTimerMax = FPS*(3 + rand() % 3);
-				GameEntity * entity = new MeleeZombie(rand()%DISPLAY_WIDTH, rand()%DISPLAY_HEIGHT, meleeZombieSpriteSheet);
-				EntityManager::getInstance().AddEntity(entity);
-				EnemySpawnTimerCurrent = 0;
+				//Attempt to create new enemy
+				if (++EnemySpawnTimerCurrent == EnemySpawnTimerMax)
+				{
+					EnemySpawnTimerMax = FPS*(3 + rand() % 3);
+					GameEntity * entity = new MeleeZombie(rand() % DISPLAY_WIDTH, rand() % DISPLAY_HEIGHT, meleeZombieSpriteSheet);
+					EntityManager::getInstance().AddEntity(entity);
+					EnemySpawnTimerCurrent = 0;
+				}
+				// Update the entity manager to remove the dead.
+				EntityManager::getInstance().UpdateList();
 			}
-			// Update the entity manager to remove the dead.
-			EntityManager::getInstance().UpdateList();
+			else if (currentState == MENU)
+			{
+
+			}
+			else if (currentState == DIED)
+			{
+
+			}
 		}
 
 		// Capture close windows event
@@ -211,7 +224,21 @@ int main(int argc, char **argv)
 
 		//Escape key pressed? exit game
 		if (InputManager::getInstance().isKeyPressed(ESCAPE))
-			game_done = true;
+		{
+			if (currentState == PLAYING)
+			{
+				currentState = MENU;
+			}
+			else if (currentState == MENU)
+			{
+				currentState = PLAYING;
+			}
+			else if (currentState == DIED)
+			{
+
+			}
+		}
+			
 
 
 		//Rendering
@@ -221,8 +248,20 @@ int main(int argc, char **argv)
 
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 
-			for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-				(*iter)->draw();
+			if (currentState == PLAYING)
+			{
+				for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
+					(*iter)->draw();
+			}
+			else if (currentState == MENU)
+			{
+
+			}
+			else if (currentState == DIED)
+			{
+
+			}
+
 			
 			al_flip_display();
 		}

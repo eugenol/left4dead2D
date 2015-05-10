@@ -57,6 +57,13 @@ void GameEntity::UpdateAnimation()
 
 bool GameEntity::CheckCollision(GameEntity *otherObject)
 {
+	int obj_1_cent_x = pos_x + animationFrameWidth / 2;
+	int obj_1_cent_y = pos_y + animationFrameHeight / 2;
+	int obj_2_cent_x = otherObject->pos_x + otherObject->animationFrameWidth / 2;
+	int obj_2_cent_y = otherObject->pos_y + otherObject->animationFrameHeight / 2;
+
+
+
 	if ((pos_x > otherObject->pos_x + otherObject->animationFrameWidth) ||
 		(pos_y > otherObject->pos_y + otherObject->animationFrameHeight) ||
 		(otherObject->pos_x > pos_x + animationFrameWidth) ||
@@ -69,5 +76,11 @@ bool GameEntity::CheckCollision(GameEntity *otherObject)
 
 void GameEntity::Collided(GameEntity *otherObject)
 {
+	if ((ID == PROJECTILE && otherObject->ID == ENEMY) || (ID == ENEMY && otherObject->ID == PROJECTILE))
+	{
+		isAlive = false;
+		otherObject->isAlive = false;
+	}
+		
 
 }
