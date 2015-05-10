@@ -4,7 +4,6 @@
 GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage)
 {
 	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
-	newGame();
 }
 
 
