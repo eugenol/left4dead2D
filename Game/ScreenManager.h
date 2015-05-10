@@ -23,5 +23,9 @@ public:
 	//void addGameScreen(GameScreen *gameScreen) { game = gameScreen; }
 
 	bool getExitState(){ return exitState; }
+
+	//Can't use these methods to accidentally copy the input manager.
+	ScreenManager(ScreenManager const&) = delete;
+	void operator=(ScreenManager const&) = delete;
 };
 #endif

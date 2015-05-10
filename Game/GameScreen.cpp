@@ -53,3 +53,11 @@ void GameScreen::draw()
 	for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
 		(*iter)->draw();
 }
+
+void GameScreen::newGame()
+{
+	 //destroy all existing entities
+	EntityManager::getInstance().KillAll();
+	//
+
+}

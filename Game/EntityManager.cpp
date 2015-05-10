@@ -47,3 +47,16 @@ void EntityManager::AddEntity(GameEntity *entity)
 	// add entity to the list
 	entityList->push_front(entity);
 }
+
+void EntityManager::KillAll()
+{
+	std::list<GameEntity*>::iterator iter = entityList->begin();
+	while (iter != entityList->end())
+	{
+		std::list<GameEntity*>::iterator prev = iter++;
+		GameEntity *tempPtr;
+		tempPtr = *prev;
+		entityList->erase(prev);
+		delete tempPtr;
+	}
+}

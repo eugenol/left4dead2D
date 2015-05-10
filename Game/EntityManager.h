@@ -40,6 +40,7 @@ public:
 	void getEntityList(std::list<GameEntity*> *entityList);
 	void UpdateList();
 	void AddEntity(GameEntity *entity);
+	void KillAll();
 
 	//Can't use these methods to accidentally copy the input manager.
 	EntityManager(EntityManager const&) = delete;

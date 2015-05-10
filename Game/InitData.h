@@ -8,7 +8,6 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
-#include "Player.h"
 
 class InitData
 {
@@ -30,8 +29,9 @@ public:
 	ALLEGRO_SAMPLE_INSTANCE *bgInstance = NULL;
 	//Mouse cursor
 	ALLEGRO_BITMAP *cursorImage = NULL;
-	ALLEGRO_MOUSE_CURSOR *cursor = NULL;
-	Player *player = NULL;
+	//Fonts
+	ALLEGRO_FONT *font_18 = NULL;
+	ALLEGRO_FONT *font_24 = NULL;
 
 	bool done_loading;
 };

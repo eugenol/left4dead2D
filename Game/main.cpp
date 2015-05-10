@@ -65,14 +65,12 @@ int main(int argc, char **argv)
 	ALLEGRO_BITMAP *bulletSpriteSheet = NULL;
 	ALLEGRO_THREAD *loading = NULL;
 	//Fonts
-	//ALLEGRO_FONT *font_18 = NULL;
-	//ALLEGRO_FONT *font_24 = NULL;
+	ALLEGRO_FONT *font_18 = NULL;
+	ALLEGRO_FONT *font_24 = NULL;
 	ALLEGRO_FONT *font_72 = NULL;
 	//Mouse
 	ALLEGRO_BITMAP *cursorImage = NULL;
 	ALLEGRO_MOUSE_CURSOR *cursor = NULL;
-	//Player
-	Player *player = NULL;
 	
 	//Init fonts
 	al_init_font_addon();
@@ -132,16 +130,17 @@ int main(int argc, char **argv)
 	bg_music = data.bg_music;
 	bgInstance = data.bgInstance;
 	cursorImage = al_clone_bitmap(data.cursorImage);
-	player = data.player;
 	playerSpriteSheet = al_clone_bitmap(data.bulletSpriteSheet);
 	meleeZombieSpriteSheet = al_clone_bitmap(data.enemy_image);
+	font_18 = data.font_18;
+	font_24 = data.font_24;
 	//Mouse cursor
 	cursor = al_create_mouse_cursor(cursorImage, 16, 16);
 	al_set_mouse_cursor(display, cursor);
 	
 	GameScreen game(playerSpriteSheet, bulletSpriteSheet, meleeZombieSpriteSheet);
 	ScreenManager::getInstance().addGameScreen(&game);
-	MenuScreen menu();
+	MenuScreen menu(font_18, font_24,font_72);
 	ScreenManager::getInstance().addMenuScreen(&menu);
 
 	//Checks
@@ -284,10 +283,13 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 	//can set other properties here such as speed, gain, etc..
 	al_attach_sample_instance_to_mixer(Data->bgInstance, al_get_default_mixer());
 
+	//Create additional Fonts
+	Data->font_18 = al_load_ttf_font("pirulen.ttf", 18, 0); //can use different font
+	Data->font_24 = al_load_ttf_font("pirulen.ttf", 24, 0); //can use different font
 
-	Data->player = new Player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER, Data->playerSpriteSheet, Data->bulletSpriteSheet);
-	EntityManager::getInstance().AddEntity(Data->player);
-	Enemy::setPlayer(Data->player);
+	Player *player = new Player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER, Data->playerSpriteSheet, Data->bulletSpriteSheet);
+	EntityManager::getInstance().AddEntity(player);
+	Enemy::setPlayer(player);
 
 	//Create Timer
 	Data->timer = al_create_timer(1.0 / FPS);
