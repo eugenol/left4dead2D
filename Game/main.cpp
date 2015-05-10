@@ -181,6 +181,30 @@ int main(int argc, char **argv)
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			redraw = true;
+			if (ScreenManager::getInstance().getScreenState() == ScreenManager::MENU)
+			{
+				switch (menu.getCurrentMenuOption())
+				{
+					case MenuScreen::NEWGAME:
+					{
+						ScreenManager::getInstance().setNewGame();
+						ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
+						break;
+					}
+					case MenuScreen::RESUMEGAME:
+					{
+						ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
+						break;
+					}
+					case MenuScreen::EXITGAME:
+					{
+						ScreenManager::getInstance().setExitState(true);
+						break;
+					}
+
+				}
+				menu.clearCurrentMenuOption();
+			}
 			ScreenManager::getInstance().update();
 		}
 

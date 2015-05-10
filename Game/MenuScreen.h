@@ -11,10 +11,10 @@
 
 #include "GameScreen.h"
 
+
 class MenuScreen
 {
 private:
-	enum MENUSTATE{NEWGAME, RESUMEGAME,HIGHSCORES,CREDITS, EXITGAME};
 	ALLEGRO_FONT *font18 = NULL;
 	ALLEGRO_FONT *font24 = NULL;
 	ALLEGRO_FONT *font72 = NULL;
@@ -28,7 +28,10 @@ private:
 public:
 	MenuScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72, GameScreen *current_game);
 	~MenuScreen();
+	enum MENUSTATE{ STAYMENU, NEWGAME, HIGHSCORES, CREDITS, EXITGAME, RESUMEGAME };
 	void update();
 	void draw();
+	int getCurrentMenuOption();
+	void clearCurrentMenuOption(){ currentOption = STAYMENU; }
 };
 #endif

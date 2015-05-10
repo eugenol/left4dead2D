@@ -29,6 +29,7 @@ public:
 	void setNewGame() { newGame = true; }
 	int getScreenState() { return gameState; }
 	bool getExitState(){ return exitState; }
+	void setExitState(bool done) { exitState = done; }
 	bool isGameActive() { return game->isPlayerAlive(); }
 
 	//Can't use these methods to accidentally copy the input manager.

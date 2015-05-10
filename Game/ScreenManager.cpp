@@ -3,7 +3,7 @@
 
 ScreenManager::ScreenManager()
 {
-	gameState = PLAYING;
+	gameState = MENU;
 	exitState = false;
 }
 
@@ -31,8 +31,7 @@ void ScreenManager::changeGameState(int newState)
 		}
 		else
 		{
-			if (!game->isPlayerAlive())
-				game->newGame();
+			
 		}
 	}
 	else if (gameState == MENU)
