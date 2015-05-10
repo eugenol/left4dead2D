@@ -22,7 +22,7 @@
 #include "Player.h"
 #include "EntityManager.h"
 #include "InitData.h"
-#include <cstdlib>
+#include <cstdlib>    
 #include <ctime>
 #include <cstdio>
 
@@ -43,15 +43,9 @@ int main(int argc, char **argv)
 	bool game_done = false; // used for game loop
 	bool redraw = false; // used for rendering
 	int escapeDelay = 0;
-	//int EnemySpawnTimerMax = FPS*(3 + rand() % 3);
-	//int EnemySpawnTimerCurrent=0;
 	srand(time(NULL));
 	//Parallel load
 	InitData data;
-
-	//Object List
-	//std::list<GameEntity*> objects;
-	//EntityManager::getInstance().getEntityList(&objects); // send to object manager.
 
 	//Allegro variables
 	ALLEGRO_DISPLAY *display = NULL; //Pointer to display.
