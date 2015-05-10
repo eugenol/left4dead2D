@@ -42,6 +42,7 @@ int main(int argc, char **argv)
 	// Game loop & rendering variables
 	bool game_done = false; // used for game loop
 	bool redraw = false; // used for rendering
+	int escapeDelay = 0;
 	//int EnemySpawnTimerMax = FPS*(3 + rand() % 3);
 	//int EnemySpawnTimerCurrent=0;
 	srand(time(NULL));
@@ -140,7 +141,7 @@ int main(int argc, char **argv)
 	
 	GameScreen game(playerSpriteSheet, bulletSpriteSheet, meleeZombieSpriteSheet);
 	ScreenManager::getInstance().addGameScreen(&game);
-	MenuScreen menu(font_18, font_24,font_72);
+	MenuScreen menu(font_18, font_24, font_72, &game);
 	ScreenManager::getInstance().addMenuScreen(&menu);
 
 	//Checks
@@ -187,10 +188,15 @@ int main(int argc, char **argv)
 		//Escape key pressed? exit game
 		if (InputManager::getInstance().isKeyPressed(ESCAPE))
 		{
-			if (ScreenManager::getInstance().getScreenState() == ScreenManager::PLAYING)
-				ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
-			else if (ScreenManager::getInstance().getScreenState() == ScreenManager::MENU)
-				ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
+			if (escapeDelay++ == 0)
+			{
+				if (ScreenManager::getInstance().getScreenState() == ScreenManager::PLAYING)
+					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
+				else if (ScreenManager::getInstance().getScreenState() == ScreenManager::MENU)
+					ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
+			}
+			else if (escapeDelay == 14)
+				escapeDelay = 0;
 		}
 	
 		game_done = ScreenManager::getInstance().getExitState();

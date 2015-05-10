@@ -2,7 +2,7 @@
 #define SCREENMANAGER_H
 #include "GameScreen.h"
 #include "MenuScreen.h"
-
+#include "InputManager.h"
 class ScreenManager
 {
 private:
@@ -29,6 +29,7 @@ public:
 	void setNewGame() { newGame = true; }
 	int getScreenState() { return gameState; }
 	bool getExitState(){ return exitState; }
+	bool isGameActive() { return game->isPlayerAlive(); }
 
 	//Can't use these methods to accidentally copy the input manager.
 	ScreenManager(ScreenManager const&) = delete;

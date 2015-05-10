@@ -1,9 +1,12 @@
 #include "MenuScreen.h"
 
 
-MenuScreen::MenuScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72) : font18(font_18), font24(font_24), font72(font_72)
+MenuScreen::MenuScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72, GameScreen *current_game) : font18(font_18), font24(font_24), font72(font_72), game(current_game)
 {
-
+	for (int i = 0; i < 7; i++)
+		menuSlot[i] = 40 + i * 40;
+	
+	menuSlot[0] -= 20;
 }
 
 
@@ -13,12 +16,38 @@ MenuScreen::~MenuScreen()
 
 void MenuScreen::update()
 {
+	mouse_x = InputManager::getInstance().getMouseX();
+	mouse_y = InputManager::getInstance().getMouseY();
 
+	menuItem = 0;
+
+	if ((mouse_x >= 300) && (mouse_x <= 500))
+	{
+		for (int i = 1; i < 7; i++)
+		{
+			if ((mouse_y >= menuSlot[i] - 10) && (mouse_y <= menuSlot[i] + 26))
+			{
+				menuItem = i;
+			}
+		}
+	}
+
+	if (InputManager::getInstance().isMouseButtonPressed(LEFTM))
+	{
+	
+	}
 }
 
 void MenuScreen::draw()
 {
-	al_draw_text(font24, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 20, ALLEGRO_ALIGN_CENTRE, "Menu");
-	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 80, ALLEGRO_ALIGN_CENTRE, "New Game");
-	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 120, ALLEGRO_ALIGN_CENTRE, "Exit Game");
+	int menuItem = 0;
+	al_draw_text(font24, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "Menu");
+	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "New Game");
+	if (game->isPlayerAlive())
+		al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "Resume Game");
+	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "High Scores");
+	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "Credits");
+	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "Exit Game");
+	al_draw_textf(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "%d", menuItem);
+
 }

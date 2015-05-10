@@ -9,17 +9,24 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
+#include "GameScreen.h"
+
 class MenuScreen
 {
 private:
-	enum MENUSTATE{NEWGAME, RESUMEGAME,HIGHSCORES, EXITGAME};
+	enum MENUSTATE{NEWGAME, RESUMEGAME,HIGHSCORES,CREDITS, EXITGAME};
 	ALLEGRO_FONT *font18 = NULL;
 	ALLEGRO_FONT *font24 = NULL;
 	ALLEGRO_FONT *font72 = NULL;
 	const int DISPLAY_HEIGHT = 600;
 	const int DISPLAY_WIDTH = 800;
+	int menuSlot[7];
+	GameScreen *game;
+	int mouse_x, mouse_y;
+	int menuItem;
+	int currentOption;
 public:
-	MenuScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72);
+	MenuScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72, GameScreen *current_game);
 	~MenuScreen();
 	void update();
 	void draw();
