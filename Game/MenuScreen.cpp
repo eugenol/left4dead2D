@@ -35,15 +35,16 @@ void MenuScreen::update()
 
 	if (InputManager::getInstance().isMouseButtonPressed(LEFTM))
 	{
-		if (game->isPlayerAlive())
-		{
 			if (menuItem == 1)
 			{
 				currentOption = NEWGAME;
 			}
 			else if (menuItem == 2)
 			{
-				currentOption = RESUMEGAME;
+				if (game->isPlayerAlive())
+					currentOption = RESUMEGAME;
+				else
+					currentOption = STAYMENU;
 			}
 			else if (menuItem == 3)
 			{
@@ -51,36 +52,12 @@ void MenuScreen::update()
 			}
 			else if (menuItem == 4)
 			{
-				currentOption = RESUMEGAME;
+				currentOption = CREDITS;
 			}
 			else if (menuItem == 5)
 			{
 				currentOption = EXITGAME;
 			}
-		}
-		else
-		{
-			if (menuItem == 1)
-			{
-				currentOption = NEWGAME;
-			}
-			//else if (menuItem == 2)
-			//{
-			//	currentOption = RESUMEGAME;
-			//}
-			else if (menuItem == 3)
-			{
-				currentOption = NEWGAME;
-			}
-			else if (menuItem == 4)
-			{
-				currentOption = NEWGAME;
-			}
-			else if (menuItem == 5)
-			{
-				currentOption = EXITGAME;
-			}
-		}
 	}
 }
 

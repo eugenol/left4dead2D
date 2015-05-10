@@ -143,6 +143,8 @@ int main(int argc, char **argv)
 	ScreenManager::getInstance().addGameScreen(&game);
 	MenuScreen menu(font_18, font_24, font_72, &game);
 	ScreenManager::getInstance().addMenuScreen(&menu);
+	CreditScreen credits(font_18, font_24, font_72);
+	ScreenManager::getInstance().addCreditScreen(&credits);
 
 	//Checks
 	if (!timer)
@@ -196,6 +198,11 @@ int main(int argc, char **argv)
 						ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
 						break;
 					}
+					case MenuScreen::CREDITS:
+					{
+						ScreenManager::getInstance().changeGameState(ScreenManager::CREDITS);
+						break;
+					}
 					case MenuScreen::EXITGAME:
 					{
 						ScreenManager::getInstance().setExitState(true);
@@ -217,7 +224,12 @@ int main(int argc, char **argv)
 				if (ScreenManager::getInstance().getScreenState() == ScreenManager::PLAYING)
 					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
 				else if (ScreenManager::getInstance().getScreenState() == ScreenManager::MENU)
+				{
+					if (ScreenManager::getInstance().isGameActive())
 					ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
+				}
+				else if (ScreenManager::getInstance().getScreenState() == ScreenManager::CREDITS)
+					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
 			}
 			else if (escapeDelay == 14)
 				escapeDelay = 0;

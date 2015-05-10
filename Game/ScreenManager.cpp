@@ -55,6 +55,11 @@ void ScreenManager::update()
 			game->update();
 			break;
 		}
+		case CREDITS:
+		{
+			credits->update();
+			break;
+		}
 	}
 }
 
@@ -70,6 +75,11 @@ void ScreenManager::draw()
 		case PLAYING:
 		{
 			game->draw();
+			break;
+		}
+		case CREDITS:
+		{
+			credits->draw();
 			break;
 		}
 	}
