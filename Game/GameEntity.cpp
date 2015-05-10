@@ -32,17 +32,10 @@ GameEntity::~GameEntity()
 
 void GameEntity::draw()
 {
-	al_draw_bitmap_region(image, currentAnimationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x, pos_y, 0);
+	al_draw_bitmap_region(image, currentAnimationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x-animationFrameWidth/2, pos_y-animationFrameHeight/2, 0);
 	al_draw_pixel(pos_x, pos_y, al_map_rgb(255, 0, 0));
 }
-void GameEntity::update()
-{
-	if (UpdatePosition())
-	{
-		UpdateDirection();
-		UpdateAnimation();
-	}
-}
+
 void GameEntity::UpdateAnimation()
 {
 	//Generates /Advances Animation
@@ -83,4 +76,8 @@ void GameEntity::Collided(GameEntity *otherObject)
 	}
 		
 
+}
+
+int GameEntity::getID(){
+	return ID;
 }

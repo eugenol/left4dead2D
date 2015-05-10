@@ -1,6 +1,7 @@
 #ifndef MELEEZOMBIE_H
 #define MELEEZOMBIE_H
 #include "Enemy.h"
+#include "GameEntity.h"
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_image.h"
 

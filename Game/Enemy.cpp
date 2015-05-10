@@ -39,3 +39,33 @@ bool Enemy::UpdatePosition(){
 void Enemy::setPlayer(Player *player){
 	m_player = player;
 };
+void Enemy::takeDamage(int damage){
+	life -= damage;
+	if (life < 0)
+		isAlive = false;
+};
+void Enemy::Collided(GameEntity* OtherEntity){//handles all collisions involving zombies
+
+	//select which collision we have
+	switch (OtherEntity->getID())
+	{
+	case PLAYER://collides with player
+		//select damage amount to be done to player
+			int damage;
+			switch (this->type)
+			{
+			case MELEEZOMBIE:
+				damage = 3;
+				break;
+			default:
+				damage = 0;
+				break;
+			}
+		//deal damage to player
+		(*Enemy::m_player).takeDamage(damage);
+		break;
+	case ENEMY://zombies hit each other
+		//bounceback code	
+		break;
+	};
+};

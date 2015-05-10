@@ -19,7 +19,9 @@ MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(M
 	//to provide a slower, more visible animation
 	frameDelay = 4;
 };
+
 MeleeZombie::~MeleeZombie(){};
+
 void MeleeZombie::setDirection(int & direction,float angle)
 {
 	enum Compass{ W, NW, N, NE, E, SE, S, SW };//ordered such that sprite sheet rows correlate correctly to cardinal directions
@@ -34,6 +36,7 @@ void MeleeZombie::setDirection(int & direction,float angle)
 	else if (angle < 180 - 22.5) direction = SW;
 	else direction = W;
 }
+
 void MeleeZombie::update(){
 	UpdateDirection();
 	UpdateAnimation();
@@ -43,7 +46,6 @@ void MeleeZombie::UpdateDirection(){
 	float angle = 180.0 / PI*atan2((float)((*m_player).GetPos_Y()-pos_y), (float)((*m_player).GetPos_X() - pos_x));//angle in degrees of path to target
 	pos_x += speed_x*cosf(angle);
 	pos_y += speed_y*sinf(angle);
+	setDirection(direction,angle);
 };
-//Enemy(int type, int pos_x, int pos_y, int speed_x, int speed_y, int direction,
-//	ALLEGRO_BITMAP *image, bool active, int hitpoints, int armorType,
-//	int regenRate, ALLEGRO_DISPLAY * display);
+

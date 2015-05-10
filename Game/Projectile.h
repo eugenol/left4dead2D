@@ -15,6 +15,6 @@ private:
 	void UpdateAnimation();
 	bool UpdatePosition();
 	void UpdateDirection();
-
+	void update();
 };
 
