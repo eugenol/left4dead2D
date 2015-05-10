@@ -18,5 +18,7 @@ void MenuScreen::update()
 
 void MenuScreen::draw()
 {
-
+	al_draw_text(font24, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 20, ALLEGRO_ALIGN_CENTRE, "Menu");
+	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 80, ALLEGRO_ALIGN_CENTRE, "New Game");
+	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 120, ALLEGRO_ALIGN_CENTRE, "Exit Game");
 }

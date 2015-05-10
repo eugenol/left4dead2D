@@ -3,7 +3,7 @@
 
 ScreenManager::ScreenManager()
 {
-	gameState = MENU;
+	gameState = PLAYING;
 	exitState = false;
 }
 
@@ -17,4 +17,61 @@ ScreenManager & ScreenManager::getInstance()
 {
 	static ScreenManager instance;
 	return instance;
+}
+
+void ScreenManager::changeGameState(int newState)
+{
+	gameState = newState;
+	if (gameState == PLAYING)
+	{
+		if (newGame)
+		{
+			game->newGame();
+			newGame = false;
+		}
+		else
+		{
+			if (!game->isPlayerAlive())
+				game->newGame();
+		}
+	}
+	else if (gameState == MENU)
+	{
+
+	}
+
+}
+
+void ScreenManager::update()
+{
+	switch (gameState)
+	{
+		case MENU:
+		{
+			menu->update();
+			break;
+		}
+		case PLAYING:
+		{
+			game->update();
+			break;
+		}
+	}
+}
+
+void ScreenManager::draw()
+{
+	switch (gameState)
+	{
+		case MENU:
+		{
+			menu->draw();
+			break;
+		}
+		case PLAYING:
+		{
+			game->draw();
+			break;
+		}
+	}
 }

@@ -8,6 +8,7 @@ class ScreenManager
 private:
 	int gameState;
 	bool exitState;
+	bool newGame = false;
 	GameScreen *game;
 	MenuScreen *menu;
 	ScreenManager();
@@ -22,6 +23,11 @@ public:
 	void addMenuScreen(MenuScreen *menuScreen) { menu = menuScreen; }
 	//void addGameScreen(GameScreen *gameScreen) { game = gameScreen; }
 
+	void update();
+	void draw();
+
+	void setNewGame() { newGame = true; }
+	int getScreenState() { return gameState; }
 	bool getExitState(){ return exitState; }
 
 	//Can't use these methods to accidentally copy the input manager.

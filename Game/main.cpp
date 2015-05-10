@@ -33,7 +33,7 @@
 
 const int DISPLAY_HEIGHT = 600;
 const int DISPLAY_WIDTH = 800;
-const int FPS = 60; //Framerate
+int FPS = 60; //Framerate
 
 static void*loading_thread(ALLEGRO_THREAD*load, void*data); // Prototype for loading thread
 
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 	bg_music = data.bg_music;
 	bgInstance = data.bgInstance;
 	cursorImage = al_clone_bitmap(data.cursorImage);
-	playerSpriteSheet = al_clone_bitmap(data.bulletSpriteSheet);
+	bulletSpriteSheet = al_clone_bitmap(data.bulletSpriteSheet);
 	meleeZombieSpriteSheet = al_clone_bitmap(data.enemy_image);
 	font_18 = data.font_18;
 	font_24 = data.font_24;
@@ -180,46 +180,24 @@ int main(int argc, char **argv)
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			redraw = true;
-			//Update movement etc...
-			//for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-			//	(*iter)->update();
-
-			////Check for collisions... Not the most efficient, but ok for now. can be changed later...
-			////for now it campares every object, I can make it sector based later...
-			//for (std::list<GameEntity*>::iterator iter1 = objects.begin(); iter1 != objects.end(); iter1++)
-			//{
-			//	for (std::list<GameEntity*>::iterator iter2 = objects.begin(); iter2 != objects.end(); iter2++)
-			//	{
-			//		if (iter1 != iter2) // Can't collide with yourself
-			//		{
-			//			if ((*iter1)->CheckCollision(*iter2)) //Did you collide?
-			//				(*iter1)->Collided(*iter2); //Do something about it.
-			//		}
-			//	}
-			//}
-
-			////Attempt to create new enemy
-			//if (++EnemySpawnTimerCurrent == EnemySpawnTimerMax)
-			//{
-			//	EnemySpawnTimerMax = FPS*(10 + rand() % 4);
-			//	for (int i = 0, maxSpawns=rand(); i < (maxSpawns % 5); i++){
-			//		GameEntity * entity = new MeleeZombie(rand() % DISPLAY_WIDTH, rand() % DISPLAY_HEIGHT, meleeZombieSpriteSheet);
-			//		EntityManager::getInstance().AddEntity(entity);
-			//	}
-			//	EnemySpawnTimerCurrent = 0;
-			//}
-			//// Update the entity manager to remove the dead.
-			//EntityManager::getInstance().UpdateList();
+			ScreenManager::getInstance().update();
 		}
+
+
+		//Escape key pressed? exit game
+		if (InputManager::getInstance().isKeyPressed(ESCAPE))
+		{
+			if (ScreenManager::getInstance().getScreenState() == ScreenManager::PLAYING)
+				ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
+			else if (ScreenManager::getInstance().getScreenState() == ScreenManager::MENU)
+				ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
+		}
+	
+		game_done = ScreenManager::getInstance().getExitState();
 
 		// Capture close windows event
 		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			game_done = true;
-
-		//Escape key pressed? exit game
-		if (InputManager::getInstance().isKeyPressed(ESCAPE))
-			game_done = true;
-
 
 		//Rendering
 		if (redraw && al_is_event_queue_empty(event_queue)) //have to wait until event queue is empty before redrawing.
@@ -228,8 +206,7 @@ int main(int argc, char **argv)
 
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 
-			//for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-			//	(*iter)->draw();
+			ScreenManager::getInstance().draw();
 			
 			al_flip_display();
 		}
@@ -286,10 +263,6 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 	//Create additional Fonts
 	Data->font_18 = al_load_ttf_font("pirulen.ttf", 18, 0); //can use different font
 	Data->font_24 = al_load_ttf_font("pirulen.ttf", 24, 0); //can use different font
-
-	Player *player = new Player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER, Data->playerSpriteSheet, Data->bulletSpriteSheet);
-	EntityManager::getInstance().AddEntity(player);
-	Enemy::setPlayer(player);
 
 	//Create Timer
 	Data->timer = al_create_timer(1.0 / FPS);

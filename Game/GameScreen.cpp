@@ -4,6 +4,7 @@
 GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage)
 {
 	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
+	newGame();
 }
 
 
@@ -58,6 +59,18 @@ void GameScreen::newGame()
 {
 	 //destroy all existing entities
 	EntityManager::getInstance().KillAll();
-	//
+	// Create newplayer
+	Player *player = new Player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER, playerSpriteSheet, bulletSpriteSheet);
+	EntityManager::getInstance().AddEntity(player);
+	Enemy::setPlayer(player);
+}
 
+bool GameScreen::isPlayerAlive()
+{
+	for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
+	{
+		if ((*iter)->getID() == PLAYER)
+			return true;
+	}
+	return false;
 }
