@@ -22,6 +22,9 @@ Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, 
 	angleOfPath = atan2f(destinationY - old_pos_y, destinationX - old_pos_x);
 	hitboxHeight = 15;
 	hitboxWidth = 15;
+
+	//Other Initialisation
+	explosionStarted = false;
 }
 
 
@@ -40,7 +43,7 @@ bool Projectile::UpdatePosition()
 		else
 		{
 			active = 0;
-			isAlive = 0;
+			if (!explosionStarted) explosionStarted = true;
 		}
 		if (((pos_y + int(speed_y*sinf(angleOfPath))) > 0) && ((pos_y + int(speed_y*sinf(angleOfPath))) < (maxYpos - animationFrameHeight)))
 		{
@@ -49,7 +52,7 @@ bool Projectile::UpdatePosition()
 		else
 		{
 			active = 0;
-			isAlive = 0;
+			if (!explosionStarted) explosionStarted = true;
 		}
 		return 1;
 	}
@@ -58,22 +61,43 @@ bool Projectile::UpdatePosition()
 
 void Projectile::UpdateDirection()
 {
-
+	
 }
 void Projectile::update()
 {
-	if (UpdatePosition())
+	if (active)
 	{
-		UpdateDirection();
+		if (UpdatePosition())
+		{
+			UpdateDirection();
+			UpdateAnimation();
+		}
+	}
+	else if ((!active) && isAlive) //Explosion Sequence Out
+	{
+		if (explosionStarted)
+		{
+			image = al_load_bitmap("explosion.png");
+			animationFrameHeight = 32;
+			animationFrameWidth = 32;
+			currentAnimationFrame = 0;
+			frameCount = 0;
+			frameDelay = 4;
+			maxFrameCount = 12;
+			explosionStarted = false;
+		}
 		UpdateAnimation();
+		if (frameCount == 0)
+			isAlive = false;
 	}
 }
 
 void Projectile::Collided(GameEntity *otherObject)
 {
+	
 	if (otherObject->getID() == ENEMY)
 	{
 		active = 0;
-		isAlive = 0;
+		if (!explosionStarted) explosionStarted = true;
 	}
 }

@@ -14,8 +14,8 @@ Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int s
 	frameCount = 0;
 	frameDelay = 5;
 	maxFrameCount = 8;
+	minFrameCount = 0;
 	this->bulletSpriteSheet = bulletSpriteSheet;
-	makeInvulnerable(3);
 	hitboxHeight = 32;
 	hitboxWidth = 32;
 }
@@ -28,7 +28,6 @@ Player::~Player()
 void Player::update()
 {
 	ShootCheck();
-	(invulnerabilityCounter > 0) ? invulnerabilityCounter-- : 0;//decrements invulnerability to 0
 	if (UpdatePosition())
 	{
 		UpdateDirection();
@@ -136,20 +135,3 @@ int Player::GetPos_Y()
 {
 	return pos_y;
 }
-void Player::takeDamage(int damage){
-	if (invulnerabilityCounter) return;
-	life -= damage;
-	makeInvulnerable(0.1);//invulerability to slow down the death rate of player
-	if (life <= 0){
-		life = 100;
-		livesLeft -= 1;
-		makeInvulnerable(2);//invulnerability after 'dying'
-		megaShot();
-		}
-	if (livesLeft < 0)
-		isAlive = false;//need to add a way to end the game here!!!
-};
-
-void Player::makeInvulnerable(int time){//makes player invulnerable for <time> number of seconds
-	invulnerabilityCounter = 60 * time;
-};

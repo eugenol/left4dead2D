@@ -16,5 +16,7 @@ private:
 	bool UpdatePosition();
 	void UpdateDirection();
 	void update();
+	//Explosion Control
+	bool explosionStarted;
 };
 
