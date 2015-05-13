@@ -56,11 +56,6 @@ bool Projectile::UpdatePosition()
 	else return 0;
 }
 
-
-void Projectile::UpdateAnimation()
-{
-
-}
 void Projectile::UpdateDirection()
 {
 
@@ -71,5 +66,14 @@ void Projectile::update()
 	{
 		UpdateDirection();
 		UpdateAnimation();
+	}
+}
+
+void Projectile::Collided(GameEntity *otherObject)
+{
+	if (otherObject->getID() == ENEMY)
+	{
+		active = 0;
+		isAlive = 0;
 	}
 }
