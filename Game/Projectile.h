@@ -17,6 +17,7 @@ private:
 	void UpdateDirection();
 	void update();
 	//Explosion Control
+	ALLEGRO_BITMAP *explosionSpriteSheet;
 	bool explosionStarted;
 };
 

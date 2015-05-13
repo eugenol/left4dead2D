@@ -58,6 +58,7 @@ int main(int argc, char **argv)
 	ALLEGRO_BITMAP *meleeZombieSpriteSheet = NULL;
 	ALLEGRO_BITMAP *playerSpriteSheet = NULL;
 	ALLEGRO_BITMAP *bulletSpriteSheet = NULL;
+	ALLEGRO_BITMAP *bulletExplosionSpriteSheet = NULL;
 	ALLEGRO_THREAD *loading = NULL;
 	//Fonts
 	ALLEGRO_FONT *font_18 = NULL;
@@ -126,6 +127,7 @@ int main(int argc, char **argv)
 	bgInstance = data.bgInstance;
 	cursorImage = al_clone_bitmap(data.cursorImage);
 	bulletSpriteSheet = al_clone_bitmap(data.bulletSpriteSheet);
+	bulletExplosionSpriteSheet = al_clone_bitmap(data.bulletExplosionSpriteSheet);
 	meleeZombieSpriteSheet = al_clone_bitmap(data.enemy_image);
 	font_18 = data.font_18;
 	font_24 = data.font_24;
@@ -285,6 +287,7 @@ int main(int argc, char **argv)
 	//Clear Bitmaps
 	al_destroy_bitmap(playerSpriteSheet);
 	al_destroy_bitmap(bulletSpriteSheet);
+	al_destroy_bitmap(bulletExplosionSpriteSheet);
 	al_destroy_bitmap(meleeZombieSpriteSheet);
 	//Destroy font
 	al_destroy_font(font_72);
@@ -311,6 +314,7 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 	Data->playerSpriteSheet = al_load_bitmap("player_sprite.png");
 	Data->enemy_image = al_load_bitmap("zombie_0.png");				//Enemy Image
 	Data->bulletSpriteSheet = al_load_bitmap("spike_ball_projectile.png");//Bullet Image
+	Data->bulletExplosionSpriteSheet = al_load_bitmap("explosion.png"); //Bullet Explosion Animation
 
 	//Data->background = al_load_bitmap("city_background.png");	//Load Background
 
