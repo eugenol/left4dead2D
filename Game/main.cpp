@@ -267,11 +267,10 @@ int main(int argc, char **argv)
 		if (redraw && al_is_event_queue_empty(event_queue)) //have to wait until event queue is empty before redrawing.
 		{
 			redraw = false;
-
+			
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 
 			ScreenManager::getInstance().draw();
-			
 			al_flip_display();
 		}
 	}
