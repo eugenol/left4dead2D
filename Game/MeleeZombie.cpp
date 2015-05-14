@@ -11,8 +11,8 @@ MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(M
 	this->old_pos_y = pos_y;
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)
 	setDirection(direction, 180.0 / PI*atan2((float)((*m_player).GetPos_Y() - pos_y), (float)((*m_player).GetPos_X() - pos_x)));
-	maxFrameCount = 12;
-	minFrameCount = 4;
+	maxFrameCount = 8;
+	minFrameCount = 0;
 	currentAnimationFrame = 0;
 	animationFrameHeight = 128;
 	animationFrameWidth = 128;
