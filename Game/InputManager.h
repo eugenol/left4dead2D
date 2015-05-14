@@ -44,6 +44,8 @@ public:
 	float getMouseY();
 	bool isMouseButtonPressed(int button);
 
+	void clearInput(); //fix for double reading the same input.
+
 	//Can't use these methods to accidentally copy the input manager.
 	InputManager(InputManager const&) = delete;
 	void operator=(InputManager const&) = delete;

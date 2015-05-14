@@ -189,6 +189,7 @@ int main(int argc, char **argv)
 					{
 						ScreenManager::getInstance().setNewGame();
 						ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
+						InputManager::getInstance().clearInput();
 						break;
 					}
 					case MenuScreen::HIGHSCORES:
@@ -209,6 +210,7 @@ int main(int argc, char **argv)
 					case MenuScreen::RESUMEGAME:
 					{
 						ScreenManager::getInstance().changeGameState(ScreenManager::PLAYING);
+						InputManager::getInstance().clearInput();
 						break;
 					}
 

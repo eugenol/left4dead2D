@@ -51,7 +51,11 @@ void GameEntity::UpdateAnimation()
 bool GameEntity::CheckCollision(GameEntity *otherObject)
 {
 
-	if (((pos_x - hitboxWidth / 2) > (otherObject->pos_x + otherObject->hitboxWidth / 2)) ||
+	if (this->active == false || otherObject->active == false)
+	{
+		return false;
+	} 
+	else if (((pos_x - hitboxWidth / 2) > (otherObject->pos_x + otherObject->hitboxWidth / 2)) ||
 		((pos_y - hitboxHeight / 2)> (otherObject->pos_y + otherObject->hitboxHeight / 2)) ||
 		((otherObject->pos_x - otherObject->hitboxWidth / 2)>(pos_x + hitboxWidth / 2)) ||
 		((otherObject->pos_y - otherObject->hitboxHeight / 2)> (pos_y + hitboxHeight / 2)))
