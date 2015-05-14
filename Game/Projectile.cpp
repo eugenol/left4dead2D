@@ -2,10 +2,11 @@
 #include <math.h>
 
 
-Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag) : GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag)
+Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag) : GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag)
 {
 	
 	//Animation Initialisation
+	explosionSpriteSheet = explosionImag;
 	animationFrameHeight = 15;
 	animationFrameWidth = 15;
 	currentAnimationFrame = 0;
@@ -77,7 +78,7 @@ void Projectile::update()
 	{
 		if (explosionStarted)
 		{
-			image = al_load_bitmap("explosion.png");
+			image = explosionSpriteSheet;
 			animationFrameHeight = 32;
 			animationFrameWidth = 32;
 			currentAnimationFrame = 0;

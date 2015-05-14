@@ -6,7 +6,7 @@
 Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ,
 	int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet) :GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag)
 {
-	score = 0;
+	this->score = score;
 	shooting_control = 0;
 	animationFrameHeight = 32;
 	animationFrameWidth = 32;
@@ -16,6 +16,7 @@ Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int s
 	maxFrameCount = 8;
 	minFrameCount = 0;
 	this->bulletSpriteSheet = bulletSpriteSheet;
+	bulletExplosionSpriteSheet = al_load_bitmap("explosion.png");
 	hitboxHeight = 32;
 	hitboxWidth = 32;
 }
@@ -107,7 +108,7 @@ void Player::ShootCheck()
 		{
 			int destination_x = InputManager::getInstance().getMouseX();
 			float destination_y = InputManager::getInstance().getMouseY();
-			Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet);
+			Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet);
 			EntityManager::getInstance().AddEntity(bulletPtr);
 			shooting_control = 0;
 		}
@@ -122,7 +123,7 @@ void Player::megaShot(){//shoots 24 projectiles radially around the player
 	{
 		destination_x = pos_x + 100*cosf(angle*PI/180);
 		destination_y = pos_y + 100*sinf(angle*PI/180);
-		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet);
+		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet);
 		EntityManager::getInstance().AddEntity(bulletPtr);
 	}
 }

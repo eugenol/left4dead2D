@@ -24,5 +24,6 @@ protected:
 	bool UpdatePosition();
 	void ShootCheck();
 	ALLEGRO_BITMAP *bulletSpriteSheet;
+	ALLEGRO_BITMAP *bulletExplosionSpriteSheet;
 };
 
