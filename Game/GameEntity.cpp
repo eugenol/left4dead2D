@@ -72,10 +72,10 @@ void GameEntity::Collided(GameEntity *otherObject)
 	if ( (this->ID == ENEMY) && (otherObject->getID() == ENEMY))//two enemies (bounceback)
 		;//bounceback code
 	if ( (this->ID == ENEMY) && (otherObject->getID() == PROJECTILE)
-		|| ((this->ID == PROJECTILE) && (otherObject->getID == ENEMY)))//enemy and projectile (damage enemy)
+		|| ((this->ID == PROJECTILE) && (otherObject->getID() == ENEMY)))//enemy and projectile (damage enemy)
 		;//projectile hitting enemy code
 	if ((this->ID == ENEMY) && (otherObject->getID() == PLAYER)
-		|| ((this->ID == PLAYER) && (otherObject->getID == ENEMY)))//enemy and player (damage player)
+		|| ((this->ID == PLAYER) && (otherObject->getID() == ENEMY)))//enemy and player (damage player)
 		;//enemy hitting player
 }
 
