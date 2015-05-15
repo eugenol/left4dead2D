@@ -63,12 +63,12 @@ void Player::update()
 			animationFrameWidth = 68;
 			currentAnimationFrame = 0;
 			frameCount = 0;
-			frameDelay = 10;
+			frameDelay = 6;
 			maxFrameCount = 7;
 		}
 			
 			UpdateAnimation();
-		if (frameCount == 7)
+		if (frameCount == 0)
 			isAlive = false;
 	}
 		
