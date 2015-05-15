@@ -83,11 +83,11 @@ bool Player::UpdatePosition()
 
 	
 	//move position
-	if (((pos_x + speed_x*horizontal) > 0) && ((pos_x + speed_x*horizontal) < (maxXpos - animationFrameWidth)))
+	if (((pos_x + speed_x*horizontal) > animationFrameWidth/2) && ((pos_x + speed_x*horizontal) < (maxXpos - animationFrameWidth/2)))
 	{
 			pos_x += speed_x*horizontal;
 	}
-	if (((pos_y + speed_y*vertical) > 0) && ((pos_y + speed_y*vertical) < (maxYpos - animationFrameHeight)))
+	if (((pos_y + speed_y*vertical) > animationFrameHeight/2) && ((pos_y + speed_y*vertical) < (maxYpos - animationFrameHeight/2)))
 	{
 		pos_y += speed_y*vertical;
 	}

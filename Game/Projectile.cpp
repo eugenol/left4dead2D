@@ -83,7 +83,7 @@ void Projectile::update()
 			animationFrameWidth = 32;
 			currentAnimationFrame = 0;
 			frameCount = 0;
-			frameDelay = 4;
+			frameDelay = 5;
 			maxFrameCount = 12;
 			explosionStarted = false;
 		}
