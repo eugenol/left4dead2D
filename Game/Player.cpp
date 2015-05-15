@@ -62,6 +62,8 @@ bool Player::damageCheck()
 			{
 				livesLeft--;			//Take away a life from player
 				life = 100;				//Give Him full life again
+				pos_x = rand() % 800;	//Give a Random "Respawn" Position
+				pos_y = rand() % 600;	//Give a Random "Respawn" Position
 				noOfZombieHits = 0;		//Reset Zombie hit counter
 			}
 			else					//Otherwise taking away a life will cause players number of lives to go to or below zero so...
@@ -79,7 +81,7 @@ bool Player::damageCheck()
 	else return 0;
 		
 }
-void Player::damaged(int damageAmount)
+void Player::takeDamage(int damageAmount)
 {
 	this->damageAmount = damageAmount;
 	noOfZombieHits++;

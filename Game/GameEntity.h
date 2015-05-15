@@ -65,6 +65,6 @@ public:
 	virtual void Collided(GameEntity *otherObject);
 
 	//Virtual Functions for Collisions (Perhaps we shall find another way...)
-	virtual void damaged(int damageAmount);
+	virtual void takeDamage(int damageAmount);
 };
 #endif

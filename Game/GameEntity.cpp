@@ -126,7 +126,7 @@ void GameEntity::Collided(GameEntity *otherObject)
 
 		// Now code only has to be here once... use player and zombie pointers.
 		//Player Specific Code
-		player->damaged(5);   //should put zombie->damgeAmount in this bracket, so each zombie type can damage differently
+		player->takeDamage(5);   //should put zombie->damgeAmount in this bracket, so each zombie type can damage differently
 
 	}
 }
@@ -136,7 +136,7 @@ int GameEntity::getID(){
 }
 
 //Virtual Functions for Collisions
-void GameEntity::damaged(int damageAmount)
+void GameEntity::takeDamage(int damageAmount)
 {
 
 }
