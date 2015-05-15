@@ -67,7 +67,7 @@ bool GameEntity::CheckCollision(GameEntity *otherObject)
 
 void GameEntity::Collided(GameEntity *otherObject)
 {	
-
+	
 	//select which collision we have
 	if ((this->ID == ENEMY) && (otherObject->getID() == ENEMY))//two enemies (bounceback)
 	{
@@ -96,24 +96,37 @@ void GameEntity::Collided(GameEntity *otherObject)
 
 		// Now code only has to be here once... use projectile and zombie pointers.
 
-		//Collistion Specific Code for Projectile		(this)
-		this->active = 0;
-		if (!(this->collided)) this->collided = true;
-		//Collision Specific Code for Enemy				(otherObject)
+		//Collistion Specific Code for Projectile		(projectile)
+		//projectile->active = false;
+		//if (!(this->collided)) this->collided = true;
+		//Collision Specific Code for Enemy				(zombie)
 		
-	}
-		;//projectile hitting enemy code
-	if ((this->ID == ENEMY) && (otherObject->getID() == PLAYER)
+	} 
+	else if ((this->ID == ENEMY) && (otherObject->getID() == PLAYER)
 		|| ((this->ID == PLAYER) && (otherObject->getID() == ENEMY)))//enemy and player (damage player)
 	{	
+		//Enemy & player collides
+		//To avoid writing code twice, see which is which and use the following pointers to each
+		GameEntity *zombie = NULL;
+		GameEntity *player = NULL;
 
-		//Collistion Specific Code for Enemy		(this)
-		//Collision Specific Code for Projectile	(otherObject)
-		otherObject->active = 0;
-		if (!(otherObject->collided)) otherObject->collided = true;
+		if (this->ID == PLAYER)
+		{
+			// Code if this object is projectile and other object is zombie
+			player = this;
+			zombie = otherObject;
+		}
+		else if (otherObject->getID() == PLAYER)
+		{
+			// otherObject is projectile, and this is zombie
+			player = otherObject;
+			zombie = this;
+		}
+
+		// Now code only has to be here once... use player and zombie pointers.
+
+
 	}
-		
-		;//enemy hitting player
 }
 
 int GameEntity::getID(){
