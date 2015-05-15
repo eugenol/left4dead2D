@@ -22,6 +22,7 @@ GameEntity::GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y,
 	this->ID = ID;
 	this->image = image;
 	this->life = life;
+	collided = false;
 }
 
 
@@ -127,7 +128,9 @@ void GameEntity::Collided(GameEntity *otherObject)
 
 		// Now code only has to be here once... use player and zombie pointers.
 		//Player Specific Code
-		player->takeDamage(5);   //should put zombie->damgeAmount in this bracket, so each zombie type can damage differently
+		player->takeDamage(5); //should put zombie->damgeAmount in this bracket, so each zombie type can damage differently
+		if (!(player->collided)) player->collided = true;
+		
 		//Zombie Specific Code Here
 
 	}

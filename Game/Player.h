@@ -32,8 +32,11 @@ protected:
 	bool damageCheck();
 	void ShootCheck();
 	virtual void draw();
+	//Animations Variables
+	int deathanimationcontrol;
 	ALLEGRO_BITMAP *bulletSpriteSheet;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet;
+	ALLEGRO_BITMAP *playerDeathAnimation;
 
 	//Damage Variables
 	int noOfZombieHits;

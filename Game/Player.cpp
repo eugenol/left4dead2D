@@ -19,10 +19,12 @@ Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int s
 	minFrameCount = 0;
 	this->bulletSpriteSheet = bulletSpriteSheet;
 	bulletExplosionSpriteSheet = al_load_bitmap("explosion.png");
+	playerDeathAnimation = al_load_bitmap("player_bloody_death_spritesheet.png");
 	hitboxHeight = 32;
 	hitboxWidth = 32;
 	livesLeft = 3;
 	noOfZombieHits = 0;
+	deathanimationcontrol = 0;
 
 	//Temporary Code for HUD
 	//Init fonts
@@ -38,17 +40,40 @@ Player::~Player()
 
 void Player::update()
 {
-	if (damageCheck())
+	if (active)
 	{
-		active = 0;
-		isAlive = 0;
+		if (damageCheck())
+		{
+			active = 0;
+		}
+		ShootCheck();
+		if (UpdatePosition())
+		{
+			UpdateDirection();
+			UpdateAnimation();
+		}
 	}
-	ShootCheck();
-	if (UpdatePosition())
+	else if ((!active) && isAlive)
 	{
-		UpdateDirection();
-		UpdateAnimation();
+		if (deathanimationcontrol == 0)
+		{	
+			deathanimationcontrol++;
+			image = playerDeathAnimation;
+			animationFrameHeight = 66;
+			animationFrameWidth = 68;
+			currentAnimationFrame = 0;
+			frameCount = 0;
+			frameDelay = 8;
+			maxFrameCount = 7;
+		}
+			
+			UpdateAnimation();
+		if (frameCount == 7)
+			isAlive = false;
 	}
+		
+	
+
 }
 
 bool Player::damageCheck()
