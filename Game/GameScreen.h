@@ -19,8 +19,10 @@
 #include <cstdlib>
 #include <ctime>
 #include <cstdio>
-
-
+#include "mappy_A5.h"
+#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_NONSTDC_NO_DEPRECATE
+#pragma warning (disable : 4996)
 class GameScreen
 {
 private:

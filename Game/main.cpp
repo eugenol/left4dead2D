@@ -6,7 +6,7 @@
 * Also, if you are loading an asset here, please remember to destroy it at the end of main.
 * -E
 */
-
+#pragma warning (disable : 4996)
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_primitives.h>
@@ -134,7 +134,9 @@ int main(int argc, char **argv)
 	//Mouse cursor
 	cursor = al_create_mouse_cursor(cursorImage, 16, 16);
 	al_set_mouse_cursor(display, cursor);
-	
+//load the map
+	if (MapLoad("map1.FMP.", 1))
+		return -5;
 	GameScreen game(playerSpriteSheet, bulletSpriteSheet, meleeZombieSpriteSheet);
 	ScreenManager::getInstance().addGameScreen(&game);
 	MenuScreen menu(font_18, font_24, font_72, &game);
@@ -292,6 +294,7 @@ int main(int argc, char **argv)
 	al_destroy_bitmap(meleeZombieSpriteSheet);
 	//Destroy font
 	al_destroy_font(font_72);
+	MapFreeMem();
 	return 0;
 }
 

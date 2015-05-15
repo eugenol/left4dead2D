@@ -93,6 +93,7 @@
     <ClCompile Include="InitData.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mappy_A5.c" />
     <ClCompile Include="MeleeZombie.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -108,6 +109,7 @@
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="InitData.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="mappy_A5.h" />
     <ClInclude Include="MeleeZombie.h" />
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="Player.h" />
