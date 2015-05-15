@@ -1,6 +1,11 @@
 #pragma once
 #include "GameEntity.h"
 #include "Projectile.h"
+
+//Temp for HUD
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+
 class Player :
 	public GameEntity
 {
@@ -26,5 +31,8 @@ protected:
 	virtual void draw();
 	ALLEGRO_BITMAP *bulletSpriteSheet;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet;
+
+	//Temp for HUD
+	ALLEGRO_FONT *font_18;
 };
 

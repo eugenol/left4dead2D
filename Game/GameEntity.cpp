@@ -20,6 +20,7 @@ GameEntity::GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y,
 	this->hitboxRadius = hitboxRadius;
 	this->ID = ID;
 	this->image = image;
+	this->life = life;
 }
 
 

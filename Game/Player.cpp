@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "InputManager.h"
 #include "EntityManager.h"
+#include <allegro5/allegro_font.h>  //Temp for hud
+#include <allegro5/allegro_ttf.h>	//Temp for hud
 #define PI 3.14159265
 
 Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ,
@@ -19,6 +21,13 @@ Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int s
 	bulletExplosionSpriteSheet = al_load_bitmap("explosion.png");
 	hitboxHeight = 32;
 	hitboxWidth = 32;
+	livesLeft = 3;
+
+	//Temporary Code for HUD
+	//Init fonts
+	al_init_font_addon();
+	al_init_ttf_addon();
+	font_18 = al_load_ttf_font("pirulen.ttf", 18, 0);
 }
 
 
@@ -141,4 +150,5 @@ void Player::draw()
 {
 	GameEntity::draw();
 	al_draw_circle(pos_x, pos_y, 10, al_map_rgb(255, 0, 0), 2);
+	al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Player Life: %i Player Lives: %i", life, livesLeft);
 }
