@@ -63,5 +63,8 @@ public:
 	// for colissions, can make these virtual, but that can be done later.
 	bool CheckCollision(GameEntity *otherObject);
 	virtual void Collided(GameEntity *otherObject);
+
+	//Virtual Functions for Collisions (Perhaps we shall find another way...)
+	virtual void damaged(int damageAmount);
 };
 #endif

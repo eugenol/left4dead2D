@@ -22,6 +22,7 @@ Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int s
 	hitboxHeight = 32;
 	hitboxWidth = 32;
 	livesLeft = 3;
+	noOfZombieHits = 0;
 
 	//Temporary Code for HUD
 	//Init fonts
@@ -37,6 +38,11 @@ Player::~Player()
 
 void Player::update()
 {
+	if (damageCheck())
+	{
+		active = 0;
+		isAlive = 0;
+	}
 	ShootCheck();
 	if (UpdatePosition())
 	{
@@ -45,6 +51,39 @@ void Player::update()
 	}
 }
 
+bool Player::damageCheck()
+{
+	bool playerHasDied = false;
+	if (noOfZombieHits >= 100) //If Player has been hit enough times for Damage to take Place then...
+	{
+		if ((life -= damageAmount) <= 0) //If applying damage to player will take players health equal to or below zero then...
+		{
+			if ((livesLeft - 1) > 0) //If taking away a life will not cause his number of lives to go to or below zero then...
+			{
+				livesLeft--;			//Take away a life from player
+				life = 100;				//Give Him full life again
+				noOfZombieHits = 0;		//Reset Zombie hit counter
+			}
+			else					//Otherwise taking away a life will cause players number of lives to go to or below zero so...
+			{
+				playerHasDied = true;
+			}
+		}
+		else //otherwise taking away life will not take players health to or below zero so...
+		{
+			life -= damageAmount;	//take away some life
+			noOfZombieHits = 0;		//reset zombie hit counter
+		}
+	}
+	if (playerHasDied) return 1;
+	else return 0;
+		
+}
+void Player::damaged(int damageAmount)
+{
+	this->damageAmount = damageAmount;
+	noOfZombieHits++;
+}
 void Player::UpdateDirection()
 {
 	enum dir{ D, L, R, U };
@@ -149,6 +188,5 @@ int Player::GetPos_Y()
 void Player::draw()
 {
 	GameEntity::draw();
-	al_draw_circle(pos_x, pos_y, 10, al_map_rgb(255, 0, 0), 2);
 	al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Player Life: %i Player Lives: %i", life, livesLeft);
 }

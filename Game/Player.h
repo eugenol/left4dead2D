@@ -21,17 +21,23 @@ public:
 	void update();
 	bool hasShot;
 	void megaShot();//do an AOE shot around player
+	virtual void damaged(int damageAmount);
 protected:
 	int score;
 	int livesLeft;
 	int shooting_control;
 	void UpdateDirection();
 	bool UpdatePosition();
+	
+	bool damageCheck();
 	void ShootCheck();
 	virtual void draw();
 	ALLEGRO_BITMAP *bulletSpriteSheet;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet;
 
+	//Damage Variables
+	int noOfZombieHits;
+	int damageAmount;
 	//Temp for HUD
 	ALLEGRO_FONT *font_18;
 };
