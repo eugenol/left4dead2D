@@ -158,7 +158,7 @@ void Player::ShootCheck()
 		{
 			int destination_x = InputManager::getInstance().getMouseX();
 			float destination_y = InputManager::getInstance().getMouseY();
-			Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet);
+			Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
 			EntityManager::getInstance().AddEntity(bulletPtr);
 			shooting_control = 0;
 		}
@@ -173,7 +173,7 @@ void Player::megaShot(){//shoots 24 projectiles radially around the player
 	{
 		destination_x = pos_x + 100*cosf(angle*PI/180);
 		destination_y = pos_y + 100*sinf(angle*PI/180);
-		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet);
+		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
 		EntityManager::getInstance().AddEntity(bulletPtr);
 	}
 }

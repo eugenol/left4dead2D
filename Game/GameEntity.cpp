@@ -101,6 +101,7 @@ void GameEntity::Collided(GameEntity *otherObject)
 		projectile->active = false;
 		if (!(projectile->collided)) projectile->collided = true;
 		//Zombie Specific Code
+		zombie->takeDamage(projectile->getDamagePower());
 		
 	} 
 	else if ((this->ID == ENEMY) && (otherObject->getID() == PLAYER)
@@ -127,6 +128,7 @@ void GameEntity::Collided(GameEntity *otherObject)
 		// Now code only has to be here once... use player and zombie pointers.
 		//Player Specific Code
 		player->takeDamage(5);   //should put zombie->damgeAmount in this bracket, so each zombie type can damage differently
+		//Zombie Specific Code Here
 
 	}
 }
@@ -139,4 +141,8 @@ int GameEntity::getID(){
 void GameEntity::takeDamage(int damageAmount)
 {
 
+}
+int GameEntity::getDamagePower()
+{
+	return 0;
 }

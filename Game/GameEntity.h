@@ -66,5 +66,6 @@ public:
 
 	//Virtual Functions for Collisions (Perhaps we shall find another way...)
 	virtual void takeDamage(int damageAmount);
+	virtual int getDamagePower();
 };
 #endif
