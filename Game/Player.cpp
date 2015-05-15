@@ -63,7 +63,7 @@ void Player::update()
 			animationFrameWidth = 68;
 			currentAnimationFrame = 0;
 			frameCount = 0;
-			frameDelay = 8;
+			frameDelay = 10;
 			maxFrameCount = 7;
 		}
 			
