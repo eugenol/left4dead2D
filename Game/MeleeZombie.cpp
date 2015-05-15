@@ -10,7 +10,7 @@ MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(M
 	this->old_pos_x = pos_x;
 	this->old_pos_y = pos_y;
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)
-	setDirection(direction, 180.0 / PI*atan2((float)((*m_player).GetPos_Y() - pos_y), (float)((*m_player).GetPos_X() - pos_x)));
+	setDirection(180.0 / PI*atan2((float)((*m_player).GetPos_Y() - pos_y), (float)((*m_player).GetPos_X() - pos_x)));
 	maxFrameCount = 8;
 	minFrameCount = 0;
 	currentAnimationFrame = 0;
@@ -24,7 +24,7 @@ MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(M
 
 MeleeZombie::~MeleeZombie(){};
 
-void MeleeZombie::setDirection(int & direction,float angle)
+void MeleeZombie::setDirection(float angle)
 {
 	enum Compass{ W, NW, N, NE, E, SE, S, SW };//ordered such that sprite sheet rows correlate correctly to cardinal directions
 	//function itself
@@ -48,8 +48,7 @@ void MeleeZombie::UpdateDirection(){
 	float playerVector_X = (*m_player).GetPos_X() - pos_x;
 	float playerVector_Y = (*m_player).GetPos_Y() - pos_y;
 	float vectorMagnitude = sqrtf(playerVector_X*playerVector_X + playerVector_Y*playerVector_Y);
-	float angle = 180.0 / PI * atan2(playerVector_Y, playerVector_X);//angle in degrees of path to target
-	setDirection(direction,angle);
+	setDirection(180.0 / PI * atan2(playerVector_Y, playerVector_X));
 	pos_x += speed_x*playerVector_X / vectorMagnitude;
 	pos_y += speed_y*playerVector_Y / vectorMagnitude;
 };
