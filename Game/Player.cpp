@@ -136,3 +136,9 @@ int Player::GetPos_Y()
 {
 	return pos_y;
 }
+
+void Player::draw()
+{
+	GameEntity::draw();
+	al_draw_circle(pos_x, pos_y, 10, al_map_rgb(255, 0, 0), 2);
+}

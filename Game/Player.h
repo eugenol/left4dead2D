@@ -23,6 +23,7 @@ protected:
 	void UpdateDirection();
 	bool UpdatePosition();
 	void ShootCheck();
+	virtual void draw();
 	ALLEGRO_BITMAP *bulletSpriteSheet;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet;
 };
