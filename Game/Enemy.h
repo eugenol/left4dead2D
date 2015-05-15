@@ -25,7 +25,6 @@ public:
 	void update();
 	bool UpdatePosition();
 	int getCount();
-	void Collided(GameEntity* OtherEntity);
 	static void setPlayer(Player *player);//sets player in enemy class
 };
 #endif

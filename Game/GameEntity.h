@@ -42,6 +42,11 @@ protected:
 	void UpdateAnimation();
 	virtual bool UpdatePosition() = 0;
 	virtual void UpdateDirection() = 0;
+	
+	//Collision functions
+	void bounceBack(GameEntity * entity1, GameEntity * entity2);
+	void EnemyHitsPlayer(GameEntity * Player, GameEntity * Enemy);
+	void ProjectileHitsEnemy(GameEntity * Enemy, GameEntity * Projectile);
 public:
 	GameEntity();
 	GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,

@@ -44,13 +44,3 @@ void Enemy::takeDamage(int damage){
 	if (life < 0)
 		isAlive = false;
 };
-void Enemy::Collided(GameEntity* OtherEntity){//handles all collisions involving zombies
-
-	//select which collision we have
-	switch (OtherEntity->getID())
-	{
-	case ENEMY://zombies hit each other
-		//bounceback code	
-		break;
-	};
-};
