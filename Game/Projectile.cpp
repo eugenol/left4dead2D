@@ -44,7 +44,7 @@ bool Projectile::UpdatePosition()
 		else
 		{
 			active = 0;
-			if (!explosionStarted) explosionStarted = true;
+			if (!collided) collided = true;
 		}
 		if (((pos_y + int(speed_y*sinf(angleOfPath))) > 0) && ((pos_y + int(speed_y*sinf(angleOfPath))) < (maxYpos - animationFrameHeight)))
 		{
@@ -53,7 +53,7 @@ bool Projectile::UpdatePosition()
 		else
 		{
 			active = 0;
-			if (!explosionStarted) explosionStarted = true;
+			if (!collided) collided = true;
 		}
 		return 1;
 	}
@@ -76,7 +76,7 @@ void Projectile::update()
 	}
 	else if ((!active) && isAlive) //Explosion Sequence Out
 	{
-		if (explosionStarted)
+		if (collided)
 		{
 			image = explosionSpriteSheet;
 			animationFrameHeight = 32;
@@ -85,7 +85,7 @@ void Projectile::update()
 			frameCount = 0;
 			frameDelay = 5;
 			maxFrameCount = 12;
-			explosionStarted = false;
+			collided = false;
 		}
 		UpdateAnimation();
 		if (frameCount == 0)
@@ -93,12 +93,12 @@ void Projectile::update()
 	}
 }
 
-void Projectile::Collided(GameEntity *otherObject)
-{
-	
-	if (otherObject->getID() == ENEMY)
-	{
-		active = 0;
-		if (!explosionStarted) explosionStarted = true;
-	}
-}
+//void Projectile::Collided(GameEntity *otherObject)
+//{
+//	
+//	if (otherObject->getID() == ENEMY)
+//	{
+//		active = 0;
+//		if (!explosionStarted) explosionStarted = true;
+//	}
+//}

@@ -20,6 +20,7 @@ protected:
 	int speed_y;
 	int direction;		  //Single Direction Variable from 0 to 3 Describes direction
 	int maxXpos, maxYpos; //Hold window size to prevent the player from moving off the screen
+	bool collided;
 
 	
 	int hitboxRadius;		//defines radius (for a square) for entity collision detection

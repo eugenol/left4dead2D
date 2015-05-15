@@ -71,11 +71,25 @@ void GameEntity::Collided(GameEntity *otherObject)
 	//select which collision we have
 	if ( (this->ID == ENEMY) && (otherObject->getID() == ENEMY))//two enemies (bounceback)
 		;//bounceback code
-	if ( (this->ID == ENEMY) && (otherObject->getID() == PROJECTILE)
+	if ((this->ID == ENEMY) && (otherObject->getID() == PROJECTILE)
 		|| ((this->ID == PROJECTILE) && (otherObject->getID() == ENEMY)))//enemy and projectile (damage enemy)
+	{	//Collistion Specific Code for Projectile		(this)
+		this->active = 0;
+		if (!(this->collided)) this->collided = true;
+		//Collision Specific Code for Enemy				(otherObject)
+		
+	}
 		;//projectile hitting enemy code
 	if ((this->ID == ENEMY) && (otherObject->getID() == PLAYER)
 		|| ((this->ID == PLAYER) && (otherObject->getID() == ENEMY)))//enemy and player (damage player)
+	{	
+
+		//Collistion Specific Code for Enemy		(this)
+		//Collision Specific Code for Projectile	(otherObject)
+		otherObject->active = 0;
+		if (!(otherObject->collided)) otherObject->collided = true;
+	}
+		
 		;//enemy hitting player
 }
 

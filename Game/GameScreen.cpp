@@ -60,7 +60,7 @@ void GameScreen::newGame()
 	 //destroy all existing entities
 	EntityManager::getInstance().KillAll();
 	// Create newplayer
-	Player *player = new Player(0, 100, 800, 600, 100, 100, 4, 4, 0, 1, 32, PLAYER, playerSpriteSheet, bulletSpriteSheet);
+	Player *player = new Player(0, 100, 800, 600, 100, 100, 10, 10, 0, 1, 32, PLAYER, playerSpriteSheet, bulletSpriteSheet);
 	EntityManager::getInstance().AddEntity(player);
 	Enemy::setPlayer(player);
 }
