@@ -38,6 +38,10 @@ void ScreenManager::changeGameState(int newState)
 	{
 
 	}
+	else if (gameState == HIGHSCORES)
+	{
+		scores->loadData();
+	}
 
 }
 
