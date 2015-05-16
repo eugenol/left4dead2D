@@ -18,7 +18,7 @@ public:
 	virtual bool UpdatePosition() { return false; }
 	virtual void UpdateDirection() {}
 
-	void DoLogic(int playerXPos, int playerYPos);
+	void DoLogic(int playerXPos, int playerYPos, bool isAlive);
 	bool CollectedPotion() { return m_collectedPotion; }
 
 private:

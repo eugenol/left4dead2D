@@ -44,22 +44,30 @@ void Potion::update()
 
 //-------------------------------------------------------
 
-void Potion::DoLogic(int playerXPos, int playerYPos)
+void Potion::DoLogic(int playerXPos, int playerYPos, bool isAlive)
 {
 	m_collectedPotion = false;
 
-	if (m_noPotionTimer.HasElapsed(10.0))
+	if (!isAlive)
 	{
 		m_noPotionTimer.Stop();
-		m_showPotionTimer.Start();
-
-		m_randomPosX = rand() % 800 + 1;
-		m_randomPosY = rand() % 600 + 1;
-	}
-	if (m_showPotionTimer.HasElapsed(5.0))
-	{
 		m_showPotionTimer.Stop();
-		m_noPotionTimer.Start();
+	}
+	else
+	{
+		if (m_noPotionTimer.HasElapsed(10.0))
+		{
+			m_noPotionTimer.Stop();
+			m_showPotionTimer.Start();
+
+			m_randomPosX = rand() % 800 + 1;
+			m_randomPosY = rand() % 600 + 1;
+		}
+		if (m_showPotionTimer.HasElapsed(5.0))
+		{
+			m_showPotionTimer.Stop();
+			m_noPotionTimer.Start();
+		}
 	}
 
 	// Has player collected potion?

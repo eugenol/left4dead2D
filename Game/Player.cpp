@@ -94,7 +94,7 @@ void Player::update()
 	healthBar->DoLogic(life);
 	playerLives->SetLivesLeft(livesLeft);
 	gameTimer->SetPlayerAliveStatus(isAlive);
-	potion->DoLogic(GetPos_X(), GetPos_Y());
+	potion->DoLogic(GetPos_X(), GetPos_Y(), isAlive);
 
 	if (potion->CollectedPotion())
 	{
