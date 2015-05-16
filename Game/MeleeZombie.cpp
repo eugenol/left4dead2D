@@ -48,8 +48,10 @@ void MeleeZombie::UpdateDirection(){
 	float playerVector_X = (*m_player).GetPos_X() - pos_x;
 	float playerVector_Y = (*m_player).GetPos_Y() - pos_y;
 	float vectorMagnitude = sqrtf(playerVector_X*playerVector_X + playerVector_Y*playerVector_Y);
-	setDirection(180.0 / PI * atan2(playerVector_Y, playerVector_X));
-	pos_x += speed_x*playerVector_X / vectorMagnitude;
-	pos_y += speed_y*playerVector_Y / vectorMagnitude;
+	if (vectorMagnitude != 0){
+		setDirection(180.0 / PI * atan2(playerVector_Y, playerVector_X));
+		pos_x += speed_x*playerVector_X / vectorMagnitude;
+		pos_y += speed_y*playerVector_Y / vectorMagnitude;
+	};
 };
 
