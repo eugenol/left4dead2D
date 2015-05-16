@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEntity.h"
 #include "Projectile.h"
+#include "HeadsUpDisplay.h"
 #include <fstream>
 
 //Temp for HUD
@@ -76,5 +77,6 @@ private:
 	PlayerLives *playerLives;
 	GameTimer *gameTimer;
 	Potion *potion;
+	HeadsUpDisplay *headsUpDisplay;
 };
 

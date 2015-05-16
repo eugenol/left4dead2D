@@ -7,6 +7,7 @@
 #include "PlayerLives.h"
 #include "GameTimer.h"
 #include "Potion.h"
+#include "HeadsUpDisplay.h"
 #define PI 3.14159265
 
 Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage, ALLEGRO_BITMAP *potionImage) :
@@ -15,6 +16,7 @@ healthBar(),
 playerLives(),
 gameTimer()
 {
+	headsUpDisplay = new HeadsUpDisplay();
 	this->score = score;
 	shooting_control = 0;
 	animationFrameHeight = 32;
@@ -79,6 +81,7 @@ Player::~Player()
 
 void Player::update()
 {
+	headsUpDisplay->Update(life, livesLeft, score, megaShotCount);
 	if (active)
 	{
 		if (damageCheck())
@@ -307,8 +310,7 @@ void Player::draw()
 	//Blood Spatter Animation
 	if (attackSplatterAnimationControl)
 		al_draw_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, pos_x, (pos_y - (animationFrameHeight)), 0);
-	//al_draw_tinted_scaled_rotated_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, al_map_rgb(255, 255, 255), 0, 0, (pos_x - animationFrameWidth / 2), (pos_y - animationFrameHeight / 2), 1, 1,splatterAngle,0);
-	al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Score: %i MegaShotCount: %i", score, megaShotCount);
+	headsUpDisplay->draw();
 }
 void Player::increaseScore(int addedScore){
 	score += addedScore;

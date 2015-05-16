@@ -5,7 +5,7 @@
 
 HeadsUpDisplay::HeadsUpDisplay()
 {
-	Scorefont20 = al_load_ttf_font("pirulen.ttf", 20, 0);
+	Scorefont20 = al_load_ttf_font("pirulen.ttf", 26, 0);
 	health = 0;
 	lives = 0;
 	score = 0;
@@ -23,11 +23,11 @@ void HeadsUpDisplay::Update(int health, int lives, int score, int megashotCount)
 	this->health = health;
 	this->lives = lives;
 	this->score = score;
-	this->megaShotCount = megaShotCount;
-	draw();
+	this->megaShotCount = megashotCount;
 }
 
 void HeadsUpDisplay::draw()
 {
-	al_draw_textf(Scorefont20, al_map_rgb(255, 0, 255), 0, 600, 0, "hello");
+	al_draw_textf(Scorefont20, al_map_rgb(255, 0, 0), 0, 574, 0, "Zombies Killed: %i", score);
+	al_draw_textf(Scorefont20, al_map_rgb(255, 0, 0), 0, 548, 0, "MegaShots Stored: %i", megaShotCount);
 }
