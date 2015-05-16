@@ -6,7 +6,8 @@
 #include <allegro5\allegro_primitives.h>
 #define PI 3.14159265
 
-MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(MELEEZOMBIE, pos_x, pos_y,2+rand()%3,2+rand()%3, NORTH,
+MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet) :
+Enemy(MELEEZOMBIE, pos_x, pos_y, 2 + rand() % 3, 2 + rand() % 3, NORTH,
 	image, true, 87, 9, al_get_current_display()){
 	this->old_pos_x = pos_x;
 	this->old_pos_y = pos_y;
@@ -21,6 +22,8 @@ MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(M
 	frameDelay = 4;
 	hitboxWidth = 36;
 	hitboxHeight = 60;
+	//Death Animation Variables
+	this->zombieDeathAnimationSpriteSheet = zombieDeathAnimationSpriteSheet;
 };
 
 MeleeZombie::~MeleeZombie(){
@@ -43,6 +46,8 @@ void MeleeZombie::setDirection(float angle)
 }
 
 void MeleeZombie::update(){
+	if (active)
+	{
 		UpdateDirection();
 		UpdateAnimation();
 		if (++regenCounter >= 60){
@@ -52,6 +57,12 @@ void MeleeZombie::update(){
 			}
 			regenCounter = 0;
 		}
+	}
+	else
+	{
+
+	}
+		
 };
 
 void MeleeZombie::UpdateDirection(){

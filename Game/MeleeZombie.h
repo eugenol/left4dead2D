@@ -9,11 +9,14 @@ class MeleeZombie :public Enemy {
 private:
 	ALLEGRO_BITMAP * image;
 	void UpdateDirection();
-	void setDirection(float angle);//sets the animation direction towards zombie destination
+	void setDirection(float angle);//sets the animation direction towards zombie destination\
+	
+	//Death Animation Variables
+	ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet;
 public:
 	void update();
 	//quick constructor (presets most values)
-	MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image);
+	MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet);
 	~MeleeZombie();
 	void draw();
 };

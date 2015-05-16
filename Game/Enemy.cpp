@@ -34,7 +34,7 @@ void Enemy::setPlayer(Player *player){
 void Enemy::takeDamage(int damage){
 	life -= damage;
 	if (life < 0)
-		isAlive = false;
+		active = false;
 };
 
 int Enemy::getCount(){
