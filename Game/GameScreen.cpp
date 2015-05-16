@@ -1,6 +1,6 @@
 #include "GameScreen.h"
 
-GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage)
+GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *ZombieDeathAnimationSpriteSheet1) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), ZombieDeathAnimationSpriteSheet(ZombieDeathAnimationSpriteSheet1)
 {
 	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
 	font20 = al_load_font("pirulen.ttf", 20, 0);
@@ -51,7 +51,7 @@ void GameScreen::update()
 			//zombies are spawned in proximity of each other, with proximity radius dependant on number spawned
 			if(Enemy::getCount()<45){
 				GameEntity * entity = new MeleeZombie(spawnCentre_x + (40 - rand() % 20)*(spawnNumber*1.3),
-					spawnCentre_y + (40 - rand() % 20)*(spawnNumber*1.3), meleeZombieSpriteSheet);
+					spawnCentre_y + (40 - rand() % 20)*(spawnNumber*1.3), meleeZombieSpriteSheet, ZombieDeathAnimationSpriteSheet);
 				EntityManager::getInstance().AddEntity(entity);
 			}
 		}

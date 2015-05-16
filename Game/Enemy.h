@@ -17,10 +17,13 @@ protected:
 	int regenRate;
 	static Player *m_player;//pointer to the player, for creating AI
 	static int maxEnemyCount;
+
+	//Death Animation Variables
+	ALLEGRO_BITMAP *deathAnimation;
 public:
 	Enemy(int type, int pos_x, int pos_y,int speed_x,int speed_y,int direction,
 		ALLEGRO_BITMAP *image, bool active, int hitpoints,
-		int regenRate,ALLEGRO_DISPLAY * display);
+		int regenRate,ALLEGRO_DISPLAY * display, ALLEGRO_BITMAP *death_animation_spriteSheet);
 	~Enemy();
 	void takeDamage(int damage);
 	void update();
