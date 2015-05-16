@@ -91,6 +91,7 @@
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GameTimer.cpp" />
+    <ClCompile Include="HeadsUpDisplay.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="InitData.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GameTimer.h" />
+    <ClInclude Include="HeadsUpDisplay.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="InitData.h" />
     <ClInclude Include="InputManager.h" />
