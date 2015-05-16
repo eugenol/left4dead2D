@@ -27,6 +27,7 @@ public:
 	bool hasShot;
 	void megaShot();//do an AOE shot around player
 	virtual void takeDamage(int damageAmount);
+	void increaseScore(int addedScore);
 
 protected:
 	int score;

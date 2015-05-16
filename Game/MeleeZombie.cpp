@@ -22,7 +22,9 @@ MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(M
 	hitboxHeight = 60;
 };
 
-MeleeZombie::~MeleeZombie(){};
+MeleeZombie::~MeleeZombie(){
+	(*m_player).increaseScore(1);
+};
 
 void MeleeZombie::setDirection(float angle)
 {
@@ -48,7 +50,7 @@ void MeleeZombie::UpdateDirection(){
 	float playerVector_X = (*m_player).GetPos_X() - pos_x;
 	float playerVector_Y = (*m_player).GetPos_Y() - pos_y;
 	float vectorMagnitude = sqrtf(playerVector_X*playerVector_X + playerVector_Y*playerVector_Y);
-	if (vectorMagnitude != 0){
+	if (vectorMagnitude >3){
 		setDirection(180.0 / PI * atan2(playerVector_Y, playerVector_X));
 		pos_x += speed_x*playerVector_X / vectorMagnitude;
 		pos_y += speed_y*playerVector_Y / vectorMagnitude;
