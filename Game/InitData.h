@@ -24,6 +24,7 @@ public:
 	ALLEGRO_BITMAP *enemy_image = NULL;
 	ALLEGRO_BITMAP *bulletSpriteSheet = NULL;
 	ALLEGRO_BITMAP *healthBarSpriteSheet = NULL;
+	ALLEGRO_BITMAP *gameoverImage = NULL;
 	ALLEGRO_BITMAP *skullImage = NULL;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet = NULL;
 	ALLEGRO_BITMAP *background = NULL;

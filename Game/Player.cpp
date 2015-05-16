@@ -7,7 +7,7 @@
 #include "PlayerLives.h"
 #define PI 3.14159265
 
-Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage) :
+Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage) :
 GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag),
 healthBar(),
 playerLives()
@@ -39,7 +39,7 @@ playerLives()
 	healthBar = new HealthBar(healthBarSpriteSheet);
 	EntityManager::getInstance().AddEntity(healthBar);
 
-	playerLives = new PlayerLives(skullImage);
+	playerLives = new PlayerLives(skullImage, gameoverImage);
 	EntityManager::getInstance().AddEntity(playerLives);
 }
 
@@ -82,8 +82,8 @@ void Player::update()
 			isAlive = false;
 	}
 		
-	
-
+	healthBar->DoLogic(life);
+	playerLives->SetLivesLeft(livesLeft);
 }
 
 bool Player::damageCheck()
@@ -104,6 +104,11 @@ bool Player::damageCheck()
 			else					//Otherwise taking away a life will cause players number of lives to go to or below zero so...
 			{
 				playerHasDied = true;
+
+				if (livesLeft > 0)
+				{
+					livesLeft--;
+				}
 			}
 		}
 		else //otherwise taking away life will not take players health to or below zero so...
@@ -225,5 +230,5 @@ int Player::GetPos_Y()
 void Player::draw()
 {
 	GameEntity::draw();
-	al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Player Life: %i Player Lives: %i", life, livesLeft);
+	//al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Player Life: %i Player Lives: %i", life, livesLeft);
 }

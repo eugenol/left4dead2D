@@ -17,11 +17,14 @@ public:
 	virtual bool UpdatePosition() { return false; }
 	virtual void UpdateDirection() {}
 
+	void DoLogic(double lifePercentage);
+
 private:
 	ALLEGRO_BITMAP *m_healthBar;
 	int m_imageWidth;
 	int m_imageHeight;
 	int m_frameWidth;
+	int m_currentAnimationFrame;
 };
 
 //-------------------------------------------------------

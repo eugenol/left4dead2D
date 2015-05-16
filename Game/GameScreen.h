@@ -32,6 +32,7 @@ private:
 	ALLEGRO_BITMAP *playerSpriteSheet = NULL;
 	ALLEGRO_BITMAP *bulletSpriteSheet = NULL;
 	ALLEGRO_BITMAP *healthBarSpriteSheet = NULL;
+	ALLEGRO_BITMAP *gameoverImage = NULL;
 	ALLEGRO_BITMAP *skullImage = NULL;
 	ALLEGRO_BITMAP *meleeZombieSpriteSheet = NULL;
 	int EnemySpawnTimerMax = FPS*(3 + rand() % 3);
@@ -39,7 +40,7 @@ private:
 	std::list<GameEntity*> objects;
 
 public:
-	GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage);
+	GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage);
 	~GameScreen();
 	void newGame();
 	void update();
