@@ -4,11 +4,12 @@
 #include <allegro5\allegro_image.h>
 #include <cmath>
 #include <allegro5\allegro_primitives.h>
+
 #define PI 3.14159265
 
-MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet) :
+MeleeZombie::MeleeZombie(int pos_x, int pos_y,int difficulty, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet) :
 Enemy(MELEEZOMBIE, pos_x, pos_y, 2 + rand() % 3, 2 + rand() % 3, NORTH,
-	image, true, 87, 9, al_get_current_display()){
+	image, true, 87, 9,3,difficulty, al_get_current_display()){
 	this->old_pos_x = pos_x;
 	this->old_pos_y = pos_y;
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)
@@ -96,5 +97,10 @@ void MeleeZombie::draw(){
 			al_map_rgba(0, 255, 0, 120));
 	}
 	//draws the zombie sprite
-	GameEntity::draw();
+	if (difficulty == EASY)
+		GameEntity::draw();
+	else{
+		GameEntity::draw();
+		GameEntity::draw(al_map_rgba(0, 255, 0, difficulty * 60));
+	}
 }

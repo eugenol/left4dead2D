@@ -35,8 +35,10 @@ GameEntity::~GameEntity()
 
 void GameEntity::draw()
 {
-	al_draw_bitmap_region(image, currentAnimationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x-animationFrameWidth/2, pos_y-animationFrameHeight/2, 0);
-	//al_draw_pixel(pos_x, pos_y, al_map_rgb(255, 0, 0));
+	al_draw_bitmap_region(image, currentAnimationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x - animationFrameWidth / 2, pos_y - animationFrameHeight / 2, 0);
+}
+void GameEntity::draw(ALLEGRO_COLOR tintColor){
+	al_draw_tinted_bitmap_region(image,tintColor, currentAnimationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x - animationFrameWidth / 2, pos_y - animationFrameHeight / 2, 0);
 }
 
 void GameEntity::UpdateAnimation()
@@ -184,7 +186,7 @@ void GameEntity::Collided(GameEntity *otherObject)
 
 		// Now code only has to be here once... use player and zombie pointers.
 		//Player Specific Code
-		player->takeDamage(5); //should put zombie->damgeAmount in this bracket, so each zombie type can damage differently
+		player->takeDamage((*zombie).getDamagePower()); //should put zombie->damgeAmount in this bracket, so each zombie type can damage differently
 		if (!(player->collided)) player->collided = true;
 		
 		//Zombie Specific Code Here
