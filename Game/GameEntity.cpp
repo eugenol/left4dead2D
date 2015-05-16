@@ -71,7 +71,49 @@ void GameEntity::Collided(GameEntity *otherObject)
 	//select which collision we have
 	if ((this->ID == ENEMY) && (otherObject->getID() == ENEMY))//two enemies (bounceback)
 	{
-		//bounceback code
+		/*float diffx = pos_x - otherObject->pos_x;
+		float diffy = pos_y - otherObject->pos_y;
+		float vertdist = otherObject->hitboxWidth / 2 + hitboxWidth / 2;
+		float hordist = otherObject->hitboxHeight / 2 + hitboxHeight / 2;
+		vertdist /= 2;
+		hordist /= 2;
+
+		if (pos_x < otherObject->pos_x)
+		{
+			while (abs(diffx) < vertdist)
+			{
+				pos_x--;
+				otherObject->pos_x++;
+				diffx = pos_x - otherObject->pos_x;
+			}
+		}
+		if (pos_x > otherObject->pos_x)
+		{
+			while (abs(diffx) < vertdist)
+			{
+				pos_x++;
+				otherObject->pos_x--;
+				diffx = pos_x - otherObject->pos_x;
+			}
+		}
+		if (pos_y < otherObject->pos_y)
+		{
+			while (abs(diffy) < hordist)
+			{
+				pos_y--;
+				otherObject->pos_y++;
+				diffy = pos_y - otherObject->pos_y;
+			}
+		}
+		if (pos_y > otherObject->pos_y)
+		{
+			while (abs(diffy) < hordist)
+			{
+				pos_y++;
+				otherObject->pos_y--;
+				diffy = pos_y - otherObject->pos_y;
+			}
+		}*/
 	}
 	else if ((this->ID == ENEMY) && (otherObject->getID() == PROJECTILE)
 		|| ((this->ID == PROJECTILE) && (otherObject->getID() == ENEMY)))//enemy and projectile (damage enemy)
@@ -97,14 +139,59 @@ void GameEntity::Collided(GameEntity *otherObject)
 		// Now code only has to be here once... use projectile and zombie pointers.
 
 		//Collistion Specific Code for Projectile		(projectile)
-		//projectile->active = false;
+		projectile->active = false;
 		//if (!(this->collided)) this->collided = true;
-		//Collision Specific Code for Enemy				(zombie)
+		zombie->life -= 10;
 		
 	} 
 	else if ((this->ID == ENEMY) && (otherObject->getID() == PLAYER)
 		|| ((this->ID == PLAYER) && (otherObject->getID() == ENEMY)))//enemy and player (damage player)
 	{	
+		/*
+		float diffx = pos_x - otherObject->pos_x;
+		float diffy = pos_y - otherObject->pos_y;
+		float vertdist = otherObject->hitboxWidth / 2 + hitboxWidth / 2;
+		float hordist = otherObject->hitboxHeight / 2 + hitboxHeight / 2;
+		vertdist /= 2;
+		hordist /= 2;
+
+		if (pos_x < otherObject->pos_x)
+		{
+			while (abs(diffx) < vertdist)
+			{
+				pos_x--;
+				otherObject->pos_x++;
+				diffx = pos_x - otherObject->pos_x;
+			}
+		}
+		if (pos_x > otherObject->pos_x)
+		{
+			while (abs(diffx) < vertdist)
+			{
+				pos_x++;
+				otherObject->pos_x--;
+				diffx = pos_x - otherObject->pos_x;
+			}
+		}
+		if (pos_y < otherObject->pos_y)
+		{
+			while (abs(diffy) < hordist)
+			{
+				pos_y--;
+				otherObject->pos_y++;
+				diffy = pos_y - otherObject->pos_y;
+			}
+		}
+		if (pos_y > otherObject->pos_y)
+		{
+			while (abs(diffy) < hordist)
+			{
+				pos_y++;
+				otherObject->pos_y--;
+				diffy = pos_y - otherObject->pos_y;
+			}
+		}*/
+
 		//Enemy & player collides
 		//To avoid writing code twice, see which is which and use the following pointers to each
 		GameEntity *zombie = NULL;
