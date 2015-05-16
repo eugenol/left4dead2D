@@ -75,12 +75,15 @@ void MeleeZombie::UpdateDirection(){
 
 void MeleeZombie::draw(){
 	//draw a healthbar
-	//draw red background
-	al_draw_filled_rectangle(pos_x - 11, pos_y - hitboxHeight + 30, pos_x + 11,
-		pos_y - hitboxHeight + 23, al_map_rgba(255, 0, 0, 0));
-	//draw green bar
-	al_draw_filled_rectangle(pos_x - 10, pos_y - hitboxHeight + 29,
-		pos_x - 10 + life * 20 / max_hitpoints,pos_y-hitboxHeight + 24,
-		al_map_rgba(0,255,0,120));
+	if(active){
+		//draw red background
+		al_draw_filled_rectangle(pos_x - 11, pos_y - hitboxHeight + 30, pos_x + 11,
+			pos_y - hitboxHeight + 23, al_map_rgba(255, 0, 0, 0));
+		//draw green bar
+		al_draw_filled_rectangle(pos_x - 10, pos_y - hitboxHeight + 29,
+			pos_x - 10 + life * 20 / max_hitpoints, pos_y - hitboxHeight + 24,
+			al_map_rgba(0, 255, 0, 120));
+	}
+	//draws the zombie sprite
 	GameEntity::draw();
 }
