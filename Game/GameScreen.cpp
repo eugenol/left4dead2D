@@ -38,13 +38,18 @@ void GameScreen::update()
 	}
 
 	//Attempt to create new enemy
-	if (++EnemySpawnTimerCurrent == EnemySpawnTimerMax)
+	if (++EnemySpawnTimerCurrent >= EnemySpawnTimerMax)
 	{
-		EnemySpawnTimerMax = FPS*(4 + rand() % 3 );//zombies spawn after FPS*(random+3)
-		if (EnemySpawnTimerMax < 0)
-			EnemySpawnTimerMax = 0;
-		for (int i = 0, maxSpawns = rand(); i < (maxSpawns % 5 ); i++){//spawn a random number of zombies
-			GameEntity * entity = new MeleeZombie(rand() % DISPLAY_WIDTH, rand() % DISPLAY_HEIGHT, meleeZombieSpriteSheet);
+		EnemySpawnTimerMax = FPS*(4 + rand() % 3 )-1.7*gameTime;//zombies spawn after FPS*(random+3)-3*seconds elapsed
+		if (EnemySpawnTimerMax < 3)
+			EnemySpawnTimerMax = 3;
+		int spawnCentre_x = rand() % DISPLAY_WIDTH;
+		int spawnCentre_y = rand() % DISPLAY_HEIGHT;
+		for (int i = 0, spawnNumber = rand() % 5 + ((int) (gameTime/40)) ; i < spawnNumber; i++){
+			//spawns a random number of zombies + 1 zombie per 20 seconds
+			//zombies are spawned in proximity of each other, with proximity radius dependant on number spawned
+			GameEntity * entity = new MeleeZombie(spawnCentre_x + (40 - rand() % 20)*(spawnNumber*1.3),
+				spawnCentre_y + (40 - rand() % 20)*(spawnNumber*1.3), meleeZombieSpriteSheet);
 			EntityManager::getInstance().AddEntity(entity);
 		}
 		EnemySpawnTimerCurrent = 0;
