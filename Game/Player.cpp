@@ -295,3 +295,8 @@ void Player::draw()
 void Player::increaseScore(int addedScore){
 	score += addedScore;
 }
+
+void Player::checkForRewards()
+{
+
+}
