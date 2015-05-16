@@ -3,10 +3,12 @@
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_image.h>
 #include <cmath>
+#include <allegro5\allegro_primitives.h>
 #define PI 3.14159265
 
-MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(MELEEZOMBIE, pos_x, pos_y,2+rand()%3,2+rand()%3, NORTH,
-	image, true, 87, 2, al_get_current_display()){
+MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet) :
+Enemy(MELEEZOMBIE, pos_x, pos_y, 2 + rand() % 3, 2 + rand() % 3, NORTH,
+	image, true, 87, 9, al_get_current_display()){
 	this->old_pos_x = pos_x;
 	this->old_pos_y = pos_y;
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)
@@ -20,6 +22,8 @@ MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(M
 	frameDelay = 4;
 	hitboxWidth = 36;
 	hitboxHeight = 60;
+	//Death Animation Variables
+	this->zombieDeathAnimationSpriteSheet = zombieDeathAnimationSpriteSheet;
 };
 
 MeleeZombie::~MeleeZombie(){
@@ -42,8 +46,23 @@ void MeleeZombie::setDirection(float angle)
 }
 
 void MeleeZombie::update(){
-	UpdateDirection();
-	UpdateAnimation();
+	if (active)
+	{
+		UpdateDirection();
+		UpdateAnimation();
+		if (++regenCounter >= 60){
+			life += regenRate;
+			if (life > max_hitpoints){
+				life = max_hitpoints;
+			}
+			regenCounter = 0;
+		}
+	}
+	else
+	{
+
+	}
+		
 };
 
 void MeleeZombie::UpdateDirection(){
@@ -65,3 +84,17 @@ void MeleeZombie::UpdateDirection(){
 	};
 };
 
+void MeleeZombie::draw(){
+	//draw a healthbar
+	if(active){
+		//draw red background
+		al_draw_filled_rectangle(pos_x - 11, pos_y - hitboxHeight + 30, pos_x + 11,
+			pos_y - hitboxHeight + 23, al_map_rgba(255, 0, 0, 0));
+		//draw green bar
+		al_draw_filled_rectangle(pos_x - 10, pos_y - hitboxHeight + 29,
+			pos_x - 10 + life * 20 / max_hitpoints, pos_y - hitboxHeight + 24,
+			al_map_rgba(0, 255, 0, 120));
+	}
+	//draws the zombie sprite
+	GameEntity::draw();
+}
