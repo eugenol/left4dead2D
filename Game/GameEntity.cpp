@@ -85,8 +85,10 @@ void GameEntity::Collided(GameEntity *otherObject)
 		{
 			while (abs(diffx) < vertdist)
 			{
-				pos_x--;
-				otherObject->pos_x++;
+				if (pos_x > hitboxWidth/2)
+					pos_x--;
+				if (otherObject->pos_x < 800 - otherObject->hitboxWidth / 2)
+					otherObject->pos_x++;
 				diffx = pos_x - otherObject->pos_x;
 			}
 		}
@@ -94,8 +96,10 @@ void GameEntity::Collided(GameEntity *otherObject)
 		{
 			while (abs(diffx) < vertdist)
 			{
-				pos_x++;
-				otherObject->pos_x--;
+				if (pos_x < 800 - hitboxWidth/2)
+					pos_x++;
+				if (otherObject->pos_x > otherObject->hitboxWidth / 2)
+					otherObject->pos_x--;
 				diffx = pos_x - otherObject->pos_x;
 			}
 		}
@@ -103,8 +107,10 @@ void GameEntity::Collided(GameEntity *otherObject)
 		{
 			while (abs(diffy) < hordist)
 			{
-				pos_y--;
-				otherObject->pos_y++;
+				if (pos_y > hitboxHeight / 2)
+					pos_y--;
+				if (otherObject->pos_y < 600 - otherObject->hitboxHeight / 2)
+					otherObject->pos_y++;
 				diffy = pos_y - otherObject->pos_y;
 			}
 		}
@@ -112,8 +118,10 @@ void GameEntity::Collided(GameEntity *otherObject)
 		{
 			while (abs(diffy) < hordist)
 			{
-				pos_y++;
-				otherObject->pos_y--;
+				if (pos_y < 600 - hitboxHeight / 2)
+					pos_y++;
+				if (otherObject->pos_y > otherObject->hitboxHeight / 2)
+					otherObject->pos_y--;
 				diffy = pos_y - otherObject->pos_y;
 			}
 		}
