@@ -26,6 +26,7 @@ public:
 	ALLEGRO_BITMAP *healthBarSpriteSheet = NULL;
 	ALLEGRO_BITMAP *gameoverImage = NULL;
 	ALLEGRO_BITMAP *skullImage = NULL;
+	ALLEGRO_BITMAP *potionImage = NULL;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet = NULL;
 	ALLEGRO_BITMAP *background = NULL;
 	//Background music

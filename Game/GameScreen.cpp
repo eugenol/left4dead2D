@@ -1,14 +1,16 @@
 #include "GameScreen.h"
 
 
-GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage)
+GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage)
 {
 	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
+	font20 = al_load_font("pirulen.ttf", 20, 0);
 }
 
 
 GameScreen::~GameScreen()
 {
+	al_destroy_font(font20);
 }
 
 
@@ -56,6 +58,8 @@ void GameScreen::draw()
 	//draw objects
 	for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
 		(*iter)->draw();
+
+	al_draw_textf(font20, al_map_rgb(255, 0, 0), 400, 300, 0, "%d", objects.size());
 }
 
 void GameScreen::newGame()
@@ -63,7 +67,7 @@ void GameScreen::newGame()
 	 //destroy all existing entities
 	EntityManager::getInstance().KillAll();
 	// Create newplayer
-	Player *player = new Player(0, 100, 800, 600, 100, 100, 10, 10, 0, 1, 32, PLAYER, playerSpriteSheet, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage);
+	Player *player = new Player(0, 100, 800, 600, 100, 100, 10, 10, 0, 1, 32, PLAYER, playerSpriteSheet, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
 	EntityManager::getInstance().AddEntity(player);
 	Enemy::setPlayer(player);
 }
