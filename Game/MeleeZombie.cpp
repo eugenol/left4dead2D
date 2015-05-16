@@ -5,8 +5,8 @@
 #include <cmath>
 #define PI 3.14159265
 
-MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP * deathAnimationSpriteSheet) : Enemy(MELEEZOMBIE, pos_x, pos_y, 2 + rand() % 3, 2 + rand() % 3, NORTH,
-	image, true, 87, 2, al_get_current_display(), deathAnimationSpriteSheet){
+MeleeZombie::MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image) : Enemy(MELEEZOMBIE, pos_x, pos_y,2+rand()%3,2+rand()%3, NORTH,
+	image, true, 87, 2, al_get_current_display()){
 	this->old_pos_x = pos_x;
 	this->old_pos_y = pos_y;
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)

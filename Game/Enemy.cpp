@@ -6,7 +6,7 @@
 Player * Enemy::m_player =  NULL;
 int Enemy::maxEnemyCount = 0;
 Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int direction, ALLEGRO_BITMAP *image,
-	bool active, int hitpoints, int regenRate, ALLEGRO_DISPLAY * display, ALLEGRO_BITMAP *death_animation_spriteSheet)
+	bool active, int hitpoints, int regenRate, ALLEGRO_DISPLAY * display)
 	:GameEntity(hitpoints,al_get_display_width(display),al_get_display_height(display), pos_x, pos_y, speed_x, speed_y,
 	direction, active, hitboxRadius, ID, image){
 	
@@ -16,31 +16,19 @@ Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int 
 	this->regenRate = regenRate;
 	this->ID = ENEMY;
 	maxEnemyCount++;
-
-	this->deathAnimation = death_animation_spriteSheet;
 };
 Enemy::~Enemy(){
 	maxEnemyCount--;
 };
 
 void Enemy::update(){
-	if (active)
-	{
-		if (UpdatePosition()){
-			UpdateAnimation();
-		}
-		hitpoints += regenRate;
-		if (hitpoints > max_hitpoints){
-			hitpoints = max_hitpoints;
-		}
+	if (UpdatePosition()){
+		UpdateAnimation();
 	}
-	else
-	{
-		image = deathAnimation;
-		maxFrameCount = 7;
-		minFrameCount = 0;
+	hitpoints += regenRate;
+	if (hitpoints > max_hitpoints){
+		hitpoints = max_hitpoints;
 	}
-
 };
 bool Enemy::UpdatePosition(){
 	//random roaming, will update when player class is made
@@ -55,7 +43,7 @@ void Enemy::setPlayer(Player *player){
 void Enemy::takeDamage(int damage){
 	life -= damage;
 	if (life < 0)
-		active = false;
+		isAlive = false;
 };
 
 int Enemy::getCount(){

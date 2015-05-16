@@ -22,7 +22,6 @@ public:
 	//Images
 	ALLEGRO_BITMAP *playerSpriteSheet = NULL;
 	ALLEGRO_BITMAP *enemy_image = NULL;
-	ALLEGRO_BITMAP *ZombieDeathAnimationSpriteSheet = NULL;
 	ALLEGRO_BITMAP *bulletSpriteSheet = NULL;
 	ALLEGRO_BITMAP *healthBarSpriteSheet = NULL;
 	ALLEGRO_BITMAP *gameoverImage = NULL;
