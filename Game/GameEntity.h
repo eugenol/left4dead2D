@@ -4,6 +4,8 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
+extern int gameTime;
+extern int gameTimeUpdateCounter;
 
 enum IDS{ PLAYER, TERRAIN, ENEMY, PICKUP, PROJECTILE };
 enum DIRECTIONS{NORTH,NORTHEAST,EAST,SOUTHEAST,SOUTH,SOUTHWEST,WEST,NORTHWEST};
