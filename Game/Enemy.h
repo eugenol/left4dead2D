@@ -17,6 +17,9 @@ protected:
 	int regenCounter;
 	static Player *m_player;//pointer to the player, for creating AI
 	static int maxEnemyCount;
+
+	//Death Animation Variables
+	bool runDeathAnimation;
 public:
 	Enemy(int type, int pos_x, int pos_y,int speed_x,int speed_y,int direction,
 		ALLEGRO_BITMAP *image, bool active, int hitpoints,

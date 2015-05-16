@@ -19,10 +19,12 @@ Enemy(MELEEZOMBIE, pos_x, pos_y, 2 + rand() % 3, 2 + rand() % 3, NORTH,
 	animationFrameHeight = 128;
 	animationFrameWidth = 128;
 	//to provide a slower, more visible animation
-	frameDelay = 4;
+	frameDelay = 5;
 	hitboxWidth = 36;
 	hitboxHeight = 60;
 	//Death Animation Variables
+	//Death Animation Variables
+	runDeathAnimation = false;
 	this->zombieDeathAnimationSpriteSheet = zombieDeathAnimationSpriteSheet;
 };
 
@@ -46,10 +48,12 @@ void MeleeZombie::setDirection(float angle)
 }
 
 void MeleeZombie::update(){
+	
+	UpdateAnimation();
 	if (active)
 	{
 		UpdateDirection();
-		UpdateAnimation();
+		//UpdateAnimation();
 		if (++regenCounter >= 60){
 			life += regenRate;
 			if (life > max_hitpoints){
@@ -58,10 +62,18 @@ void MeleeZombie::update(){
 			regenCounter = 0;
 		}
 	}
-	else
-	{
+	else if ((!active) && isAlive && runDeathAnimation)
+	{	
+		runDeathAnimation = false;
+		GameEntity::image = zombieDeathAnimationSpriteSheet;
+		currentAnimationFrame = 0;
+		maxFrameCount = 7;
+		frameDelay = 5;
+		minFrameCount = 0;
 
 	}
+	if ((!active) && (currentAnimationFrame == (maxFrameCount - 1))) isAlive = false;
+	
 		
 };
 
