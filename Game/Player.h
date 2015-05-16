@@ -2,6 +2,11 @@
 #include "GameEntity.h"
 #include "Projectile.h"
 
+//Temp for HUD
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+
+
 class HealthBar;
 class PlayerLives;
 
@@ -20,6 +25,7 @@ public:
 	void update();
 	bool hasShot;
 	void megaShot();//do an AOE shot around player
+	virtual void takeDamage(int damageAmount);
 
 protected:
 	int score;
@@ -27,9 +33,21 @@ protected:
 	int shooting_control;
 	void UpdateDirection();
 	bool UpdatePosition();
+	
+	bool damageCheck();
 	void ShootCheck();
+	virtual void draw();
+	//Animations Variables
+	int deathanimationcontrol;
 	ALLEGRO_BITMAP *bulletSpriteSheet;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet;
+	ALLEGRO_BITMAP *playerDeathAnimation;
+
+	//Damage Variables
+	int noOfZombieHits;
+	int damageAmount;
+	//Temp for HUD
+	ALLEGRO_FONT *font_18;
 
 private:
 	HealthBar *healthBar;

@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "InputManager.h"
 #include "EntityManager.h"
+#include <allegro5/allegro_font.h>  //Temp for hud
+#include <allegro5/allegro_ttf.h>	//Temp for hud
 #include "HealthBar.h"
 #include "PlayerLives.h"
 #define PI 3.14159265
@@ -21,8 +23,18 @@ playerLives()
 	minFrameCount = 0;
 	this->bulletSpriteSheet = bulletSpriteSheet;
 	bulletExplosionSpriteSheet = al_load_bitmap("explosion.png");
+	playerDeathAnimation = al_load_bitmap("player_bloody_death_spritesheet.png");
 	hitboxHeight = 32;
 	hitboxWidth = 32;
+	livesLeft = 3;
+	noOfZombieHits = 0;
+	deathanimationcontrol = 0;
+
+	//Temporary Code for HUD
+	//Init fonts
+	al_init_font_addon();
+	al_init_ttf_addon();
+	font_18 = al_load_ttf_font("pirulen.ttf", 18, 0);
 
 	healthBar = new HealthBar(healthBarSpriteSheet);
 	EntityManager::getInstance().AddEntity(healthBar);
@@ -38,6 +50,12 @@ Player::~Player()
 
 void Player::update()
 {
+	if (active)
+	{
+		if (damageCheck())
+		{
+			active = 0;
+		}
 	ShootCheck();
 	if (UpdatePosition())
 	{
@@ -45,7 +63,64 @@ void Player::update()
 		UpdateAnimation();
 	}
 }
+	else if ((!active) && isAlive)
+	{
+		if (deathanimationcontrol == 0)
+		{	
+			deathanimationcontrol++;
+			image = playerDeathAnimation;
+			animationFrameHeight = 66;
+			animationFrameWidth = 68;
+			currentAnimationFrame = 0;
+			frameCount = 0;
+			frameDelay = 6;
+			maxFrameCount = 7;
+		}
 
+			UpdateAnimation();
+		if (frameCount == 0)
+			isAlive = false;
+	}
+		
+	
+
+}
+
+bool Player::damageCheck()
+{
+	bool playerHasDied = false;
+	if (noOfZombieHits >= 100) //If Player has been hit enough times for Damage to take Place then...
+	{
+		if ((life -= damageAmount) <= 0) //If applying damage to player will take players health equal to or below zero then...
+		{
+			if ((livesLeft - 1) > 0) //If taking away a life will not cause his number of lives to go to or below zero then...
+			{
+				livesLeft--;			//Take away a life from player
+				life = 100;				//Give Him full life again
+				pos_x = rand() % 800;	//Give a Random "Respawn" Position
+				pos_y = rand() % 600;	//Give a Random "Respawn" Position
+				noOfZombieHits = 0;		//Reset Zombie hit counter
+			}
+			else					//Otherwise taking away a life will cause players number of lives to go to or below zero so...
+			{
+				playerHasDied = true;
+			}
+		}
+		else //otherwise taking away life will not take players health to or below zero so...
+		{
+			life -= damageAmount;	//take away some life
+			noOfZombieHits = 0;		//reset zombie hit counter
+		}
+	}
+	if (playerHasDied) return 1;
+	else return 0;
+		
+}
+void Player::takeDamage(int damageAmount)
+{
+	this->damageAmount = damageAmount;
+	noOfZombieHits++;
+}
 void Player::UpdateDirection()
 {
 	enum dir{ D, L, R, U };
@@ -118,7 +193,7 @@ void Player::ShootCheck()
 		{
 			int destination_x = InputManager::getInstance().getMouseX();
 			float destination_y = InputManager::getInstance().getMouseY();
-			Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet);
+			Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
 			EntityManager::getInstance().AddEntity(bulletPtr);
 			shooting_control = 0;
 		}
@@ -133,7 +208,7 @@ void Player::megaShot(){//shoots 24 projectiles radially around the player
 	{
 		destination_x = pos_x + 100*cosf(angle*PI/180);
 		destination_y = pos_y + 100*sinf(angle*PI/180);
-		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet);
+		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
 		EntityManager::getInstance().AddEntity(bulletPtr);
 	}
 }
@@ -145,4 +220,10 @@ int Player::GetPos_X()
 int Player::GetPos_Y()
 {
 	return pos_y;
+}
+
+void Player::draw()
+{
+	GameEntity::draw();
+	al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Player Life: %i Player Lives: %i", life, livesLeft);
 }
