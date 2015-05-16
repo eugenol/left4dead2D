@@ -38,7 +38,7 @@ private:
 	int EnemySpawnTimerMax = FPS*(3 + rand() % 3);
 	int EnemySpawnTimerCurrent = 0;
 	std::list<GameEntity*> objects;
-
+	ALLEGRO_FONT *font20;
 public:
 	GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage);
 	~GameScreen();
