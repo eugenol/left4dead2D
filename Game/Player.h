@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEntity.h"
 #include "Projectile.h"
+#include <fstream>
 
 //Temp for HUD
 #include <allegro5/allegro_font.h>
