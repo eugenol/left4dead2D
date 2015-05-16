@@ -34,13 +34,10 @@ void GameScreen::update()
 	//Attempt to create new enemy
 	if (++EnemySpawnTimerCurrent == EnemySpawnTimerMax)
 	{
-		int timeReduction = al_get_time()/12;//a reduction in time between spawns based on current game time
-		if (timeReduction > 8)
-			timeReduction = 8;
-		EnemySpawnTimerMax = FPS*(3 + rand() % 6 -timeReduction);//zombies spawn every 3+rand(0->5) - reduction
+		EnemySpawnTimerMax = FPS*(4 + rand() % 3 );//zombies spawn after FPS*(random+3)
 		if (EnemySpawnTimerMax < 0)
 			EnemySpawnTimerMax = 0;
-		for (int i = 0, maxSpawns = rand(); i < (maxSpawns % 5 + al_get_time()/20); i++){//spawn a random number of zombies, increasing numbers per game time
+		for (int i = 0, maxSpawns = rand(); i < (maxSpawns % 5 ); i++){//spawn a random number of zombies
 			GameEntity * entity = new MeleeZombie(rand() % DISPLAY_WIDTH, rand() % DISPLAY_HEIGHT, meleeZombieSpriteSheet);
 			EntityManager::getInstance().AddEntity(entity);
 		}

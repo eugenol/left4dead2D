@@ -27,11 +27,21 @@ gameTimer()
 	this->bulletSpriteSheet = bulletSpriteSheet;
 	bulletExplosionSpriteSheet = al_load_bitmap("explosion.png");
 	playerDeathAnimation = al_load_bitmap("player_bloody_death_spritesheet.png");
+	attackSplatterAnimation = al_load_bitmap("attack_splatter_42_32.png");
 	hitboxHeight = 32;
 	hitboxWidth = 32;
 	livesLeft = 3;
 	noOfZombieHits = 0;
 	deathanimationcontrol = 0;
+
+	//Blood Spatter Animation Initialisation
+	attackSplatterFrameWidth = 42;
+	attackSplatterFrameHeight = 32;
+	attackSplatterCurrentAnimationFrame = 0;
+	attackSplatterMaxAnimtionFrame = 10;
+	attackSplatterFrameDelay = 2;
+	attackSplatterFrameCount = 0;
+	attackSplatterAnimationControl = false;
 
 	//Temporary Code for HUD
 	//Init fonts
@@ -90,7 +100,11 @@ void Player::update()
 		if (frameCount == 0)
 			isAlive = false;
 	}
-		
+	if (attackSplatterAnimationControl)
+	{
+		attackSplatterAnimationUpdate();
+	}
+	
 	healthBar->DoLogic(life);
 	playerLives->SetLivesLeft(livesLeft);
 	gameTimer->SetPlayerAliveStatus(isAlive);
@@ -106,6 +120,23 @@ void Player::update()
 		{
 			livesLeft++;
 		}
+	}
+}
+
+void Player::attackSplatterAnimationUpdate()
+{
+	//Generates /Advances Animation
+	//if (attackSplatterAnimationControl)
+	if (++attackSplatterFrameCount >= attackSplatterFrameDelay)
+	{
+		if (++attackSplatterCurrentAnimationFrame >= attackSplatterMaxAnimtionFrame)
+		{
+			attackSplatterCurrentAnimationFrame = 0;
+			attackSplatterAnimationControl = false;
+		}
+			
+			attackSplatterFrameCount = 0;
+
 	}
 }
 
@@ -136,6 +167,8 @@ bool Player::damageCheck()
 		}
 		else //otherwise taking away life will not take players health to or below zero so...
 		{
+			attackSplatterAnimationControl = true;
+			splatterAngle = rand() % 360;
 			life -= damageAmount;	//take away some life
 			noOfZombieHits = 0;		//reset zombie hit counter
 		}
@@ -253,5 +286,8 @@ int Player::GetPos_Y()
 void Player::draw()
 {
 	GameEntity::draw();
+	//Blood Spatter Animation
+	if (attackSplatterAnimationControl)
+	al_draw_tinted_scaled_rotated_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, al_map_rgb(255, 255, 255), 0, 0, (pos_x - animationFrameWidth / 2), (pos_y - animationFrameHeight / 2), 1, 1,splatterAngle,0);
 	//al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Player Life: %i Player Lives: %i", life, livesLeft);
 }
