@@ -1,10 +1,14 @@
 #include "Player.h"
 #include "InputManager.h"
 #include "EntityManager.h"
+#include "HealthBar.h"
+#include "PlayerLives.h"
 #define PI 3.14159265
 
-Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ,
-	int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet) :GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag)
+Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage) :
+GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag),
+healthBar(),
+playerLives()
 {
 	this->score = score;
 	shooting_control = 0;
@@ -19,6 +23,12 @@ Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int s
 	bulletExplosionSpriteSheet = al_load_bitmap("explosion.png");
 	hitboxHeight = 32;
 	hitboxWidth = 32;
+
+	healthBar = new HealthBar(healthBarSpriteSheet);
+	EntityManager::getInstance().AddEntity(healthBar);
+
+	playerLives = new PlayerLives(skullImage);
+	EntityManager::getInstance().AddEntity(playerLives);
 }
 
 
