@@ -71,8 +71,7 @@ gameTimer()
 Player::~Player()
 {
 	//When Player dies save the current score and gametime to a file
-	std::fstream file("highscores.txt");
-
+	std::fstream file("highscores.txt", std::ios::app);
 	file << score <<" "<< gameTime << std::endl;
 	file.close();
 }
