@@ -11,7 +11,7 @@ Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int 
 	direction, active, hitboxRadius, ID, image){
 	
 	this->type = Enemytype;
-	this->hitpoints = hitpoints;
+	this->life = hitpoints;
 	this->max_hitpoints = hitpoints;
 	this->regenRate = regenRate;
 	this->ID = ENEMY;
@@ -21,15 +21,6 @@ Enemy::~Enemy(){
 	maxEnemyCount--;
 };
 
-void Enemy::update(){
-	if (UpdatePosition()){
-		UpdateAnimation();
-	}
-	hitpoints += regenRate;
-	if (hitpoints > max_hitpoints){
-		hitpoints = max_hitpoints;
-	}
-};
 bool Enemy::UpdatePosition(){
 	//random roaming, will update when player class is made
 	/*if within certain range, move directly towards player
