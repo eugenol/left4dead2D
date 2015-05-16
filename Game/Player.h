@@ -8,6 +8,7 @@
 
 class HealthBar;
 class PlayerLives;
+class GameTimer;
 
 class Player :
 	public GameEntity
@@ -51,5 +52,6 @@ protected:
 private:
 	HealthBar *healthBar;
 	PlayerLives *playerLives;
+	GameTimer *gameTimer;
 };
 

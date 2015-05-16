@@ -5,12 +5,14 @@
 #include <allegro5/allegro_ttf.h>	//Temp for hud
 #include "HealthBar.h"
 #include "PlayerLives.h"
+#include "GameTimer.h"
 #define PI 3.14159265
 
 Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage) :
 GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag),
 healthBar(),
-playerLives()
+playerLives(),
+gameTimer()
 {
 	this->score = score;
 	shooting_control = 0;
@@ -41,6 +43,9 @@ playerLives()
 
 	playerLives = new PlayerLives(skullImage, gameoverImage);
 	EntityManager::getInstance().AddEntity(playerLives);
+
+	gameTimer = new GameTimer();
+	EntityManager::getInstance().AddEntity(gameTimer);
 }
 
 
@@ -84,6 +89,7 @@ void Player::update()
 		
 	healthBar->DoLogic(life);
 	playerLives->SetLivesLeft(livesLeft);
+	gameTimer->SetPlayerAliveStatus(isAlive);
 }
 
 bool Player::damageCheck()
