@@ -2,7 +2,7 @@
 #include <math.h>
 
 
-Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag) : GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag)
+Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag, int damagePower) : GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag)
 {
 	
 	//Animation Initialisation
@@ -26,6 +26,7 @@ Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, 
 
 	//Other Initialisation
 	explosionStarted = false;
+	this->damagePower = damagePower;
 }
 
 
@@ -91,6 +92,11 @@ void Projectile::update()
 		if (frameCount == 0)
 			isAlive = false;
 	}
+}
+
+int Projectile::getDamagePower()
+{
+	return damagePower;
 }
 
 //void Projectile::Collided(GameEntity *otherObject)

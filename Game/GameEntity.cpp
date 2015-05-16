@@ -1,6 +1,7 @@
 #include "GameEntity.h"
 #include "InputManager.h"
 #include "allegro5\allegro_primitives.h"
+#include "Player.h"
 
 GameEntity::GameEntity()
 {
@@ -20,6 +21,8 @@ GameEntity::GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y,
 	this->hitboxRadius = hitboxRadius;
 	this->ID = ID;
 	this->image = image;
+	this->life = life;
+	collided = false;
 }
 
 
@@ -71,52 +74,10 @@ void GameEntity::Collided(GameEntity *otherObject)
 	//select which collision we have
 	if ((this->ID == ENEMY) && (otherObject->getID() == ENEMY))//two enemies (bounceback)
 	{
-		/*float diffx = pos_x - otherObject->pos_x;
-		float diffy = pos_y - otherObject->pos_y;
-		float vertdist = otherObject->hitboxWidth / 2 + hitboxWidth / 2;
-		float hordist = otherObject->hitboxHeight / 2 + hitboxHeight / 2;
-		vertdist /= 2;
-		hordist /= 2;
-
-		if (pos_x < otherObject->pos_x)
-		{
-			while (abs(diffx) < vertdist)
-			{
-				pos_x--;
-				otherObject->pos_x++;
-				diffx = pos_x - otherObject->pos_x;
-			}
-		}
-		if (pos_x > otherObject->pos_x)
-		{
-			while (abs(diffx) < vertdist)
-			{
-				pos_x++;
-				otherObject->pos_x--;
-				diffx = pos_x - otherObject->pos_x;
-			}
-		}
-		if (pos_y < otherObject->pos_y)
-		{
-			while (abs(diffy) < hordist)
-			{
-				pos_y--;
-				otherObject->pos_y++;
-				diffy = pos_y - otherObject->pos_y;
-			}
-		}
-		if (pos_y > otherObject->pos_y)
-		{
-			while (abs(diffy) < hordist)
-			{
-				pos_y++;
-				otherObject->pos_y--;
-				diffy = pos_y - otherObject->pos_y;
-			}
-		}*/
+		//bounceback code
 	}
 	else if ((this->ID == ENEMY) && (otherObject->getID() == PROJECTILE)
-		|| ((this->ID == PROJECTILE) && (otherObject->getID() == ENEMY)))//enemy and projectile (damage enemy)
+		|| ((this->ID == PROJECTILE) && (otherObject->getID() == ENEMY)))//enemy and projectile (damage enemy) (destroy projectile)
 	{	
 		//Enemy & projectile collides
 		//To avoid writing code twice, see which is which and use the following pointers to each
@@ -137,61 +98,16 @@ void GameEntity::Collided(GameEntity *otherObject)
 		}
 
 		// Now code only has to be here once... use projectile and zombie pointers.
-
-		//Collistion Specific Code for Projectile		(projectile)
+		//Projectile Specific Code
 		projectile->active = false;
-		//if (!(this->collided)) this->collided = true;
-		zombie->life -= 10;
+		if (!(projectile->collided)) projectile->collided = true;
+		//Zombie Specific Code
+		zombie->takeDamage(projectile->getDamagePower());
 		
 	} 
 	else if ((this->ID == ENEMY) && (otherObject->getID() == PLAYER)
 		|| ((this->ID == PLAYER) && (otherObject->getID() == ENEMY)))//enemy and player (damage player)
 	{	
-		/*
-		float diffx = pos_x - otherObject->pos_x;
-		float diffy = pos_y - otherObject->pos_y;
-		float vertdist = otherObject->hitboxWidth / 2 + hitboxWidth / 2;
-		float hordist = otherObject->hitboxHeight / 2 + hitboxHeight / 2;
-		vertdist /= 2;
-		hordist /= 2;
-
-		if (pos_x < otherObject->pos_x)
-		{
-			while (abs(diffx) < vertdist)
-			{
-				pos_x--;
-				otherObject->pos_x++;
-				diffx = pos_x - otherObject->pos_x;
-			}
-		}
-		if (pos_x > otherObject->pos_x)
-		{
-			while (abs(diffx) < vertdist)
-			{
-				pos_x++;
-				otherObject->pos_x--;
-				diffx = pos_x - otherObject->pos_x;
-			}
-		}
-		if (pos_y < otherObject->pos_y)
-		{
-			while (abs(diffy) < hordist)
-			{
-				pos_y--;
-				otherObject->pos_y++;
-				diffy = pos_y - otherObject->pos_y;
-			}
-		}
-		if (pos_y > otherObject->pos_y)
-		{
-			while (abs(diffy) < hordist)
-			{
-				pos_y++;
-				otherObject->pos_y--;
-				diffy = pos_y - otherObject->pos_y;
-			}
-		}*/
-
 		//Enemy & player collides
 		//To avoid writing code twice, see which is which and use the following pointers to each
 		GameEntity *zombie = NULL;
@@ -211,11 +127,25 @@ void GameEntity::Collided(GameEntity *otherObject)
 		}
 
 		// Now code only has to be here once... use player and zombie pointers.
-
+		//Player Specific Code
+		player->takeDamage(5); //should put zombie->damgeAmount in this bracket, so each zombie type can damage differently
+		if (!(player->collided)) player->collided = true;
+		
+		//Zombie Specific Code Here
 
 	}
 }
 
 int GameEntity::getID(){
 	return ID;
+}
+
+//Virtual Functions for Collisions
+void GameEntity::takeDamage(int damageAmount)
+{
+
+}
+int GameEntity::getDamagePower()
+{
+	return 0;
 }

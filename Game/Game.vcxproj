@@ -90,6 +90,8 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameScreen.cpp" />
+    <ClCompile Include="GameTimer.cpp" />
+    <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="InitData.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -97,6 +99,7 @@
     <ClCompile Include="MeleeZombie.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerLives.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ScoreScreen.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
@@ -107,12 +110,15 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="GameTimer.h" />
+    <ClInclude Include="HealthBar.h" />
     <ClInclude Include="InitData.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="mappy_A5.h" />
     <ClInclude Include="MeleeZombie.h" />
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerLives.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="ScoreScreen.h" />
     <ClInclude Include="ScreenManager.h" />

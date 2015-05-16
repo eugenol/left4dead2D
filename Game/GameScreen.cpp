@@ -1,7 +1,7 @@
 #include "GameScreen.h"
 
 
-GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage)
+GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage)
 {
 	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
 }
@@ -34,8 +34,13 @@ void GameScreen::update()
 	//Attempt to create new enemy
 	if (++EnemySpawnTimerCurrent == EnemySpawnTimerMax)
 	{
-		EnemySpawnTimerMax = FPS*(10 + rand() % 4);
-		for (int i = 0, maxSpawns = rand(); i < (maxSpawns % 5); i++){
+		int timeReduction = al_get_time()/12;//a reduction in time between spawns based on current game time
+		if (timeReduction > 8)
+			timeReduction = 8;
+		EnemySpawnTimerMax = FPS*(3 + rand() % 6 -timeReduction);//zombies spawn every 3+rand(0->5) - reduction
+		if (EnemySpawnTimerMax < 0)
+			EnemySpawnTimerMax = 0;
+		for (int i = 0, maxSpawns = rand(); i < (maxSpawns % 5 + al_get_time()/20); i++){//spawn a random number of zombies, increasing numbers per game time
 			GameEntity * entity = new MeleeZombie(rand() % DISPLAY_WIDTH, rand() % DISPLAY_HEIGHT, meleeZombieSpriteSheet);
 			EntityManager::getInstance().AddEntity(entity);
 		}
@@ -50,6 +55,7 @@ void GameScreen::draw()
 	// Draw map
 	// Draw map
 	MapDrawBG(20, 20, 0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+
 	//draw objects
 	for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
 		(*iter)->draw();
@@ -60,7 +66,7 @@ void GameScreen::newGame()
 	 //destroy all existing entities
 	EntityManager::getInstance().KillAll();
 	// Create newplayer
-	Player *player = new Player(0, 100, 800, 600, 100, 100, 10, 10, 0, 1, 32, PLAYER, playerSpriteSheet, bulletSpriteSheet);
+	Player *player = new Player(0, 100, 800, 600, 100, 100, 10, 10, 0, 1, 32, PLAYER, playerSpriteSheet, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage);
 	EntityManager::getInstance().AddEntity(player);
 	Enemy::setPlayer(player);
 }
