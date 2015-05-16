@@ -37,11 +37,23 @@ protected:
 	bool damageCheck();
 	void ShootCheck();
 	virtual void draw();
+	//Animation Functions
+	void attackSplatterAnimationUpdate();
 	//Animations Variables
 	int deathanimationcontrol;
 	ALLEGRO_BITMAP *bulletSpriteSheet;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet;
 	ALLEGRO_BITMAP *playerDeathAnimation;
+	//Blood Splatter On Attack Animation Variables
+	ALLEGRO_BITMAP *attackSplatterAnimation;
+	bool attackSplatterAnimationControl;
+	float splatterAngle;
+	int attackSplatterFrameWidth;
+	int attackSplatterFrameHeight;
+	int attackSplatterCurrentAnimationFrame;
+	int attackSplatterMaxAnimtionFrame;
+	int attackSplatterFrameDelay;
+	int attackSplatterFrameCount;
 
 	//Damage Variables
 	int noOfZombieHits;
