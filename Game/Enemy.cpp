@@ -18,6 +18,7 @@ Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int 
 	this->ID = ENEMY;
 	this->damage = damage*(1.0 + difficulty / 2.0);
 	maxEnemyCount++;
+
 };
 Enemy::~Enemy(){
 	maxEnemyCount--;
@@ -36,7 +37,11 @@ void Enemy::setPlayer(Player *player){
 void Enemy::takeDamage(int damage){
 	life -= damage;
 	if (life < 0)
+	{
 		active = false;
+		runDeathAnimation = true;
+	}
+		
 };
 
 int Enemy::getCount(){
