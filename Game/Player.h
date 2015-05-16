@@ -9,6 +9,7 @@
 class HealthBar;
 class PlayerLives;
 class GameTimer;
+class Potion;
 
 class Player :
 	public GameEntity
@@ -16,7 +17,7 @@ class Player :
 	friend Projectile;
 public:
 	Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ,
-		int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage);
+		int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage);
 	~Player();
 	
 	//Get and Set Functions
@@ -65,5 +66,6 @@ private:
 	HealthBar *healthBar;
 	PlayerLives *playerLives;
 	GameTimer *gameTimer;
+	Potion *potion;
 };
 

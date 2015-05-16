@@ -1,7 +1,7 @@
 #include "GameScreen.h"
 
 
-GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage)
+GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage)
 {
 	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
 	font20 = al_load_font("pirulen.ttf", 20, 0);
@@ -36,13 +36,10 @@ void GameScreen::update()
 	//Attempt to create new enemy
 	if (++EnemySpawnTimerCurrent == EnemySpawnTimerMax)
 	{
-		int timeReduction = al_get_time()/12;//a reduction in time between spawns based on current game time
-		if (timeReduction > 8)
-			timeReduction = 8;
-		EnemySpawnTimerMax = FPS*(3 + rand() % 6 -timeReduction);//zombies spawn every 3+rand(0->5) - reduction
+		EnemySpawnTimerMax = FPS*(4 + rand() % 3 );//zombies spawn after FPS*(random+3)
 		if (EnemySpawnTimerMax < 0)
 			EnemySpawnTimerMax = 0;
-		for (int i = 0, maxSpawns = rand(); i < (maxSpawns % 5 + al_get_time()/20); i++){//spawn a random number of zombies, increasing numbers per game time
+		for (int i = 0, maxSpawns = rand(); i < (maxSpawns % 5 ); i++){//spawn a random number of zombies
 			GameEntity * entity = new MeleeZombie(rand() % DISPLAY_WIDTH, rand() % DISPLAY_HEIGHT, meleeZombieSpriteSheet);
 			EntityManager::getInstance().AddEntity(entity);
 		}
@@ -70,7 +67,7 @@ void GameScreen::newGame()
 	 //destroy all existing entities
 	EntityManager::getInstance().KillAll();
 	// Create newplayer
-	Player *player = new Player(0, 100, 800, 600, 100, 100, 10, 10, 0, 1, 32, PLAYER, playerSpriteSheet, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage);
+	Player *player = new Player(0, 100, 800, 600, 100, 100, 10, 10, 0, 1, 32, PLAYER, playerSpriteSheet, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
 	EntityManager::getInstance().AddEntity(player);
 	Enemy::setPlayer(player);
 }
