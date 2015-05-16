@@ -293,10 +293,15 @@ void Player::draw()
 	GameEntity::draw();
 	//Blood Spatter Animation
 	if (attackSplatterAnimationControl)
-		al_draw_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, pos_x, pos_y, 0);
+		al_draw_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, pos_x, (pos_y - (animationFrameHeight)), 0);
 	//al_draw_tinted_scaled_rotated_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, al_map_rgb(255, 255, 255), 0, 0, (pos_x - animationFrameWidth / 2), (pos_y - animationFrameHeight / 2), 1, 1,splatterAngle,0);
 	//al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Score: %i", score);
 }
 void Player::increaseScore(int addedScore){
 	score += addedScore;
+}
+
+void Player::checkForRewards()
+{
+
 }

@@ -4,7 +4,7 @@
 #include "allegro5\allegro_image.h"
 
 Player * Enemy::m_player =  NULL;
-
+int Enemy::maxEnemyCount = 0;
 Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int direction, ALLEGRO_BITMAP *image,
 	bool active, int hitpoints, int regenRate, ALLEGRO_DISPLAY * display)
 	:GameEntity(hitpoints,al_get_display_width(display),al_get_display_height(display), pos_x, pos_y, speed_x, speed_y,
@@ -15,9 +15,10 @@ Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int 
 	this->max_hitpoints = hitpoints;
 	this->regenRate = regenRate;
 	this->ID = ENEMY;
-
+	maxEnemyCount++;
 };
 Enemy::~Enemy(){
+	maxEnemyCount--;
 };
 
 void Enemy::update(){
@@ -44,3 +45,7 @@ void Enemy::takeDamage(int damage){
 	if (life < 0)
 		isAlive = false;
 };
+
+int Enemy::getCount(){
+	return maxEnemyCount;
+}

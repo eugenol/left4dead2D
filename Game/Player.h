@@ -37,6 +37,8 @@ protected:
 	void UpdateDirection();
 	bool UpdatePosition();
 	
+	void checkForRewards(); //Check to see if Player has earned an award
+	
 	bool damageCheck();
 	void ShootCheck();
 	virtual void draw();
