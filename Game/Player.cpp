@@ -254,7 +254,7 @@ void Player::ShootCheck()
 		{
 			int destination_x = InputManager::getInstance().getMouseX();
 			float destination_y = InputManager::getInstance().getMouseY();
-			Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
+			Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 0);
 			EntityManager::getInstance().AddEntity(bulletPtr);
 			shooting_control = 0;
 		}
@@ -288,8 +288,9 @@ void Player::draw()
 	GameEntity::draw();
 	//Blood Spatter Animation
 	if (attackSplatterAnimationControl)
-	al_draw_tinted_scaled_rotated_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, al_map_rgb(255, 255, 255), 0, 0, (pos_x - animationFrameWidth / 2), (pos_y - animationFrameHeight / 2), 1, 1,splatterAngle,0);
-	//al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Player Life: %i Player Lives: %i", life, livesLeft);
+		al_draw_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, pos_x, pos_y, 0);
+	//al_draw_tinted_scaled_rotated_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, al_map_rgb(255, 255, 255), 0, 0, (pos_x - animationFrameWidth / 2), (pos_y - animationFrameHeight / 2), 1, 1,splatterAngle,0);
+	//al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Score: %i", score);
 }
 void Player::increaseScore(int addedScore){
 	score += addedScore;
