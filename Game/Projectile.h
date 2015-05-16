@@ -21,5 +21,7 @@ private:
 	ALLEGRO_BITMAP *explosionSpriteSheet;
 	bool explosionStarted;
 	virtual int getDamagePower();
+
+	void setDamagePower(int);
 };
 

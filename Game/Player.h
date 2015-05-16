@@ -65,6 +65,11 @@ protected:
 	//Temp for HUD
 	ALLEGRO_FONT *font_18;
 
+	//Reward Variables
+	bool megaShotCapability;
+	int megaShotCount;
+	int oldScore;
+
 private:
 	HealthBar *healthBar;
 	PlayerLives *playerLives;

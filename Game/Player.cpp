@@ -60,6 +60,11 @@ gameTimer()
 
 	potion = new Potion(potionImage);
 	EntityManager::getInstance().AddEntity(potion);
+
+	//Reward Initialisation
+	megaShotCapability = false;
+	megaShotCount = 0;
+	oldScore = 0;
 }
 
 
@@ -109,6 +114,8 @@ void Player::update()
 	playerLives->SetLivesLeft(livesLeft);
 	gameTimer->SetPlayerAliveStatus(isAlive);
 	potion->DoLogic(GetPos_X(), GetPos_Y(), isAlive);
+	
+	checkForRewards();
 
 	if (potion->CollectedPotion())
 	{
@@ -261,6 +268,12 @@ void Player::ShootCheck()
 		shooting_control++;
 		
 	}
+	if ((InputManager::getInstance().isMouseButtonPressed(RIGHTM)) && (megaShotCount > 0))
+	{
+		InputManager::getInstance().clearInput();
+		megaShot();
+		megaShotCount--;
+	}
 	
 }
 void Player::megaShot(){//shoots 24 projectiles radially around the player
@@ -269,7 +282,7 @@ void Player::megaShot(){//shoots 24 projectiles radially around the player
 	{
 		destination_x = pos_x + 100*cosf(angle*PI/180);
 		destination_y = pos_y + 100*sinf(angle*PI/180);
-		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
+		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 80);
 		EntityManager::getInstance().AddEntity(bulletPtr);
 	}
 }
@@ -290,7 +303,7 @@ void Player::draw()
 	if (attackSplatterAnimationControl)
 		al_draw_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, pos_x, (pos_y - (animationFrameHeight)), 0);
 	//al_draw_tinted_scaled_rotated_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, al_map_rgb(255, 255, 255), 0, 0, (pos_x - animationFrameWidth / 2), (pos_y - animationFrameHeight / 2), 1, 1,splatterAngle,0);
-	//al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Score: %i", score);
+	al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Score: %i MegaShotCount: %i", score, megaShotCount);
 }
 void Player::increaseScore(int addedScore){
 	score += addedScore;
@@ -298,5 +311,11 @@ void Player::increaseScore(int addedScore){
 
 void Player::checkForRewards()
 {
+	if ((score - oldScore) >= 10)
+	{
+		megaShotCapability = true;
+		megaShotCount++;
+		oldScore = score;
+	}
 
 }

@@ -99,6 +99,11 @@ int Projectile::getDamagePower()
 	return damagePower;
 }
 
+void Projectile::setDamagePower(int power)
+{
+	damagePower = power;
+}
+
 //void Projectile::Collided(GameEntity *otherObject)
 //{
 //	
