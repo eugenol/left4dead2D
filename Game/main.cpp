@@ -60,6 +60,7 @@ int main(int argc, char **argv)
 	ALLEGRO_BITMAP *healthBarSpriteSheet = NULL;
 	ALLEGRO_BITMAP *skullImage = NULL;
 	ALLEGRO_BITMAP *gameoverImage = NULL;
+	ALLEGRO_BITMAP *potionImage = NULL;
 	ALLEGRO_BITMAP *bulletSpriteSheet = NULL;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet = NULL;
 	ALLEGRO_THREAD *loading = NULL;
@@ -129,6 +130,7 @@ int main(int argc, char **argv)
 	healthBarSpriteSheet = al_clone_bitmap(data.healthBarSpriteSheet);
 	gameoverImage = al_clone_bitmap(data.gameoverImage);
 	skullImage = al_clone_bitmap(data.skullImage);
+	potionImage = al_clone_bitmap(data.potionImage);
 	bg_music = data.bg_music;
 	bgInstance = data.bgInstance;
 	cursorImage = al_clone_bitmap(data.cursorImage);
@@ -143,7 +145,7 @@ int main(int argc, char **argv)
 //load the map
 	if (MapLoad("map1.FMP.", 1))
 		return -5;
-	GameScreen game(playerSpriteSheet, bulletSpriteSheet, meleeZombieSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage);
+	GameScreen game(playerSpriteSheet, bulletSpriteSheet, meleeZombieSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
 	ScreenManager::getInstance().addGameScreen(&game);
 	MenuScreen menu(font_18, font_24, font_72, &game);
 	ScreenManager::getInstance().addMenuScreen(&menu);
@@ -298,6 +300,7 @@ int main(int argc, char **argv)
 	al_destroy_bitmap(healthBarSpriteSheet);
 	al_destroy_bitmap(gameoverImage);
 	al_destroy_bitmap(skullImage);
+	al_destroy_bitmap(potionImage);
 	al_destroy_bitmap(bulletSpriteSheet);
 	al_destroy_bitmap(bulletExplosionSpriteSheet);
 	al_destroy_bitmap(meleeZombieSpriteSheet);
@@ -327,6 +330,7 @@ static void*loading_thread(ALLEGRO_THREAD*load, void*data)
 	Data->playerSpriteSheet = al_load_bitmap("player_sprite.png");
 	Data->healthBarSpriteSheet = al_load_bitmap("healthbar.png");
 	Data->skullImage = al_load_bitmap("skull.png");
+	Data->potionImage = al_load_bitmap("potion.png");
 	Data->gameoverImage = al_load_bitmap("gameover.png");
 	Data->enemy_image = al_load_bitmap("zombie_0.png");				//Enemy Image
 	Data->bulletSpriteSheet = al_load_bitmap("spike_ball_projectile.png");//Bullet Image

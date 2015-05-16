@@ -6,9 +6,10 @@
 #include "HealthBar.h"
 #include "PlayerLives.h"
 #include "GameTimer.h"
+#include "Potion.h"
 #define PI 3.14159265
 
-Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage) :
+Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage, ALLEGRO_BITMAP *potionImage) :
 GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag),
 healthBar(),
 playerLives(),
@@ -46,6 +47,9 @@ gameTimer()
 
 	gameTimer = new GameTimer();
 	EntityManager::getInstance().AddEntity(gameTimer);
+
+	potion = new Potion(potionImage);
+	EntityManager::getInstance().AddEntity(potion);
 }
 
 
@@ -90,6 +94,19 @@ void Player::update()
 	healthBar->DoLogic(life);
 	playerLives->SetLivesLeft(livesLeft);
 	gameTimer->SetPlayerAliveStatus(isAlive);
+	potion->DoLogic(GetPos_X(), GetPos_Y());
+
+	if (potion->CollectedPotion())
+	{
+		if (livesLeft == 3)
+		{
+			life = 100;
+		}
+		else
+		{
+			livesLeft++;
+		}
+	}
 }
 
 bool Player::damageCheck()
