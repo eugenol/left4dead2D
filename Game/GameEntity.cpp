@@ -70,11 +70,59 @@ bool GameEntity::CheckCollision(GameEntity *otherObject)
 
 void GameEntity::Collided(GameEntity *otherObject)
 {	
+	// Collision between zombies or player and zombie
+	// If the objects intersect, move them back until they dont.
+	if ((this->getID() == PLAYER || this->getID() == ENEMY) && (otherObject->getID() == PLAYER || otherObject->getID() == ENEMY))
+	{
+		float diffx = pos_x - otherObject->pos_x;
+		float diffy = pos_y - otherObject->pos_y;
+		float vertdist = otherObject->hitboxWidth / 2 + hitboxWidth / 2;
+		float hordist = otherObject->hitboxHeight / 2 + hitboxHeight / 2;
+		vertdist /= 2;
+		hordist /= 2;
+
+		if (pos_x < otherObject->pos_x)
+		{
+			while (abs(diffx) < vertdist)
+			{
+				pos_x--;
+				otherObject->pos_x++;
+				diffx = pos_x - otherObject->pos_x;
+			}
+		}
+		if (pos_x > otherObject->pos_x)
+		{
+			while (abs(diffx) < vertdist)
+			{
+				pos_x++;
+				otherObject->pos_x--;
+				diffx = pos_x - otherObject->pos_x;
+			}
+		}
+		if (pos_y < otherObject->pos_y)
+		{
+			while (abs(diffy) < hordist)
+			{
+				pos_y--;
+				otherObject->pos_y++;
+				diffy = pos_y - otherObject->pos_y;
+			}
+		}
+		if (pos_y > otherObject->pos_y)
+		{
+			while (abs(diffy) < hordist)
+			{
+				pos_y++;
+				otherObject->pos_y--;
+				diffy = pos_y - otherObject->pos_y;
+			}
+		}
+	}
 	
 	//select which collision we have
-	if ((this->ID == ENEMY) && (otherObject->getID() == ENEMY))//two enemies (bounceback)
+	if ((this->getID() == ENEMY) && (otherObject->getID() == ENEMY))//two enemies (bounceback)
 	{
-		//bounceback code
+		//Code for zombies colliding
 	}
 	else if ((this->ID == ENEMY) && (otherObject->getID() == PROJECTILE)
 		|| ((this->ID == PROJECTILE) && (otherObject->getID() == ENEMY)))//enemy and projectile (damage enemy) (destroy projectile)
