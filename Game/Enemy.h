@@ -13,8 +13,8 @@ protected:
 	int difficulty = 1;
 	int type;//type of enemy
 	int max_hitpoints;//full life hitpoint number
-	int hitpoints;
-	int regenRate;
+	int regenRate;//hitpoints regen rate per a second
+	int regenCounter;
 	static Player *m_player;//pointer to the player, for creating AI
 	static int maxEnemyCount;
 public:
@@ -23,7 +23,6 @@ public:
 		int regenRate,ALLEGRO_DISPLAY * display);
 	~Enemy();
 	void takeDamage(int damage);
-	void update();
 	bool UpdatePosition();
 	int static getCount();
 	static void setPlayer(Player *player);//sets player in enemy class
