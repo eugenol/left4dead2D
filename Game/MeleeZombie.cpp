@@ -52,8 +52,16 @@ void MeleeZombie::UpdateDirection(){
 	float vectorMagnitude = sqrtf(playerVector_X*playerVector_X + playerVector_Y*playerVector_Y);
 	if (vectorMagnitude >3){
 		setDirection(180.0 / PI * atan2(playerVector_Y, playerVector_X));
-		pos_x += speed_x*playerVector_X / vectorMagnitude;
-		pos_y += speed_y*playerVector_Y / vectorMagnitude;
+		pos_x += speed_x*(playerVector_X / vectorMagnitude);
+		pos_y += speed_y*(playerVector_Y / vectorMagnitude);
+		if (pos_x - hitboxWidth / 2 < 0)
+			pos_x = hitboxWidth / 2;
+		if (pos_x + hitboxWidth / 2 > 800)
+			pos_x = 800-hitboxWidth/2;
+		if (pos_y - hitboxHeight / 2 < 0)
+			pos_y = hitboxHeight / 2;
+		if (pos_y + hitboxHeight / 2 > 600)
+			pos_y = 600-hitboxHeight / 2;
 	};
 };
 
