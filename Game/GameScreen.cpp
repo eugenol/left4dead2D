@@ -1,6 +1,5 @@
 #include "GameScreen.h"
 
-
 GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage)
 {
 	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
@@ -15,7 +14,12 @@ GameScreen::~GameScreen()
 
 
 void GameScreen::update()
-{
+{	
+	if (gameTimeUpdateCounter++ == 60)
+	{
+		gameTime++;
+		gameTimeUpdateCounter = 0;
+	}
 	for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
 		(*iter)->update();
 
