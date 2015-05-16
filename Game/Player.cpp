@@ -8,7 +8,6 @@
 #include "GameTimer.h"
 #include "Potion.h"
 #define PI 3.14159265
-
 Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage, ALLEGRO_BITMAP *potionImage) :
 GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag),
 healthBar(),
@@ -289,5 +288,5 @@ void Player::draw()
 	//Blood Spatter Animation
 	if (attackSplatterAnimationControl)
 	al_draw_tinted_scaled_rotated_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, al_map_rgb(255, 255, 255), 0, 0, (pos_x - animationFrameWidth / 2), (pos_y - animationFrameHeight / 2), 1, 1,splatterAngle,0);
-	//al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Player Life: %i Player Lives: %i", life, livesLeft);
+	//al_draw_textf(font_18, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, "Game Time %i", gameTime);
 }

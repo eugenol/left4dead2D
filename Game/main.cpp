@@ -28,29 +28,32 @@
 
 #include "ScreenManager.h"
 
-	//Display width & height, can move to a header file later.
+//Display width & height, can move to a header file later.
 //Moved here, lots of things might use this. dont need to pass as arguments.
 
 const int DISPLAY_HEIGHT = 600;
-const int DISPLAY_WIDTH = 800;
-int FPS = 60; //Framerate
+const int DISPLAY_WIDTH = 800;		
+int gameTime = 0;
+int gameTimeUpdateCounter = 0;
+int FPS = 60;					//Framerate
 
 static void*loading_thread(ALLEGRO_THREAD*load, void*data); // Prototype for loading thread
 
 int main(int argc, char **argv)
 {
 	// Game loop & rendering variables
-	bool game_done = false; // used for game loop
-	bool redraw = false; // used for rendering
+	bool game_done = false;				// used for game loop
+	bool redraw = false;				// used for rendering
+
 	int escapeDelay = 0;
 	srand(time(NULL));
 	//Parallel load
 	InitData data;
 
 	//Allegro variables
-	ALLEGRO_DISPLAY *display = NULL; //Pointer to display.
-	ALLEGRO_EVENT_QUEUE *event_queue = NULL; //Pointer to event queue
-	ALLEGRO_TIMER *timer = NULL; //Pointer to timer
+	ALLEGRO_DISPLAY *display = NULL;			//Pointer to display.
+	ALLEGRO_EVENT_QUEUE *event_queue = NULL;	//Pointer to event queue
+	ALLEGRO_TIMER *timer = NULL;				//Pointer to timer
 	//Audio
 	ALLEGRO_SAMPLE *bg_music = NULL;
 	ALLEGRO_SAMPLE_INSTANCE *bgInstance = NULL;
