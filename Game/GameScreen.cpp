@@ -41,7 +41,7 @@ void GameScreen::update()
 	//Attempt to create new enemy
 	if (++EnemySpawnTimerCurrent >= EnemySpawnTimerMax)
 	{
-		EnemySpawnTimerMax = FPS*(4 + rand() % 3 - logf(gameTime*5)/3 );//zombies spawn after FPS*(random+3)-3*seconds elapsed
+		EnemySpawnTimerMax = FPS*(4 + rand() % 4 - logf(gameTime*5)/3 );//zombies spawn after FPS*(random+3)-3*seconds elapsed
 		if (EnemySpawnTimerMax < 3)
 			EnemySpawnTimerMax = 3;
 		int spawnCentre_x = rand() % DISPLAY_WIDTH;

@@ -12,9 +12,9 @@ Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int 
 	
 	this->difficulty = difficulty;
 	this->type = Enemytype;
-	this->life = hitpoints*(1.0 + difficulty / 2.0);
+	this->life = hitpoints*(1.0 + difficulty / 3.5);
 	this->max_hitpoints = hitpoints*(1.0 + difficulty / 2.0);
-	this->regenRate = regenRate*(1.0 + difficulty / 3.0);
+	this->regenRate = regenRate*(1.0 + difficulty / 3.3);
 	this->ID = ENEMY;
 	this->damage = damage*(1.0 + difficulty / 2.0);
 	maxEnemyCount++;
