@@ -27,7 +27,7 @@ void GameTimer::draw()
 		UpdateTime();
 	}
 
-	al_draw_text(timerFont, al_map_rgb(78, 239, 9), 600, 50, 0, deltaTimeStr);
+	al_draw_text(timerFont, al_map_rgb(78, 239, 9), 620, 5, 0, deltaTimeStr);
 }
 
 //-------------------------------------------------------
