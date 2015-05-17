@@ -52,16 +52,16 @@ gameTimer()
 	font_18 = al_load_ttf_font("pirulen.ttf", 18, 0);
 
 	healthBar = new HealthBar(healthBarSpriteSheet);
-	EntityManager::getInstance().AddEntity(healthBar);
+	//EntityManager::getInstance().AddEntity(healthBar);
 
 	playerLives = new PlayerLives(skullImage, gameoverImage);
-	EntityManager::getInstance().AddEntity(playerLives);
+	//EntityManager::getInstance().AddEntity(playerLives);
 
 	gameTimer = new GameTimer();
-	EntityManager::getInstance().AddEntity(gameTimer);
+	//EntityManager::getInstance().AddEntity(gameTimer);
 
 	potion = new Potion(potionImage);
-	EntityManager::getInstance().AddEntity(potion);
+	//EntityManager::getInstance().AddEntity(potion);
 
 	//Reward Initialisation
 	megaShotCapability = false;
@@ -72,6 +72,11 @@ gameTimer()
 
 Player::~Player()
 {
+	delete headsUpDisplay;
+	delete healthBar;
+	delete playerLives;
+	delete gameTimer;
+	delete potion;
 	//When Player dies save the current score and gametime to a file
 	std::fstream file("highscores.txt", std::ios::app);
 	file << score <<" "<< gameTime << std::endl;
@@ -310,6 +315,10 @@ void Player::draw()
 	if (attackSplatterAnimationControl)
 		al_draw_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, pos_x, (pos_y - (animationFrameHeight)), 0);
 	headsUpDisplay->draw();
+	healthBar->draw();
+	playerLives->draw();
+	gameTimer->draw();
+	potion->draw();
 }
 void Player::increaseScore(int addedScore){
 	score += addedScore;
