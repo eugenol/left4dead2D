@@ -150,6 +150,8 @@ int main(int argc, char **argv)
 //load the map
 	if (MapLoad("map1.FMP.", 1))
 		return -5;
+
+	//create screens and add to screenmanager
 	GameScreen game(playerSpriteSheet, bulletSpriteSheet, meleeZombieSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage, zombieDeathAnimationSpriteSheet);
 	ScreenManager::getInstance().addGameScreen(&game);
 	MenuScreen menu(font_18, font_24, font_72, &game);
@@ -182,7 +184,7 @@ int main(int argc, char **argv)
 	al_flip_display();
 
 	//Start playing the music
-	//al_play_sample_instance(bgInstance);//turned off for now.. it can get irritating!!
+	al_play_sample_instance(bgInstance);//turned off for now.. it can get irritating!!
 
 	al_start_timer(timer); //Start the timer
 
@@ -198,6 +200,7 @@ int main(int argc, char **argv)
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			redraw = true;
+			// Handles different screens
 			if (ScreenManager::getInstance().getScreenState() == ScreenManager::MENU)
 			{
 				switch (menu.getCurrentMenuOption())
