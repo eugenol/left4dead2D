@@ -85,6 +85,7 @@ void GameScreen::newGame()
 	EntityManager::getInstance().KillAll();
 	// Create newplayer
 	Player *player = new Player(0, 100, 800, 600, 100, 100, 10, 10, 0, 1, 32, PLAYER, playerSpriteSheet, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
+	gameTime = 0;
 	EntityManager::getInstance().AddEntity(player);
 	Enemy::setPlayer(player);
 }
