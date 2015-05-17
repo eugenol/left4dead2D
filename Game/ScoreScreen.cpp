@@ -48,15 +48,18 @@ void ScoreScreen::loadData()
 	std::fstream file("highscores.txt");
 	std::vector<std::pair<int, int> > loadhighscores;
 	int scorecount = 0;
+	std::string line;
 
-	while (!file.eof())
+	while (std::getline(file,line))
 	{
+		std::stringstream linestream(line);
 		std::pair<int, int> temp;
-		file >> temp.first >> temp.second;
+		linestream >> temp.first >> temp.second;
 		loadhighscores.push_back(temp);
 	}
+	file.close();
 
-	std::sort(loadhighscores.begin(), loadhighscores.end());
+	std::sort(loadhighscores.rbegin(), loadhighscores.rend());
 
 	if (loadhighscores.size() > 10)
 	{
@@ -83,7 +86,6 @@ void ScoreScreen::loadData()
 		}
 	}
 
-	file.close();
 	file.open("highscores.txt");
 
 	for (std::vector<std::pair<int, int> >::iterator i = highscores.begin(); i != highscores.end(); i++)

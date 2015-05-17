@@ -59,6 +59,7 @@ public:
 	int getID();
 	bool active = false;	//is the entity actively being used?
 	virtual void draw();
+	virtual void draw(ALLEGRO_COLOR);
 	virtual void update()=0;//general Update Entity, calls specific Update Functions
 	bool getAlive() { return isAlive; } //return Alive state
 

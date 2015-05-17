@@ -10,11 +10,12 @@ enum TYPES{ MELEEZOMBIE };
 class Enemy :public GameEntity{//class contains all enemies
 private:
 protected:
-	int difficulty = 1;
+	int difficulty;
 	int type;//type of enemy
 	int max_hitpoints;//full life hitpoint number
 	int regenRate;//hitpoints regen rate per a second
 	int regenCounter;
+	int damage;
 	static Player *m_player;//pointer to the player, for creating AI
 	static int maxEnemyCount;
 
@@ -23,12 +24,13 @@ protected:
 public:
 	Enemy(int type, int pos_x, int pos_y,int speed_x,int speed_y,int direction,
 		ALLEGRO_BITMAP *image, bool active, int hitpoints,
-		int regenRate,ALLEGRO_DISPLAY * display);
+		int regenRate,int damage, int difficulty,ALLEGRO_DISPLAY * display);
 	~Enemy();
 	void takeDamage(int damage);
 	bool UpdatePosition();
 	int static getCount();
 	static void setPlayer(Player *player);//sets player in enemy class
+	int getDamagePower();
 };
 #endif
 /*GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_x,

@@ -7,6 +7,8 @@
 #include <fstream>
 #include <tuple>
 #include <algorithm>
+#include <string>
+#include <sstream>
 
 class ScoreScreen
 {
