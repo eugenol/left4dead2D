@@ -25,6 +25,7 @@ private:
 	int maxFrameCount = 0; //the last frames of animation sequence
 	int minFrameCount;//the first frame of animation sequence
 	int frameDelay; //delay associated to animation
+	int rotationAngle;
 
 	void animationUpdate();
 };
