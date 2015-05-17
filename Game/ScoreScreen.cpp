@@ -39,7 +39,7 @@ void ScoreScreen::draw()
 		scoreCount++;
 		al_draw_textf(font18, al_map_rgb(255, 0, 0), 160, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%d.", scoreCount);
 		al_draw_textf(font18, al_map_rgb(255, 0, 0), 325, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%d",i->first);
-		al_draw_textf(font18, al_map_rgb(255, 0, 0), 555, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%d", i->second);
+		al_draw_textf(font18, al_map_rgb(255, 0, 0), 555, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%d : %d", i->second / 60, i->second%60);
 	}
 
 	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH - 100, DISPLAY_HEIGHT - 28, ALLEGRO_ALIGN_CENTRE, "Main Menu");
