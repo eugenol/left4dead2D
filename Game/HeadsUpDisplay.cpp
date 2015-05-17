@@ -26,7 +26,7 @@ HeadsUpDisplay::HeadsUpDisplay()
 
 HeadsUpDisplay::~HeadsUpDisplay()
 {
-	al_destroy_font(Scorefont20); 
+	al_destroy_font(Scorefont20);
 	al_destroy_bitmap(megaShotCountStar);
 }
 
