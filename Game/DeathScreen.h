@@ -11,6 +11,7 @@ private:
 	ALLEGRO_FONT *font18 = NULL;
 	ALLEGRO_FONT *font24 = NULL;
 	ALLEGRO_FONT *font72 = NULL;
+	ALLEGRO_BITMAP *image = NULL;
 	const int DISPLAY_HEIGHT = 600;
 	const int DISPLAY_WIDTH = 800;
 	bool returnToMenu;

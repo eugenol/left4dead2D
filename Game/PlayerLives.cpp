@@ -59,13 +59,13 @@ void PlayerLives::draw()
 			           0);          
 	}
 
-	if (m_numberOfLives == 0)
-	{
-		al_draw_bitmap(m_gameoverImage,
-					  (300 - (m_gameoverImageWidth / 2)),
-					  (400 - (m_gameoverImageHeight / 2)),
-					   0);
-	}
+	//if (m_numberOfLives == 0)
+	//{
+	//	al_draw_bitmap(m_gameoverImage,
+	//				  (300 - (m_gameoverImageWidth / 2)),
+	//				  (400 - (m_gameoverImageHeight / 2)),
+	//				   0);
+	//}
 }
 
 //-------------------------------------------------------

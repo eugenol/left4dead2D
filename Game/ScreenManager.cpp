@@ -38,6 +38,10 @@ void ScreenManager::changeGameState(int newState)
 	{
 
 	}
+	else if (gameState == DIED)
+	{
+		EntityManager::getInstance().KillAll();
+	}
 	else if (gameState == HIGHSCORES)
 	{
 		scores->loadData();
@@ -100,7 +104,7 @@ void ScreenManager::draw()
 		}
 		case DIED:
 		{
-			death->update();
+			death->draw();
 			break;
 		}
 		case HIGHSCORES:
