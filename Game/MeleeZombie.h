@@ -5,6 +5,8 @@
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_image.h"
 
+enum difficultyEnum{ EASY, HARD, BOSS, GODLIKE };
+
 class MeleeZombie :public Enemy {
 private:
 	ALLEGRO_BITMAP * image;
@@ -16,7 +18,7 @@ private:
 public:
 	void update();
 	//quick constructor (presets most values)
-	MeleeZombie(int pos_x, int pos_y, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet);
+	MeleeZombie(int pos_x, int pos_y, int difficulty, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet);
 	~MeleeZombie();
 	void draw();
 };

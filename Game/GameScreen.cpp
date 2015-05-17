@@ -1,4 +1,5 @@
 #include "GameScreen.h"
+#include <cmath>
 
 GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
 {
@@ -40,22 +41,29 @@ void GameScreen::update()
 	//Attempt to create new enemy
 	if (++EnemySpawnTimerCurrent >= EnemySpawnTimerMax)
 	{
-		EnemySpawnTimerMax = FPS*(4 + rand() % 3 )-1.7*gameTime;//zombies spawn after FPS*(random+3)-3*seconds elapsed
+		EnemySpawnTimerMax = FPS*(4 + rand() % 3 - logf(gameTime*5)/3 );//zombies spawn after FPS*(random+3)-3*seconds elapsed
 		if (EnemySpawnTimerMax < 3)
 			EnemySpawnTimerMax = 3;
 		int spawnCentre_x = rand() % DISPLAY_WIDTH;
 		int spawnCentre_y = rand() % DISPLAY_HEIGHT;
-		
-		for (int i = 0, spawnNumber = rand() % 5 + ((int)(gameTime / 40)); i < spawnNumber; i++){
-			//spawns a random number of zombies + 1 zombie per 20 seconds
+		//spawns a random number of zombies + 1 zombie per 40 seconds
+		int spawnNumber = rand() % 5 + ((int)(gameTime / 40));
+		if (spawnNumber > 6)
+			spawnNumber = 6;
+		int diffLevel = gameTime / 30;//difficulty level
+		if (diffLevel > 3)
+			diffLevel = 3;
+		for (int i = 0; i < spawnNumber; i++){	
 			//zombies are spawned in proximity of each other, with proximity radius dependant on number spawned
-			if(Enemy::getCount()<45){
+			if(Enemy::getCount()<40){//max number of zombies allowed
 				GameEntity * entity = new MeleeZombie(spawnCentre_x + (40 - rand() % 20)*(spawnNumber*1.3),
-					spawnCentre_y + (40 - rand() % 20)*(spawnNumber*1.3), meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
+					spawnCentre_y + (40 - rand() % 20)*(spawnNumber*1.3),diffLevel, meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
 				EntityManager::getInstance().AddEntity(entity);
 			}
 		}
 		EnemySpawnTimerCurrent = 0;
+		if (spawnNumber < 4)
+			EnemySpawnTimerMax /= 2;
 	}
 	// Update the entity manager to remove the dead.
 	EntityManager::getInstance().UpdateList();

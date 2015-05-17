@@ -6,15 +6,17 @@
 Player * Enemy::m_player =  NULL;
 int Enemy::maxEnemyCount = 0;
 Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int direction, ALLEGRO_BITMAP *image,
-	bool active, int hitpoints, int regenRate, ALLEGRO_DISPLAY * display)
+	bool active, int hitpoints, int regenRate,int damage, int difficulty, ALLEGRO_DISPLAY * display)
 	:GameEntity(hitpoints,al_get_display_width(display),al_get_display_height(display), pos_x, pos_y, speed_x, speed_y,
 	direction, active, hitboxRadius, ID, image){
 	
+	this->difficulty = difficulty;
 	this->type = Enemytype;
-	this->life = hitpoints;
-	this->max_hitpoints = hitpoints;
-	this->regenRate = regenRate;
+	this->life = hitpoints*(1.0 + difficulty / 2.0);
+	this->max_hitpoints = hitpoints*(1.0 + difficulty / 2.0);
+	this->regenRate = regenRate*(1.0 + difficulty / 3.0);
 	this->ID = ENEMY;
+	this->damage = damage*(1.0 + difficulty / 2.0);
 	maxEnemyCount++;
 
 };
@@ -45,3 +47,7 @@ void Enemy::takeDamage(int damage){
 int Enemy::getCount(){
 	return maxEnemyCount;
 }
+
+int Enemy::getDamagePower(){
+	return damage;
+};
