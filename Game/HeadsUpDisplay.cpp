@@ -12,13 +12,13 @@ HeadsUpDisplay::HeadsUpDisplay()
 	megaShotCount = 0;
 
 	//animation initialisation
-	megaShotCountStar = al_load_bitmap("stars.png");
+	megaShotCountStar = al_load_bitmap("stars_2.png");
 	animationFrameHeight = 64;
 	animationFrameWidth = 64;
 	currentAnimationFrame = 0;
 	frameCount = 0;
 	frameDelay = 3;
-	maxFrameCount = 3;
+	maxFrameCount = 6;
 }
 
 
