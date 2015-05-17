@@ -50,6 +50,7 @@ protected:
 	ALLEGRO_BITMAP *bulletSpriteSheet;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet;
 	ALLEGRO_BITMAP *playerDeathAnimation;
+	ALLEGRO_BITMAP *megashotSpriteSheet;
 	//Blood Splatter On Attack Animation Variables
 	ALLEGRO_BITMAP *attackSplatterAnimation;
 	bool attackSplatterAnimationControl;

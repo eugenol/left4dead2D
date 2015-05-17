@@ -2,19 +2,19 @@
 #include <math.h>
 
 
-Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag, int damagePower) : GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag)
+Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag, int damagePower, int animationFrameWidth, int animationFrameHeight, int maxAnimationFrame) : GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag)
 {
 	
 	//Animation Initialisation
 	explosionSpriteSheet = explosionImag;
-	animationFrameHeight = 15;
-	animationFrameWidth = 15;
+	this->animationFrameHeight = animationFrameHeight;
+	this->animationFrameWidth = animationFrameWidth;
 	currentAnimationFrame = 0;
 	frameCount = 0;
 	frameDelay = 3;
-	maxFrameCount = 3;
+	this->maxFrameCount = maxAnimationFrame;
 	direction = 0;
-
+	megaShotRotationAngle = 0;
 	//Bullet Path Initialisation
 	old_pos_x = xPos;
 	old_pos_y = yPos;
@@ -27,9 +27,29 @@ Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, 
 	//Other Initialisation
 	explosionStarted = false;
 	this->damagePower = damagePower;
+
 }
 
+void Projectile::draw()
+{
+	if (damagePower == 20)
+	{
+		GameEntity::draw();
+	}
+	else
+	{
+		al_draw_tinted_scaled_rotated_bitmap_region(image, currentAnimationFrame*animationFrameWidth, 0, animationFrameWidth, animationFrameHeight, al_map_rgb(rand() % 256, rand() % 256, rand() % 256), animationFrameHeight / 2, animationFrameWidth / 2, pos_x, pos_y, 1, 1, megaShotRotationAngle, 0);
+	}
 
+}
+void Projectile::UpdateAnimation()
+{
+	if ((megaShotRotationAngle += 30) == 360)
+	{
+		megaShotRotationAngle = 0;
+	}
+	GameEntity::UpdateAnimation();
+}
 Projectile::~Projectile()
 {
 }

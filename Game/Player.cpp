@@ -30,6 +30,7 @@ gameTimer()
 	bulletExplosionSpriteSheet = al_load_bitmap("explosion.png");
 	playerDeathAnimation = al_load_bitmap("player_bloody_death_spritesheet.png");
 	attackSplatterAnimation = al_load_bitmap("attack_splatter_42_32.png");
+	megashotSpriteSheet = al_load_bitmap("stars_2.png");
 	hitboxHeight = 32;
 	hitboxWidth = 32;
 	livesLeft = 3;
@@ -273,7 +274,7 @@ void Player::ShootCheck()
 		{
 			int destination_x = InputManager::getInstance().getMouseX();
 			float destination_y = InputManager::getInstance().getMouseY();
-			Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
+			Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20, 15, 15,3);
 			EntityManager::getInstance().AddEntity(bulletPtr);
 			shooting_control = 0;
 		}
@@ -294,7 +295,7 @@ void Player::megaShot(){//shoots 24 projectiles radially around the player
 	{
 		destination_x = pos_x + 100*cosf(angle*PI/180);
 		destination_y = pos_y + 100*sinf(angle*PI/180);
-		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 80);
+		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, megashotSpriteSheet, bulletExplosionSpriteSheet, 80, 64,64,6);
 		EntityManager::getInstance().AddEntity(bulletPtr);
 	}
 }
