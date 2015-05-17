@@ -1,16 +1,11 @@
-#ifndef SCORESCREEN_H
-#define SCORESCREEN_H
+#ifndef DEATHSCREEN_H
+#define DEATHSCREEN_H
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include "InputManager.h"
-#include <fstream>
-#include <tuple>
-#include <algorithm>
-#include <string>
-#include <sstream>
 
-class ScoreScreen
+class DeathScreen
 {
 private:
 	ALLEGRO_FONT *font18 = NULL;
@@ -19,13 +14,11 @@ private:
 	const int DISPLAY_HEIGHT = 600;
 	const int DISPLAY_WIDTH = 800;
 	bool returnToMenu;
-	std::vector<std::pair<int, int> > highscores;
 public:
-	ScoreScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72);
-	~ScoreScreen();
+	DeathScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72);
+	~DeathScreen();
 	void update();
 	void draw();
-	void loadData();
 	bool getReturnToMenu() { return returnToMenu; }
 	void setReturnToMenu() { returnToMenu = false; }
 };

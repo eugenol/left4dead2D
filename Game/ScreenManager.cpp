@@ -38,6 +38,10 @@ void ScreenManager::changeGameState(int newState)
 	{
 
 	}
+	else if (gameState == HIGHSCORES)
+	{
+		scores->loadData();
+	}
 
 }
 
@@ -53,11 +57,18 @@ void ScreenManager::update()
 		case PLAYING:
 		{
 			game->update();
+			if (!game->isPlayerAlive())
+				changeGameState(DIED);
 			break;
 		}
 		case CREDITS:
 		{
 			credits->update();
+			break;
+		}
+		case DIED:
+		{
+			death->update();
 			break;
 		}
 		case HIGHSCORES:
@@ -85,6 +96,11 @@ void ScreenManager::draw()
 		case CREDITS:
 		{
 			credits->draw();
+			break;
+		}
+		case DIED:
+		{
+			death->update();
 			break;
 		}
 		case HIGHSCORES:

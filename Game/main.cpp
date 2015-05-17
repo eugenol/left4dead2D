@@ -158,6 +158,8 @@ int main(int argc, char **argv)
 	ScreenManager::getInstance().addCreditScreen(&credits);
 	ScoreScreen scores(font_18, font_24, font_72);
 	ScreenManager::getInstance().addScoreScreen(&scores);
+	DeathScreen death(font_18, font_24, font_72);
+	ScreenManager::getInstance().addDeathScreen(&death);
 
 	//Checks
 	if (!timer)
@@ -248,6 +250,14 @@ int main(int argc, char **argv)
 					scores.setReturnToMenu();
 				}
 			}
+			else if (ScreenManager::getInstance().getScreenState() == ScreenManager::DIED)
+			{
+				if (death.getReturnToMenu())
+				{
+					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
+					death.setReturnToMenu();
+				}
+			}
 
 			ScreenManager::getInstance().update();
 		}
@@ -269,6 +279,9 @@ int main(int argc, char **argv)
 					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
 				else if (ScreenManager::getInstance().getScreenState() == ScreenManager::HIGHSCORES)
 					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
+				else if (ScreenManager::getInstance().getScreenState() == ScreenManager::DIED)
+					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
+
 			}
 			else if (escapeDelay == 14)
 				escapeDelay = 0;

@@ -86,6 +86,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CreditScreen.cpp" />
+    <ClCompile Include="DeathScreen.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GameEntity.cpp" />
@@ -109,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreditScreen.h" />
+    <ClInclude Include="DeathScreen.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameEntity.h" />

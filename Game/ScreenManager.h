@@ -5,6 +5,8 @@
 #include "InputManager.h"
 #include "CreditScreen.h"
 #include "ScoreScreen.h"
+#include "DeathScreen.h"
+
 class ScreenManager
 {
 private:
@@ -15,6 +17,7 @@ private:
 	MenuScreen *menu;
 	CreditScreen *credits;
 	ScoreScreen *scores;
+	DeathScreen *death;
 	ScreenManager();
 
 public:
@@ -27,6 +30,7 @@ public:
 	void addMenuScreen(MenuScreen *menuScreen) { menu = menuScreen; }
 	void addCreditScreen(CreditScreen *creditScreen) { credits = creditScreen; }
 	void addScoreScreen(ScoreScreen *scoreScreen) { scores = scoreScreen; }
+	void addDeathScreen(DeathScreen *deathScreen) { death = deathScreen; }
 
 	void update();
 	void draw();
