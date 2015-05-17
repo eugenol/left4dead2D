@@ -47,7 +47,6 @@ public:
 	void newGame();
 	void update();
 	void draw();
-	void spawnEnemies();
 	bool isPlayerAlive();
 };
 #endif

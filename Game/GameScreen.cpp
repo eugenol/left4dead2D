@@ -39,7 +39,32 @@ void GameScreen::update()
 	}
 
 	//Attempt to create new enemy
-	spawnEnemies();
+	if (++EnemySpawnTimerCurrent >= EnemySpawnTimerMax)
+	{
+		EnemySpawnTimerMax = FPS*(4 + rand() % 4 - logf(gameTime*5)/3 );//zombies spawn after FPS*(random+3)-3*seconds elapsed
+		if (EnemySpawnTimerMax < 3)
+			EnemySpawnTimerMax = 3;
+		int spawnCentre_x = rand() % DISPLAY_WIDTH;
+		int spawnCentre_y = rand() % DISPLAY_HEIGHT;
+		//spawns a random number of zombies + 1 zombie per 40 seconds
+		int spawnNumber = rand() % 5 + ((int)(gameTime / 40));
+		if (spawnNumber > 6)
+			spawnNumber = 6;
+		int diffLevel = gameTime / 30;//difficulty level
+		if (diffLevel > 3)
+			diffLevel = 3;
+		for (int i = 0; i < spawnNumber; i++){	
+			//zombies are spawned in proximity of each other, with proximity radius dependant on number spawned
+			if(Enemy::getCount()<40){//max number of zombies allowed
+				GameEntity * entity = new MeleeZombie(spawnCentre_x + (40 - rand() % 20)*(spawnNumber*1.3),
+					spawnCentre_y + (40 - rand() % 20)*(spawnNumber*1.3),diffLevel, meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
+				EntityManager::getInstance().AddEntity(entity);
+			}
+		}
+		EnemySpawnTimerCurrent = 0;
+		if (spawnNumber < 4)
+			EnemySpawnTimerMax /= 2;
+	}
 	// Update the entity manager to remove the dead.
 	EntityManager::getInstance().UpdateList();
 }
@@ -75,34 +100,4 @@ bool GameScreen::isPlayerAlive()
 			return true;
 	}
 	return false;
-}
-
-void GameScreen::spawnEnemies(){
-	if (++EnemySpawnTimerCurrent >= EnemySpawnTimerMax)
-	{
-		EnemySpawnTimerMax = FPS*(4 + rand() % 4 - logf(gameTime * 5) / 3);//zombies spawn after FPS*(random+3)-3*seconds elapsed
-		if (EnemySpawnTimerMax < 3)
-			EnemySpawnTimerMax = 3;
-		int spawnCentre_x = rand() % DISPLAY_WIDTH;
-		int spawnCentre_y = rand() % DISPLAY_HEIGHT;
-		//spawns a random number of zombies + 1 zombie per 40 seconds
-		int spawnNumber = rand() % 5 + ((int)(gameTime / 40));
-		if (spawnNumber > 6)
-			spawnNumber = 6;
-		int diffLevel = gameTime / 30;//difficulty level
-		if (diffLevel > 3)
-			diffLevel = 3;
-		for (int i = 0; i < spawnNumber; i++){
-			//zombies are spawned in proximity of each other, with proximity radius dependant on number spawned
-			if (Enemy::getCount()<40){//max number of zombies allowed
-				GameEntity * entity = new MeleeZombie(spawnCentre_x + (40 - rand() % 20)*(spawnNumber*3),
-					spawnCentre_y + (40 - rand() % 20)*(spawnNumber*3), diffLevel, meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
-				EntityManager::getInstance().AddEntity(entity);
-			}
-		}
-		EnemySpawnTimerCurrent = 0;
-		if (spawnNumber < 4)
-			EnemySpawnTimerMax /= 2;
-	}
-
 }
