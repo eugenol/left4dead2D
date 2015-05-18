@@ -34,6 +34,10 @@ void EntityManager::UpdateList()
 			std::list<GameEntity*>::iterator prev = iter++;
 			GameEntity *tempPtr;
 			tempPtr = *prev;
+			if (tempPtr->getID() == PLAYER)
+			{
+				Enemy::setPlayer(NULL);
+			}
 			entityList->erase(prev);
 			delete tempPtr;
 		}
@@ -56,6 +60,10 @@ void EntityManager::KillAll()
 		std::list<GameEntity*>::iterator prev = iter++;
 		GameEntity *tempPtr;
 		tempPtr = *prev;
+		if (tempPtr->getID() == PLAYER)
+		{
+			Enemy::setPlayer(NULL);
+		}
 		entityList->erase(prev);
 		delete tempPtr;
 	}

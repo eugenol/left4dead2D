@@ -27,6 +27,7 @@
 
 #include <list>
 #include "GameEntity.h"
+#include "Enemy.h"
 
 class EntityManager
 {

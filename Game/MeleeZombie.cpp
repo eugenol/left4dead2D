@@ -13,7 +13,8 @@ Enemy(MELEEZOMBIE, pos_x, pos_y, 2 + rand() % 3, 2 + rand() % 3, NORTH,
 	this->old_pos_x = pos_x;
 	this->old_pos_y = pos_y;
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)
-	setDirection(180.0 / PI*atan2((float)((*m_player).GetPos_Y() - pos_y), (float)((*m_player).GetPos_X() - pos_x)));
+	if (m_player)
+		setDirection(180.0 / PI*atan2((float)((*m_player).GetPos_Y() - pos_y), (float)((*m_player).GetPos_X() - pos_x)));
 	maxFrameCount = 8;
 	minFrameCount = 0;
 	currentAnimationFrame = 0;
@@ -30,7 +31,8 @@ Enemy(MELEEZOMBIE, pos_x, pos_y, 2 + rand() % 3, 2 + rand() % 3, NORTH,
 };
 
 MeleeZombie::~MeleeZombie(){
-	(*m_player).increaseScore(1);
+	if (m_player)
+		(*m_player).increaseScore(1);
 };
 
 void MeleeZombie::setDirection(float angle)
@@ -49,32 +51,33 @@ void MeleeZombie::setDirection(float angle)
 }
 
 void MeleeZombie::update(){
-	
-	UpdateAnimation();
-	if (active)
+	if (m_player)
 	{
-		UpdateDirection();
-		//UpdateAnimation();
-		if (++regenCounter >= 60){
-			life += regenRate;
-			if (life > max_hitpoints){
-				life = max_hitpoints;
+		UpdateAnimation();
+		if (active)
+		{
+			UpdateDirection();
+			//UpdateAnimation();
+			if (++regenCounter >= 60){
+				life += regenRate;
+				if (life > max_hitpoints){
+					life = max_hitpoints;
+				}
+				regenCounter = 0;
 			}
-			regenCounter = 0;
 		}
-	}
-	else if ((!active) && isAlive && runDeathAnimation)
-	{	
-		runDeathAnimation = false;
-		GameEntity::image = zombieDeathAnimationSpriteSheet;
-		currentAnimationFrame = 0;
-		maxFrameCount = 7;
-		frameDelay = 5;
-		minFrameCount = 0;
+		else if ((!active) && isAlive && runDeathAnimation)
+		{
+			runDeathAnimation = false;
+			GameEntity::image = zombieDeathAnimationSpriteSheet;
+			currentAnimationFrame = 0;
+			maxFrameCount = 7;
+			frameDelay = 5;
+			minFrameCount = 0;
 
+		}
+		if ((!active) && (currentAnimationFrame == (maxFrameCount - 1))) isAlive = false;
 	}
-	if ((!active) && (currentAnimationFrame == (maxFrameCount - 1))) isAlive = false;
-	
 		
 };
 
