@@ -1818,7 +1818,7 @@ static int MapRelocate2 (int convertMagicPink, const short int numblockgfx,const
 	}
 
 	//create bitmaps for each stored in raw pixels
-	if (abmTiles == NULL) abmTiles = malloc ((sizeof (BITMAP *))*(numblockgfx+2));
+	if (abmTiles == NULL) abmTiles = malloc ((sizeof (ALLEGRO_BITMAP *))*(numblockgfx+2));
 	abmTiles[0] = NULL;
 	i = 0; 
 	newgfxpt = mapblockgfxpt; 
