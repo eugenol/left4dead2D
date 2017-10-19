@@ -21,8 +21,8 @@ public:
 	CSprite( ALLEGRO_BITMAP* imageToUse, SpriteSheetProperties& properties); //Sprite does not own this image and will not destroy it.
 	~CSprite();
 
-	void Draw( CTwoDVector&& position, int direction = 0);
-	void Draw(ALLEGRO_COLOR tintColor, CTwoDVector&& position, int direction =0);
+	void Draw( CTwoDVector& position, int direction = 0);
+	void Draw(ALLEGRO_COLOR tintColor, CTwoDVector& position, int direction =0);
 	void DoLogic();
 	void UpdateAnimation();
 

@@ -19,10 +19,12 @@
 #include <ctime>
 #include <cstdio>
 #include "mappy_A5.h"
+#include "CScreen.h"
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE
 #pragma warning (disable : 4996)
-class GameScreen
+
+class GameScreen : public CScreen
 {
 public:
 	GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m);

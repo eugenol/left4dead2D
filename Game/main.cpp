@@ -253,7 +253,7 @@ int main(int argc, char **argv)
 				}
 			}
 
-			ScreenManager::getInstance().update();
+			ScreenManager::getInstance().Update();
 		}
 
 
@@ -294,7 +294,7 @@ int main(int argc, char **argv)
 			
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 
-			ScreenManager::getInstance().draw();
+			ScreenManager::getInstance().Draw();
 			al_flip_display();
 		}
 	}

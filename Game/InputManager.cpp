@@ -117,6 +117,11 @@ float InputManager::getMouseY()
 	return mouse_y;
 }
 
+CTwoDVector InputManager::GetMousePosition()
+{
+	return CTwoDVector(mouse_x, mouse_y);
+}
+
 void InputManager::clearInput()
 {
 	for (int i = 0; i < 3; i++)

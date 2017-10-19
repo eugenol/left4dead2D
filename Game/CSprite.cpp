@@ -33,7 +33,7 @@ CSprite::~CSprite()
 
 //-------------------------------------------------------
 
-void CSprite::Draw( CTwoDVector&& position, int direction )
+void CSprite::Draw( CTwoDVector& position, int direction )
 {
 	al_draw_bitmap_region( m_image, m_properties.m_currentAnimationFrame*m_properties.m_animationFrameWidth,
 												 direction*m_properties.m_animationFrameHeight, m_properties.m_animationFrameWidth,
@@ -43,7 +43,7 @@ void CSprite::Draw( CTwoDVector&& position, int direction )
 
 //-------------------------------------------------------
 
-void CSprite::Draw( ALLEGRO_COLOR tintColor, CTwoDVector&& position, int direction )
+void CSprite::Draw( ALLEGRO_COLOR tintColor, CTwoDVector& position, int direction )
 {
 	al_draw_tinted_bitmap_region( m_image, tintColor, m_properties.m_currentAnimationFrame*m_properties.m_animationFrameWidth,
 																direction*m_properties.m_animationFrameHeight, m_properties.m_animationFrameWidth,

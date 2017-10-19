@@ -14,6 +14,8 @@ public:
 	CTwoDVector operator-(const CTwoDVector& obj);
 	CTwoDVector operator*(const int& obj);
 	CTwoDVector operator/(const int& obj);
+	bool operator==( const CTwoDVector& obj );
+
 
 	double DistanceToSq(const CTwoDVector& obj);
 	double DistanceTo(const CTwoDVector& obj);

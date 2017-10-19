@@ -179,8 +179,8 @@ bool Player::damageCheck()
 			{
 				livesLeft--;			//Take away a life from player
 				life = 100;				//Give Him full life again
-				pos_x = rand() % 760 + 20;	//Give a Random "Respawn" Position
-				pos_y = rand() % 560 + 20;	//Give a Random "Respawn" Position
+				m_position.m_x = rand() % 760 + 20;	//Give a Random "Respawn" Position
+				m_position.m_y = rand() % 560 + 20;	//Give a Random "Respawn" Position
 				noOfZombieHits = 0;		//Reset Zombie hit counter
 			}
 			else					//Otherwise taking away a life will cause players number of lives to go to or below zero so...
@@ -234,8 +234,7 @@ bool Player::UpdatePosition()
 {
 	int horizontal = 0;
 	int vertical = 0;
-	old_pos_x = pos_x;
-	old_pos_y = pos_y;
+	m_oldPosition = m_position;
 
 	//get inputs
 	if (InputManager::getInstance().isKeyPressed(UP))
@@ -257,16 +256,16 @@ bool Player::UpdatePosition()
 
 	
 	//move position
-	if (((pos_x + speed_x*horizontal) > m_playerImage->GetFrameWidth()/2) && ((pos_x + speed_x*horizontal) < (maxXpos - m_playerImage->GetFrameWidth()/2)))
+	if (((m_position.m_x + speed_x*horizontal) > m_playerImage->GetFrameWidth()/2) && ((m_position.m_x + speed_x*horizontal) < (maxXpos - m_playerImage->GetFrameWidth()/2)))
 	{
-			pos_x += speed_x*horizontal;
+		m_position.m_x += speed_x*horizontal;
 	}
-	if (((pos_y + speed_y*vertical) > m_playerImage->GetFrameHeight() /2) && ((pos_y + speed_y*vertical) < (maxYpos - m_playerImage->GetFrameHeight()/2)))
+	if (((m_position.m_y + speed_y*vertical) > m_playerImage->GetFrameHeight() /2) && ((m_position.m_y + speed_y*vertical) < (maxYpos - m_playerImage->GetFrameHeight()/2)))
 	{
-		pos_y += speed_y*vertical;
+		m_position.m_y += speed_y*vertical;
 	}
 
-		if ((old_pos_x == pos_x) && (old_pos_y == pos_y))
+		if (m_oldPosition == m_position)
 		{
 			return false;
 		}
@@ -284,9 +283,8 @@ void Player::ShootCheck()
 	{
 		if ((shooting_control == 0) || (shooting_control > 3))
 		{
-			int destination_x = InputManager::getInstance().getMouseX();
-			float destination_y = InputManager::getInstance().getMouseY();
-			GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination_x, destination_y, 0, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
+			CTwoDVector destination = InputManager::getInstance().GetMousePosition();
+			GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination.m_x, destination.m_y, 0, m_position.m_x, m_position.m_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
 			EntityManager::getInstance().AddEntity(bulletPtr);
 			shooting_control = 0;
 		}
@@ -304,30 +302,29 @@ void Player::ShootCheck()
 void Player::megaShot(){//shoots 24 projectiles radially around the player
 	for (int angle = 0; angle < 360; angle += 15)
 	{
-		int destination_x = pos_x + 100*cosf(angle*PI/180);
-		int destination_y = pos_y + 100*sinf(angle*PI/180);
-		GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination_x, destination_y, 0, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 80);
+		CTwoDVector destination(m_position.m_x + 100 * cosf(angle*PI / 180), m_position.m_y + 100 * sinf(angle*PI / 180));
+		GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination.m_x, destination.m_y, 0, m_position.m_x, m_position.m_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 80);
 		EntityManager::getInstance().AddEntity(bulletPtr);
 	}
 }
 int Player::GetPos_X()
 {
-	return pos_x;
+	return m_position.m_x;
 }
 
 int Player::GetPos_Y()
 {
-	return pos_y;
+	return m_position.m_y;
 }
 
 void Player::Draw()
 {
-	m_playerImage->Draw( CTwoDVector(pos_x, pos_y), direction );
+	m_playerImage->Draw( m_position, direction );
 
 	//Blood Spatter Animation
 	if (attackSplatterAnimationControl)
 	{
-		m_attackSplatter->Draw(CTwoDVector(pos_x, pos_y), 0);
+		m_attackSplatter->Draw(m_position, 0);
 	}
 
 	headsUpDisplay->Draw();

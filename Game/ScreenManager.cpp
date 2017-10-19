@@ -31,86 +31,41 @@ void ScreenManager::changeGameState(GAMESTATE newState)
 		}
 		else
 		{
-			
+
 		}
+		m_currentScreen = game;
 	}
 	else if (gameState == MENU)
 	{
-
+		m_currentScreen = menu;
 	}
 	else if (gameState == DIED)
 	{
 		EntityManager::getInstance().KillAll();
+		m_currentScreen = death;
 	}
 	else if (gameState == HIGHSCORES)
 	{
 		scores->LoadData();
+		m_currentScreen = scores;
 	}
-
-}
-
-void ScreenManager::update()
-{
-	switch (gameState)
+	else if (gameState == CREDITS)
 	{
-		case MENU:
-		{
-			menu->Update();
-			break;
-		}
-		case PLAYING:
-		{
-			game->Update();
-			if (!game->isPlayerAlive())
-				changeGameState(DIED);
-			break;
-		}
-		case CREDITS:
-		{
-			credits->Update();
-			break;
-		}
-		case DIED:
-		{
-			death->Update();
-			break;
-		}
-		case HIGHSCORES:
-		{
-			scores->Update();
-			break;
-		}
+		m_currentScreen = credits;
 	}
 }
 
-void ScreenManager::draw()
+void ScreenManager::Update()
 {
-	switch (gameState)
+	m_currentScreen->Update();
+	
+	if (gameState == PLAYING && !game->isPlayerAlive())
 	{
-		case MENU:
-		{
-			menu->Draw();
-			break;
-		}
-		case PLAYING:
-		{
-			game->Draw();
-			break;
-		}
-		case CREDITS:
-		{
-			credits->Draw();
-			break;
-		}
-		case DIED:
-		{
-			death->Draw();
-			break;
-		}
-		case HIGHSCORES:
-		{
-			scores->Draw();
-			break;
-		}
+		changeGameState(DIED);
 	}
+}
+
+void ScreenManager::Draw()
+{
+	m_currentScreen->Draw();
 }

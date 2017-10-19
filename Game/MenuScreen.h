@@ -12,7 +12,7 @@
 #include "GameScreen.h"
 
 
-class MenuScreen
+class MenuScreen : public CScreen
 {
 public:
 	MenuScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72, GameScreen *current_game);

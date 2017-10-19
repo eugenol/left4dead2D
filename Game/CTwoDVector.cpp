@@ -77,6 +77,15 @@ CTwoDVector CTwoDVector::operator/( const int& obj )
 	return result;
 }
 
+//-------------------------------------------------------
+
+bool CTwoDVector::operator==( const CTwoDVector& obj )
+{
+	return(m_x == obj.m_x && m_y == obj.m_y);
+}
+
+//-------------------------------------------------------
+
 double CTwoDVector::DistanceToSq( const CTwoDVector& obj )
 {
 	int dX = this->m_x - obj.m_x;
@@ -84,6 +93,8 @@ double CTwoDVector::DistanceToSq( const CTwoDVector& obj )
 	double result = dX*dX + dY*dY;
 	return result;
 }
+
+//-------------------------------------------------------
 
 double CTwoDVector::DistanceTo( const CTwoDVector& obj )
 {

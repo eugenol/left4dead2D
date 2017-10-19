@@ -4,8 +4,9 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include "InputManager.h"
+#include "CScreen.h"
 
-class DeathScreen
+class DeathScreen : public CScreen
 {
 public:
 	DeathScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72);

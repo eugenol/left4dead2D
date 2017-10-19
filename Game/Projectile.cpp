@@ -32,11 +32,9 @@ Projectile::Projectile(int destination_x, int destination_y, int lif, int xPos, 
 	m_explosionSprite = new CSprite(explosionImag, properties);
 
 	//Bullet Path Initialisation
-	old_pos_x = xPos;
-	old_pos_y = yPos;
-	destinationY = destination_y;
-	destinationX = destination_x;
-	angleOfPath = atan2f(destinationY - old_pos_y, destinationX - old_pos_x);
+	m_oldPosition = CTwoDVector(xPos, yPos);
+	m_destination = CTwoDVector(destination_x, destination_y);
+	angleOfPath = atan2f(m_destination.m_y - m_oldPosition.m_y, m_destination.m_x - m_oldPosition.m_x);
 	hitboxHeight = 15;
 	hitboxWidth = 15;
 
@@ -66,18 +64,18 @@ bool Projectile::UpdatePosition()
 {
 	if (active)
 	{
-		if (((pos_x + int(speed_x*cosf(angleOfPath))) > 0) && ((pos_x + int(speed_x*cosf(angleOfPath))) < (maxXpos - m_currentImage->GetFrameWidth())))
+		if (((m_position.m_x + int(speed_x*cosf(angleOfPath))) > 0) && ((m_position.m_x + int(speed_x*cosf(angleOfPath))) < (maxXpos - m_currentImage->GetFrameWidth())))
 		{
-			pos_x += int(speed_x*cosf(angleOfPath));
+			m_position.m_x += int(speed_x*cosf(angleOfPath));
 		}
 		else
 		{
 			active = false;
 			if (!collided) collided = true;
 		}
-		if (((pos_y + int(speed_y*sinf(angleOfPath))) > 0) && ((pos_y + int(speed_y*sinf(angleOfPath))) < (maxYpos - m_currentImage->GetFrameHeight())))
+		if (((m_position.m_y + int(speed_y*sinf(angleOfPath))) > 0) && ((m_position.m_y + int(speed_y*sinf(angleOfPath))) < (maxYpos - m_currentImage->GetFrameHeight())))
 		{
-			pos_y += int(speed_y*sinf(angleOfPath));
+			m_position.m_y += int(speed_y*sinf(angleOfPath));
 		}
 		else
 		{
@@ -118,7 +116,7 @@ void Projectile::Update()
 
 void Projectile::Draw()
 {
-	m_currentImage->Draw(CTwoDVector(pos_x, pos_y), direction);
+	m_currentImage->Draw( m_position, direction);
 }
 
 int Projectile::getDamagePower()

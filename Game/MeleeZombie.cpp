@@ -1,7 +1,6 @@
 #include "MeleeZombie.h"
 #include "Enemy.h"
 #include <allegro5\allegro.h>
-#include <allegro5\allegro_image.h>
 #include <cmath>
 #include <allegro5\allegro_primitives.h>
 
@@ -11,8 +10,8 @@ MeleeZombie::MeleeZombie(int pos_x, int pos_y,int difficulty, ALLEGRO_BITMAP * i
 Enemy(MELEEZOMBIE, pos_x, pos_y, 2 + rand() % 3, 2 + rand() % 3, NORTH,
 	image, true, 87, 5,4,difficulty)
 {
-	this->old_pos_x = pos_x;
-	this->old_pos_y = pos_y;
+	m_oldPosition = CTwoDVector(pos_x, pos_y);
+
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)
 	if (m_player)
 		setDirection(180.0 / PI*atan2((float)((*m_player).GetPos_Y() - pos_y), (float)((*m_player).GetPos_X() - pos_x)));
@@ -109,21 +108,21 @@ void MeleeZombie::Update(){
 }
 
 void MeleeZombie::UpdateDirection(){
-	float playerVector_X = (*m_player).GetPos_X() - pos_x;
-	float playerVector_Y = (*m_player).GetPos_Y() - pos_y;
+	float playerVector_X = (*m_player).GetPos_X() - m_position.m_x;
+	float playerVector_Y = (*m_player).GetPos_Y() - m_position.m_y;
 	float vectorMagnitude = sqrtf(playerVector_X*playerVector_X + playerVector_Y*playerVector_Y);
 	if (vectorMagnitude >3){
 		setDirection(180.0 / PI * atan2(playerVector_Y, playerVector_X));
-		pos_x += speed_x*(playerVector_X / vectorMagnitude);
-		pos_y += speed_y*(playerVector_Y / vectorMagnitude);
-		if (pos_x - hitboxWidth / 2 < 0)
-			pos_x = hitboxWidth / 2;
-		if (pos_x + hitboxWidth / 2 > 800)
-			pos_x = 800-hitboxWidth/2;
-		if (pos_y - hitboxHeight / 2 < 0)
-			pos_y = hitboxHeight / 2;
-		if (pos_y + hitboxHeight / 2 > 600)
-			pos_y = 600-hitboxHeight / 2;
+		m_position.m_x += speed_x*(playerVector_X / vectorMagnitude);
+		m_position.m_y += speed_y*(playerVector_Y / vectorMagnitude);
+		if (m_position.m_x - hitboxWidth / 2 < 0)
+			m_position.m_x = hitboxWidth / 2;
+		if (m_position.m_x + hitboxWidth / 2 > 800)
+			m_position.m_x = 800-hitboxWidth/2;
+		if (m_position.m_y - hitboxHeight / 2 < 0)
+			m_position.m_y = hitboxHeight / 2;
+		if (m_position.m_y + hitboxHeight / 2 > 600)
+			m_position.m_y = 600-hitboxHeight / 2;
 	};
 };
 
@@ -132,18 +131,18 @@ void MeleeZombie::Draw(){
 	if(active)
 	{
 		//draw red background
-		al_draw_filled_rectangle(pos_x - 11, pos_y - hitboxHeight + 30, pos_x + 11,
-			pos_y - hitboxHeight + 23, al_map_rgba(255, 0, 0, 0));
+		al_draw_filled_rectangle(m_position.m_x - 11, m_position.m_y - hitboxHeight + 30, m_position.m_x + 11,
+			m_position.m_y - hitboxHeight + 23, al_map_rgba(255, 0, 0, 0));
 		//draw green bar
-		al_draw_filled_rectangle(pos_x - 10, pos_y - hitboxHeight + 29,
-			pos_x - 10 + life * 20 / max_hitpoints, pos_y - hitboxHeight + 24,
+		al_draw_filled_rectangle(m_position.m_x - 10, m_position.m_y - hitboxHeight + 29,
+			m_position.m_x - 10 + life * 20 / max_hitpoints, m_position.m_y - hitboxHeight + 24,
 			al_map_rgba(0, 255, 0, 120));
 	}
 	//draws the zombie sprite
-	m_currentSprite->Draw(CTwoDVector(pos_x, pos_y), direction);
+	m_currentSprite->Draw( m_position, direction);
 	if (difficulty != EASY)
 	{
 		//draw overlay
-		m_currentSprite->Draw(al_map_rgba(0, 255, 0, difficulty * 60), CTwoDVector(pos_x, pos_y), direction);
+		m_currentSprite->Draw(al_map_rgba(0, 255, 0, difficulty * 60), m_position, direction);
 	}
 }

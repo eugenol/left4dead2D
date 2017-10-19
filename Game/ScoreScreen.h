@@ -9,8 +9,9 @@
 #include <algorithm>
 #include <string>
 #include <sstream>
+#include "CScreen.h"
 
-class ScoreScreen
+class ScoreScreen : public CScreen
 {
 public:
 	ScoreScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72);

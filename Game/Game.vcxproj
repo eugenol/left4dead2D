@@ -95,6 +95,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CreditScreen.cpp" />
+    <ClCompile Include="CScreen.cpp" />
     <ClCompile Include="CSprite.cpp" />
     <ClCompile Include="CTwoDVector.cpp" />
     <ClCompile Include="DeathScreen.cpp" />
@@ -121,6 +122,7 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="CreditScreen.h" />
+    <ClInclude Include="CScreen.h" />
     <ClInclude Include="CSprite.h" />
     <ClInclude Include="CTwoDVector.h" />
     <ClInclude Include="DeathScreen.h" />

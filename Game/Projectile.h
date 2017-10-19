@@ -14,6 +14,7 @@ private:
 	float gradient; //Gradient for Path of Bullet Equation
 	float y_int;	//y intercept for Path of Bullet Equation
 	float angleOfPath;
+	CTwoDVector m_destination;
 	float destinationX, destinationY;
 	bool UpdatePosition();
 	void UpdateDirection();

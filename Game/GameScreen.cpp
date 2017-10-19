@@ -31,8 +31,13 @@ void GameScreen::Update()
 		{
 			if (iter1 != iter2) // Can't collide with yourself
 			{
-				if ((*iter1)->CheckCollision(*iter2)) //Did you collide?
-					(*iter1)->Collided(*iter2); //Do something about it.
+				if ((*iter1)->SameRegion(*iter2)) //Same Region?
+				{
+					if ((*iter1)->CheckCollision(*iter2)) //Did you collide?
+					{
+						(*iter1)->Collided(*iter2); //Do something about it.
+					}
+				}
 			}
 		}
 	}
