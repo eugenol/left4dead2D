@@ -1,6 +1,7 @@
 #include "GameScreen.h"
 #include "mappy_A5.h"
 #include "MeleeZombie.h"
+#include "CAIZombie.h"
 
 GameScreen::GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) : bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
 {
@@ -74,11 +75,15 @@ void GameScreen::newGame()
 	EntityManager::getInstance().KillAll();
 	// Create newplayer
 	CTwoDVector playerStartPosition(100, 100);
-	GameEntity *player = EntityManager::getInstance().MakeEntity<Player>(0, 100, playerStartPosition, 10, 10, 0, 1, 32, PLAYER, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
+	GameEntity* player = EntityManager::getInstance().MakeEntity<Player>(0, 100, playerStartPosition, 10, 10, 0, 1, 32, PLAYER, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
 	gameTime = 0;
 	gameTimeUpdateCounter = 0;
 	EntityManager::getInstance().AddEntity(player);
 	Enemy::setPlayer(dynamic_cast<Player*>(player));
+
+	CTwoDVector zombieStartPosition(400, 300);
+	GameEntity* zombie = EntityManager::getInstance().MakeEntity<CAIZombie>(zombieStartPosition, meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
+	EntityManager::getInstance().AddEntity(zombie);
 }
 
 void GameScreen::SpawnEnemies()
@@ -105,7 +110,7 @@ void GameScreen::SpawnEnemies()
 			{
 				CTwoDVector spawnOffset((40 - rand() % 20)*(spawnNumber*1.3), (40 - rand() % 20)*(spawnNumber*1.3));
 				CTwoDVector zombieSpawnPoint = spawnCentre + spawnOffset;
-				GameEntity * entity = EntityManager::getInstance().MakeEntity<MeleeZombie>(zombieSpawnPoint, diffLevel,
+				GameEntity* entity = EntityManager::getInstance().MakeEntity<MeleeZombie>(zombieSpawnPoint, diffLevel,
 					meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
 				EntityManager::getInstance().AddEntity(entity);
 			}

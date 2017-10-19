@@ -103,6 +103,15 @@ double CTwoDVector::DistanceTo( const CTwoDVector& obj )
 
 //-------------------------------------------------------
 
-
+double CTwoDVector::Magnitude()
+{
+	int dX = this->m_x;
+	int dY = this->m_y;
+	double result = sqrt(dX*dX + dY*dY);
+	return result;
+}
 
 //-------------------------------------------------------
+
+
+

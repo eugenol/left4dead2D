@@ -317,6 +317,11 @@ int Player::GetPos_Y()
 	return m_position.m_y;
 }
 
+CTwoDVector Player::GetPosition()
+{
+	return m_position;
+}
+
 void Player::Draw()
 {
 	m_playerImage->Draw( m_position, direction );

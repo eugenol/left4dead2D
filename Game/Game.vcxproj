@@ -94,6 +94,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CAIZombie.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CDisableableButton.cpp" />
     <ClCompile Include="CreditScreen.cpp" />
@@ -122,6 +123,7 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CAIZombie.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CDisableableButton.h" />
     <ClInclude Include="Common.h" />

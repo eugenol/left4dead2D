@@ -26,6 +26,7 @@ public:
 	//Get and Set Functions
 	int GetPos_X();
 	int GetPos_Y();
+	CTwoDVector GetPosition();
 	void Update() override;
 	void Draw() override;
 	void takeDamage(int damageAmount) override;

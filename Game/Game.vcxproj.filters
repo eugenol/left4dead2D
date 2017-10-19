@@ -102,6 +102,9 @@
     <ClCompile Include="CDisableableButton.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="CAIZombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEntity.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="CDisableableButton.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CAIZombie.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

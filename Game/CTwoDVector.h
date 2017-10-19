@@ -19,6 +19,7 @@ public:
 
 	double DistanceToSq(const CTwoDVector& obj);
 	double DistanceTo(const CTwoDVector& obj);
+	double Magnitude();
 	
 	int m_x;
 	int m_y;

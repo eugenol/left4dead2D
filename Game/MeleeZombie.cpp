@@ -14,7 +14,7 @@ Enemy(MELEEZOMBIE, position, 2 + rand() % 3, 2 + rand() % 3, NORTH,
 
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)
 	if (m_player)
-		setDirection(180.0 / PI*atan2((float)((*m_player).GetPos_Y() - position.m_y), (float)((*m_player).GetPos_X() - position.m_x)));
+		setDirection(180.0 / PI*atan2((float)(m_player->GetPos_Y() - position.m_y), (float)(m_player->GetPos_X() - position.m_x)));
 
 
 	SpriteSheetProperties properties;
@@ -108,21 +108,23 @@ void MeleeZombie::Update(){
 }
 
 void MeleeZombie::UpdateDirection(){
-	float playerVector_X = (*m_player).GetPos_X() - m_position.m_x;
-	float playerVector_Y = (*m_player).GetPos_Y() - m_position.m_y;
-	float vectorMagnitude = sqrtf(playerVector_X*playerVector_X + playerVector_Y*playerVector_Y);
+
+	CTwoDVector playerVector = m_player->GetPosition() - m_position;
+
+	float vectorMagnitude = playerVector.Magnitude();
+
 	if (vectorMagnitude >3){
-		setDirection(180.0 / PI * atan2(playerVector_Y, playerVector_X));
-		m_position.m_x += speed_x*(playerVector_X / vectorMagnitude);
-		m_position.m_y += speed_y*(playerVector_Y / vectorMagnitude);
+		setDirection(180.0 / PI * atan2(playerVector.m_y, playerVector.m_x));
+		m_position.m_x += speed_x*(playerVector.m_x / vectorMagnitude);
+		m_position.m_y += speed_y*(playerVector.m_y / vectorMagnitude);
 		if (m_position.m_x - hitboxWidth / 2 < 0)
 			m_position.m_x = hitboxWidth / 2;
 		if (m_position.m_x + hitboxWidth / 2 > 800)
-			m_position.m_x = 800-hitboxWidth/2;
+			m_position.m_x = DISPLAY_WIDTH-hitboxWidth/2;
 		if (m_position.m_y - hitboxHeight / 2 < 0)
 			m_position.m_y = hitboxHeight / 2;
 		if (m_position.m_y + hitboxHeight / 2 > 600)
-			m_position.m_y = 600-hitboxHeight / 2;
+			m_position.m_y = DISPLAY_HEIGHT-hitboxHeight / 2;
 	};
 };
 
