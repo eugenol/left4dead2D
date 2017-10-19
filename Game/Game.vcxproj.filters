@@ -96,6 +96,12 @@
     <ClCompile Include="CTwoDVector.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="CButton.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CDisableableButton.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEntity.h">
@@ -168,6 +174,12 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="CTwoDVector.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CButton.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CDisableableButton.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

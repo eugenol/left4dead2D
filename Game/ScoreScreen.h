@@ -4,6 +4,8 @@
 #include "InputManager.h"
 #include <tuple>
 #include "CScreen.h"
+#include "CButton.h"
+#include <memory>
 
 class ScoreScreen : public CScreen
 {
@@ -20,10 +22,9 @@ private:
 	ALLEGRO_FONT *font18 = nullptr;
 	ALLEGRO_FONT *font24 = nullptr;
 	ALLEGRO_FONT *font72 = nullptr;
-	const int DISPLAY_HEIGHT = 600;
-	const int DISPLAY_WIDTH = 800;
 	bool returnToMenu;
 	std::vector<std::pair<int, int> > highscores;
+	std::unique_ptr<CButton> m_button;
 
 };
 #endif

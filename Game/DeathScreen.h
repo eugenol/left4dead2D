@@ -2,6 +2,8 @@
 #define DEATHSCREEN_H
 #include <allegro5/allegro_font.h>
 #include "CScreen.h"
+#include "CButton.h"
+#include <memory>
 
 class DeathScreen : public CScreen
 {
@@ -19,6 +21,7 @@ private:
 	ALLEGRO_FONT *font72 = nullptr;
 	ALLEGRO_BITMAP *image = nullptr;
 	bool returnToMenu;
+	std::unique_ptr<CButton> m_button;
 };
 #endif
 

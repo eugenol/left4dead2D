@@ -28,7 +28,6 @@
 
 int gameTime = 0;
 int gameTimeUpdateCounter = 0;
-int FPS = 60;					//Framerate
 
 int main(int argc, char **argv)
 {

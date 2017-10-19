@@ -94,6 +94,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CButton.cpp" />
+    <ClCompile Include="CDisableableButton.cpp" />
     <ClCompile Include="CreditScreen.cpp" />
     <ClCompile Include="CScreen.cpp" />
     <ClCompile Include="CSprite.cpp" />
@@ -120,6 +122,8 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CButton.h" />
+    <ClInclude Include="CDisableableButton.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="CreditScreen.h" />
     <ClInclude Include="CScreen.h" />

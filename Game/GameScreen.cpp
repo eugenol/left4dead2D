@@ -1,5 +1,6 @@
 #include "GameScreen.h"
 #include "mappy_A5.h"
+#include "MeleeZombie.h"
 
 GameScreen::GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) : bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
 {
@@ -20,8 +21,13 @@ void GameScreen::Update()
 		gameTime++;
 		gameTimeUpdateCounter = 0;
 	}
-	for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-		(*iter)->Update();
+
+	for(GameEntity* object : objects)
+	{
+		object->Update();
+	}
+	//for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
+	//	(*iter)->Update();
 
 	//Check for collisions... Not the most efficient, but ok for now. can be changed later...
 	//for now it campares every object, I can make it sector based later...
@@ -42,10 +48,45 @@ void GameScreen::Update()
 		}
 	}
 
+	SpawnEnemies();
+
+	// Update the entity manager to remove the dead.
+	EntityManager::getInstance().UpdateList();
+}
+
+void GameScreen::Draw()
+{
+	// Draw map
+	MapDrawBG(20, 20, 0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+
+	//draw objects
+	for (GameEntity* object : objects)
+	{
+		object->Draw();
+	}
+	//for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
+	//	(*iter)->Draw();
+}
+
+void GameScreen::newGame()
+{
+	 //destroy all existing entities
+	EntityManager::getInstance().KillAll();
+	// Create newplayer
+	CTwoDVector playerStartPosition(100, 100);
+	GameEntity *player = EntityManager::getInstance().MakeEntity<Player>(0, 100, playerStartPosition, 10, 10, 0, 1, 32, PLAYER, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
+	gameTime = 0;
+	gameTimeUpdateCounter = 0;
+	EntityManager::getInstance().AddEntity(player);
+	Enemy::setPlayer(dynamic_cast<Player*>(player));
+}
+
+void GameScreen::SpawnEnemies()
+{
 	//Attempt to create new enemy
 	if (++EnemySpawnTimerCurrent >= EnemySpawnTimerMax)
 	{
-		EnemySpawnTimerMax = FPS*(4 + rand() % 4 - logf(gameTime*5)/3 );//zombies spawn after FPS*(random+3)-3*seconds elapsed
+		EnemySpawnTimerMax = FPS*(4 + rand() % 4 - logf(gameTime * 5) / 3);//zombies spawn after FPS*(random+3)-3*seconds elapsed
 		if (EnemySpawnTimerMax < 3)
 			EnemySpawnTimerMax = 3;
 
@@ -58,14 +99,14 @@ void GameScreen::Update()
 		if (diffLevel > 3)
 			diffLevel = 3;
 		for (int i = 0; i < spawnNumber; i++)
-		{	
+		{
 			//zombies are spawned in proximity of each other, with proximity radius dependant on number spawned
-			if(Enemy::getCount()<40) //max number of zombies allowed
+			if (Enemy::getCount()<40) //max number of zombies allowed
 			{
 				CTwoDVector spawnOffset((40 - rand() % 20)*(spawnNumber*1.3), (40 - rand() % 20)*(spawnNumber*1.3));
 				CTwoDVector zombieSpawnPoint = spawnCentre + spawnOffset;
-				GameEntity * entity = EntityManager::getInstance().MakeEntity<MeleeZombie>( zombieSpawnPoint, diffLevel,
-															meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
+				GameEntity * entity = EntityManager::getInstance().MakeEntity<MeleeZombie>(zombieSpawnPoint, diffLevel,
+					meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
 				EntityManager::getInstance().AddEntity(entity);
 			}
 		}
@@ -73,39 +114,23 @@ void GameScreen::Update()
 		if (spawnNumber < 4)
 			EnemySpawnTimerMax /= 2;
 	}
-	// Update the entity manager to remove the dead.
-	EntityManager::getInstance().UpdateList();
-}
-
-void GameScreen::Draw()
-{
-	// Draw map
-	// Draw map
-	MapDrawBG(20, 20, 0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-
-	//draw objects
-	for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-		(*iter)->Draw();
-}
-
-void GameScreen::newGame()
-{
-	 //destroy all existing entities
-	EntityManager::getInstance().KillAll();
-	// Create newplayer
-	CTwoDVector playerStartPosition(100, 100);
-	GameEntity *player = EntityManager::getInstance().MakeEntity<Player>(0, 100, playerStartPosition, 10, 10, 0, 1, 32, PLAYER, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
-	gameTime = 0;
-	EntityManager::getInstance().AddEntity(player);
-	Enemy::setPlayer(dynamic_cast<Player*>(player));
 }
 
 bool GameScreen::isPlayerAlive()
 {
-	for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
+	for (GameEntity* object : objects)
 	{
-		if ((*iter)->getID() == PLAYER)
+		if(object->getID() == PLAYER)
+		{
 			return true;
+		}
 	}
 	return false;
+
+	//for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
+	//{
+	//	if ((*iter)->getID() == PLAYER)
+	//		return true;
+	//}
+	//return false;
 }

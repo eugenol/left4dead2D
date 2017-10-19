@@ -6,6 +6,11 @@
 DeathScreen::DeathScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72) : font18(font_18), font24(font_24), font72(font_72)
 {
 	image = al_load_bitmap("gameover.png");
+
+	CTwoDVector buttonLocation(DISPLAY_WIDTH - 100, DISPLAY_HEIGHT - 28);
+	ALLEGRO_COLOR buttonColor = al_map_rgb(255, 0, 0);
+	auto callback = [this]() {this->returnToMenu = true; };
+	m_button = std::make_unique<CButton>(buttonLocation, 200, 38, "Main Menu", font_18, buttonColor, callback);
 }
 
 
@@ -16,15 +21,13 @@ DeathScreen::~DeathScreen()
 
 void DeathScreen::Update()
 {
-	int mouse_x = InputManager::getInstance().getMouseX();
-	int mouse_y = InputManager::getInstance().getMouseY();
+	CTwoDVector mouse = InputManager::getInstance().GetMousePosition();
 
 	returnToMenu = false;
 
-	if (InputManager::getInstance().isMouseButtonPressed(LEFTM) && (mouse_x >= DISPLAY_WIDTH - 200)
-		&& (mouse_x <= DISPLAY_WIDTH) && (mouse_y >= DISPLAY_HEIGHT - 38) && (mouse_y <= DISPLAY_HEIGHT))
+	if (InputManager::getInstance().isMouseButtonPressed(LEFTM))
 	{
-		returnToMenu = true;
+		m_button->OnClicked(mouse);
 	}
 }
 
@@ -32,7 +35,7 @@ void DeathScreen::Draw()
 {
 	al_draw_text(font24, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 20, ALLEGRO_ALIGN_CENTRE, "You did not survive the zombie horde!");
 	al_draw_bitmap(image, 128, 92, 0);
-	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH - 100, DISPLAY_HEIGHT - 28, ALLEGRO_ALIGN_CENTRE, "Main Menu");
+	m_button->Draw();
 }
 
 

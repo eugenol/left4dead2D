@@ -3,11 +3,18 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include "Common.h"
 
 
 ScoreScreen::ScoreScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72) : font18(font_18), font24(font_24), font72(font_72)
 {
 	returnToMenu = false;
+
+	CTwoDVector buttonLocation(DISPLAY_WIDTH - 100, DISPLAY_HEIGHT - 28);
+	ALLEGRO_COLOR buttonColor = al_map_rgb(255, 0, 0);
+	auto callback = [this]() {this->returnToMenu = true; };
+	m_button = std::make_unique<CButton>(buttonLocation, 200, 38, "Main Menu", font_18, buttonColor, callback);
+
 	LoadData();
 }
 
@@ -23,10 +30,9 @@ void ScoreScreen::Update()
 
 	returnToMenu = false;
 
-	if (InputManager::getInstance().isMouseButtonPressed(LEFTM) && (mouse.m_x >= DISPLAY_WIDTH - 200)
-		&& (mouse.m_x <= DISPLAY_WIDTH) && (mouse.m_y >= DISPLAY_HEIGHT - 38) && (mouse.m_y <= DISPLAY_HEIGHT))
+	if (InputManager::getInstance().isMouseButtonPressed(LEFTM))
 	{
-		returnToMenu = true;
+		m_button->OnClicked(mouse);
 	}
 }
 
@@ -55,7 +61,7 @@ void ScoreScreen::Draw()
 		al_draw_textf(font18, al_map_rgb(255, 0, 0), 555, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%s", time.c_str());
 	}
 
-	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH - 100, DISPLAY_HEIGHT - 28, ALLEGRO_ALIGN_CENTRE, "Main Menu");
+	m_button->Draw();
 }
 
 void ScoreScreen::LoadData()
