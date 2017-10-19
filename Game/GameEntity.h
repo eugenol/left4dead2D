@@ -1,9 +1,6 @@
 #ifndef GAMEENTITY_H
 #define GAMEENTITY_H
-//allegro includes
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_image.h>
+
 extern int gameTime;
 extern int gameTimeUpdateCounter;
 
@@ -23,7 +20,6 @@ protected:
 	int direction;		  //Single Direction Variable from 0 to 3 Describes direction
 	int maxXpos, maxYpos; //Hold window size to prevent the player from moving off the screen
 	bool collided;
-
 	
 	int hitboxRadius;		//defines radius (for a square) for entity collision detection
 	int hitboxWidth;
@@ -31,18 +27,7 @@ protected:
 	int ID;
 	bool isAlive = true; //used for EntityManager
 
-	//Sprite and animation variables (possibly moved to sprite class?? will see)
-	ALLEGRO_BITMAP *image;
-	int animationFrameWidth;//this is the width of the bitmap region
-	int animationFrameHeight;//this is the height of bitmap region
-	int currentAnimationFrame;//this is the frame we are on
-	int frameCount; //frame Count
-	int maxFrameCount = 0; //the last frames of animation sequence
-	int minFrameCount;//the first frame of animation sequence
-	int frameDelay; //delay associated to animation
-
 	//Update functions
-	void UpdateAnimation();
 	virtual bool UpdatePosition() = 0;
 	virtual void UpdateDirection() = 0;
 	
@@ -53,13 +38,12 @@ protected:
 public:
 	GameEntity();
 	GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
-		int hitboxRadius, int ID, ALLEGRO_BITMAP *image);
+		int hitboxRadius, int ID);
 	virtual ~GameEntity();
 
 	int getID();
 	bool active = false;	//is the entity actively being used?
-	virtual void draw();
-	virtual void draw(ALLEGRO_COLOR);
+	virtual void draw() {}
 	virtual void update()=0;//general Update Entity, calls specific Update Functions
 	bool getAlive() { return isAlive; } //return Alive state
 

@@ -43,9 +43,23 @@ public:
 	void AddEntity(GameEntity *entity);
 	void KillAll();
 
+
+	template<typename T, typename... TArgs>
+	GameEntity* MakeEntity(TArgs&&... mArgs);
 	//Can't use these methods to accidentally copy the input manager.
 	EntityManager(EntityManager const&) = delete;
 	void operator=(EntityManager const&) = delete;
 };
+
+template < typename T, typename ... TArgs >
+GameEntity* EntityManager::MakeEntity( TArgs&&... mArgs )
+{
+	static_assert(std::is_base_of<GameEntity, T>::value,
+		"`T` must be derived from `Entity`");
+
+	GameEntity* ptr = new T(std::forward<TArgs>(mArgs)...);
+	
+	return ptr;
+}
 #endif
 

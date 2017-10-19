@@ -1,0 +1,24 @@
+#pragma once
+class CTwoDVector
+{
+public:
+	CTwoDVector();
+	CTwoDVector( int x, int y );
+	CTwoDVector( const CTwoDVector& obj); //copy constructor
+	~CTwoDVector();
+
+	CTwoDVector& operator=(const CTwoDVector& obj); //copy assignment
+
+	//operators
+	CTwoDVector operator+(const CTwoDVector& obj);
+	CTwoDVector operator-(const CTwoDVector& obj);
+	CTwoDVector operator*(const int& obj);
+	CTwoDVector operator/(const int& obj);
+
+	double DistanceToSq(const CTwoDVector& obj);
+	double DistanceTo(const CTwoDVector& obj);
+	
+	int m_x;
+	int m_y;
+};
+

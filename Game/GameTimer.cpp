@@ -1,6 +1,5 @@
 #include "GameTimer.h"
-#include "InitData.h"
-#include "string.h"
+#include <string>
 
 //-------------------------------------------------------
 

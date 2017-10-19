@@ -1,6 +1,4 @@
 #include "GameEntity.h"
-#include "InputManager.h"
-#include "allegro5\allegro_primitives.h"
 #include "Player.h"
 
 GameEntity::GameEntity()
@@ -8,7 +6,7 @@ GameEntity::GameEntity()
 
 }
 GameEntity::GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
-	int hitboxRadius, int ID, ALLEGRO_BITMAP *image)
+	int hitboxRadius, int ID)
 {
 	this->pos_x = pos_x;
 	this->pos_y = pos_y;
@@ -20,7 +18,6 @@ GameEntity::GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y,
 	this->active = active;
 	this->hitboxRadius = hitboxRadius;
 	this->ID = ID;
-	this->image = image;
 	this->life = life;
 	collided = false;
 }
@@ -31,25 +28,6 @@ GameEntity::~GameEntity()
 	//image connot be destroyed here, as it was not created in this object, it is created in main, and a reference is passed to the object,
 	//we do it this way to save memory, otherwise every new enemy will have a new bitmap instead of sharing one.
 	//al_destroy_bitmap(image);
-}
-
-void GameEntity::draw()
-{
-	al_draw_bitmap_region(image, currentAnimationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x - animationFrameWidth / 2, pos_y - animationFrameHeight / 2, 0);
-}
-void GameEntity::draw(ALLEGRO_COLOR tintColor){
-	al_draw_tinted_bitmap_region(image,tintColor, currentAnimationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x - animationFrameWidth / 2, pos_y - animationFrameHeight / 2, 0);
-}
-
-void GameEntity::UpdateAnimation()
-{
-	//Generates /Advances Animation
-	if (++frameCount>= frameDelay)
-	{
-		if (++currentAnimationFrame >= maxFrameCount)
-			currentAnimationFrame = minFrameCount;
-		frameCount = 0;
-	}
 }
 
 

@@ -95,6 +95,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CreditScreen.cpp" />
+    <ClCompile Include="CSprite.cpp" />
+    <ClCompile Include="CTwoDVector.cpp" />
     <ClCompile Include="DeathScreen.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityManager.cpp" />
@@ -103,7 +105,6 @@
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="HeadsUpDisplay.cpp" />
     <ClCompile Include="HealthBar.cpp" />
-    <ClCompile Include="InitData.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mappy_A5.c" />
@@ -119,6 +120,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreditScreen.h" />
+    <ClInclude Include="CSprite.h" />
+    <ClInclude Include="CTwoDVector.h" />
     <ClInclude Include="DeathScreen.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EntityManager.h" />
@@ -127,7 +130,6 @@
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="HeadsUpDisplay.h" />
     <ClInclude Include="HealthBar.h" />
-    <ClInclude Include="InitData.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="mappy_A5.h" />
     <ClInclude Include="MeleeZombie.h" />

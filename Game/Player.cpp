@@ -10,40 +10,61 @@
 #include "HeadsUpDisplay.h"
 #define PI 3.14159265
 
-Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage, ALLEGRO_BITMAP *potionImage) :
-GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag),
+Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage, ALLEGRO_BITMAP *potionImage) :
+GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity),
 healthBar(),
 playerLives(),
 gameTimer()
 {
+	//set spritesheet properties PlayerSprite
+	struct SpriteSheetProperties properties;
+	properties.m_animationFrameHeight = 32;
+	properties.m_animationFrameWidth = 32;
+	properties.m_currentAnimationFrame = 0;
+	properties.m_frameCount = 0;
+	properties.m_frameDelay = 5;
+	properties.m_maxFrameCount = 8;
+	properties.m_minFrameCount = 0;
+
+	m_playerSpriteSheet = new CSprite("player_sprite.png", properties);
+	m_playerImage = m_playerSpriteSheet;
+
+	//set spritesheet properties PleayerDeathSprite
+	properties.m_animationFrameHeight = 66;
+	properties.m_animationFrameWidth = 68;
+	properties.m_currentAnimationFrame = 0;
+	properties.m_frameCount = 0;
+	properties.m_frameDelay = 6;
+	properties.m_maxFrameCount = 7;
+	properties.m_minFrameCount = 0;
+	
+	m_playerDeathSprite = new CSprite("player_bloody_death_spritesheet.png", properties);
+
+
+	//set spritesheet properties AttackSplatter
+	properties.m_animationFrameHeight = 42;
+	properties.m_animationFrameWidth = 32;
+	properties.m_currentAnimationFrame = 0;
+	properties.m_frameCount = 0;
+	properties.m_frameDelay = 2;
+	properties.m_maxFrameCount = 10;
+	properties.m_minFrameCount = 0;
+	attackSplatterAnimationControl = false;
+
+	m_attackSplatter = new CSprite("attack_splatter_42_32.png", properties);
+
 	headsUpDisplay = new HeadsUpDisplay();
 	this->score = score;
 	shooting_control = 0;
-	animationFrameHeight = 32;
-	animationFrameWidth = 32;
-	currentAnimationFrame = 0;
-	frameCount = 0;
-	frameDelay = 5;
-	maxFrameCount = 8;
-	minFrameCount = 0;
+
 	this->bulletSpriteSheet = bulletSpriteSheet;
 	bulletExplosionSpriteSheet = al_load_bitmap("explosion.png");
-	playerDeathAnimation = al_load_bitmap("player_bloody_death_spritesheet.png");
-	attackSplatterAnimation = al_load_bitmap("attack_splatter_42_32.png");
+
 	hitboxHeight = 32;
 	hitboxWidth = 32;
 	livesLeft = 3;
 	noOfZombieHits = 0;
 	deathanimationcontrol = 0;
-
-	//Blood Spatter Animation Initialisation
-	attackSplatterFrameWidth = 42;
-	attackSplatterFrameHeight = 32;
-	attackSplatterCurrentAnimationFrame = 0;
-	attackSplatterMaxAnimtionFrame = 10;
-	attackSplatterFrameDelay = 2;
-	attackSplatterFrameCount = 0;
-	attackSplatterAnimationControl = false;
 
 	//Temporary Code for HUD
 	//Init fonts
@@ -92,29 +113,23 @@ void Player::update()
 		{
 			active = 0;
 		}
-	ShootCheck();
-	if (UpdatePosition())
-	{
-		UpdateDirection();
-		UpdateAnimation();
+		ShootCheck();
+		if (UpdatePosition())
+		{
+			UpdateDirection();
+			m_playerImage->DoLogic();
+		}
 	}
-}
 	else if ((!active) && isAlive)
 	{
 		if (deathanimationcontrol == 0)
 		{	
 			deathanimationcontrol++;
-			image = playerDeathAnimation;
-			animationFrameHeight = 66;
-			animationFrameWidth = 68;
-			currentAnimationFrame = 0;
-			frameCount = 0;
-			frameDelay = 6;
-			maxFrameCount = 7;
+			m_playerImage = m_playerDeathSprite;
 		}
 
-			UpdateAnimation();
-		if (frameCount == 0)
+		m_playerImage->DoLogic();
+		if (m_playerImage->GetFrameCount() == 0)
 			isAlive = false;
 	}
 	if (attackSplatterAnimationControl)
@@ -145,17 +160,11 @@ void Player::update()
 void Player::attackSplatterAnimationUpdate()
 {
 	//Generates /Advances Animation
-	//if (attackSplatterAnimationControl)
-	if (++attackSplatterFrameCount >= attackSplatterFrameDelay)
-	{
-		if (++attackSplatterCurrentAnimationFrame >= attackSplatterMaxAnimtionFrame)
-		{
-			attackSplatterCurrentAnimationFrame = 0;
-			attackSplatterAnimationControl = false;
-		}
-			
-			attackSplatterFrameCount = 0;
+	m_attackSplatter->DoLogic();
 
+	if( m_attackSplatter->GetCurrentAnimationFrame() >= m_attackSplatter->GetMaxFrameCount() -1 )
+	{
+			attackSplatterAnimationControl = false;
 	}
 }
 
@@ -248,18 +257,22 @@ bool Player::UpdatePosition()
 
 	
 	//move position
-	if (((pos_x + speed_x*horizontal) > animationFrameWidth/2) && ((pos_x + speed_x*horizontal) < (maxXpos - animationFrameWidth/2)))
+	if (((pos_x + speed_x*horizontal) > m_playerImage->GetFrameWidth()/2) && ((pos_x + speed_x*horizontal) < (maxXpos - m_playerImage->GetFrameWidth()/2)))
 	{
 			pos_x += speed_x*horizontal;
 	}
-	if (((pos_y + speed_y*vertical) > animationFrameHeight/2) && ((pos_y + speed_y*vertical) < (maxYpos - animationFrameHeight/2)))
+	if (((pos_y + speed_y*vertical) > m_playerImage->GetFrameHeight() /2) && ((pos_y + speed_y*vertical) < (maxYpos - m_playerImage->GetFrameHeight()/2)))
 	{
 		pos_y += speed_y*vertical;
 	}
 
 		if ((old_pos_x == pos_x) && (old_pos_y == pos_y))
-			return 0;
-		else return 1;
+		{
+			return false;
+		}
+
+		
+	return true;
 }
 
 void Player::ShootCheck()
@@ -273,7 +286,7 @@ void Player::ShootCheck()
 		{
 			int destination_x = InputManager::getInstance().getMouseX();
 			float destination_y = InputManager::getInstance().getMouseY();
-			Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
+			GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
 			EntityManager::getInstance().AddEntity(bulletPtr);
 			shooting_control = 0;
 		}
@@ -289,11 +302,10 @@ void Player::ShootCheck()
 	
 }
 void Player::megaShot(){//shoots 24 projectiles radially around the player
-	int destination_x, destination_y;
 	for (int angle = 0; angle < 360; angle += 15)
 	{
-		destination_x = pos_x + 100*cosf(angle*PI/180);
-		destination_y = pos_y + 100*sinf(angle*PI/180);
+		int destination_x = pos_x + 100*cosf(angle*PI/180);
+		int destination_y = pos_y + 100*sinf(angle*PI/180);
 		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 80);
 		EntityManager::getInstance().AddEntity(bulletPtr);
 	}
@@ -310,10 +322,14 @@ int Player::GetPos_Y()
 
 void Player::draw()
 {
-	GameEntity::draw();
+	m_playerImage->Draw( CTwoDVector(pos_x, pos_y), direction );
+
 	//Blood Spatter Animation
 	if (attackSplatterAnimationControl)
-		al_draw_bitmap_region(attackSplatterAnimation, attackSplatterCurrentAnimationFrame*attackSplatterFrameWidth, 0, attackSplatterFrameWidth, attackSplatterFrameHeight, pos_x, (pos_y - (animationFrameHeight)), 0);
+	{
+		m_attackSplatter->Draw(CTwoDVector(pos_x, pos_y), 0);
+	}
+
 	headsUpDisplay->draw();
 	healthBar->draw();
 	playerLives->draw();

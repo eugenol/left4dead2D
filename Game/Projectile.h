@@ -1,5 +1,7 @@
 #pragma once
 #include "GameEntity.h"
+#include "CSprite.h"
+
 class Projectile :
 	public GameEntity
 {
@@ -16,6 +18,7 @@ private:
 	bool UpdatePosition();
 	void UpdateDirection();
 	void update();
+	void draw();
 	int damagePower;
 	//Explosion Control
 	ALLEGRO_BITMAP *explosionSpriteSheet;
@@ -23,5 +26,9 @@ private:
 	virtual int getDamagePower();
 
 	void setDamagePower(int);
+
+	CSprite* m_explosionSprite;
+	CSprite* m_bulletSprite;
+	CSprite* m_currentImage;
 };
 

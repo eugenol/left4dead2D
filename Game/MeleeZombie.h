@@ -13,8 +13,10 @@ private:
 	void UpdateDirection();
 	void setDirection(float angle);//sets the animation direction towards zombie destination\
 	
-	//Death Animation Variables
-	ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet;
+	CSprite* m_currentSprite;
+	CSprite* m_zombieSprite;
+	CSprite* m_zombieDeathSprite;
+
 public:
 	void update();
 	//quick constructor (presets most values)

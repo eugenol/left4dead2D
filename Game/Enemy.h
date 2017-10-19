@@ -6,6 +6,7 @@
 #include "allegro5\allegro_primitives.h"
 #include "allegro5\allegro_image.h"
 #include "Player.h"
+
 enum TYPES{ MELEEZOMBIE };
 class Enemy :public GameEntity{//class contains all enemies
 private:
@@ -31,6 +32,7 @@ public:
 	int static getCount();
 	static void setPlayer(Player *player);//sets player in enemy class
 	int getDamagePower();
+	void draw();
 };
 #endif
 /*GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_x,

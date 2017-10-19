@@ -1,7 +1,7 @@
 #include "GameScreen.h"
 #include <cmath>
 
-GameScreen::GameScreen(ALLEGRO_BITMAP *playerImage, ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) : playerSpriteSheet(playerImage), bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
+GameScreen::GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) : bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
 {
 	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
 }
@@ -55,7 +55,7 @@ void GameScreen::update()
 		for (int i = 0; i < spawnNumber; i++){	
 			//zombies are spawned in proximity of each other, with proximity radius dependant on number spawned
 			if(Enemy::getCount()<40){//max number of zombies allowed
-				GameEntity * entity = new MeleeZombie(spawnCentre_x + (40 - rand() % 20)*(spawnNumber*1.3),
+				GameEntity * entity = EntityManager::getInstance().MakeEntity<MeleeZombie>(spawnCentre_x + (40 - rand() % 20)*(spawnNumber*1.3),
 					spawnCentre_y + (40 - rand() % 20)*(spawnNumber*1.3),diffLevel, meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
 				EntityManager::getInstance().AddEntity(entity);
 			}
@@ -84,10 +84,10 @@ void GameScreen::newGame()
 	 //destroy all existing entities
 	EntityManager::getInstance().KillAll();
 	// Create newplayer
-	Player *player = new Player(0, 100, 800, 600, 100, 100, 10, 10, 0, 1, 32, PLAYER, playerSpriteSheet, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
+	GameEntity *player = EntityManager::getInstance().MakeEntity<Player>(0, 100, 800, 600, 100, 100, 10, 10, 0, 1, 32, PLAYER, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
 	gameTime = 0;
 	EntityManager::getInstance().AddEntity(player);
-	Enemy::setPlayer(player);
+	Enemy::setPlayer(dynamic_cast<Player*>(player));
 }
 
 bool GameScreen::isPlayerAlive()

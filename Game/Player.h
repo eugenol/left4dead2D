@@ -3,6 +3,7 @@
 #include "Projectile.h"
 #include "HeadsUpDisplay.h"
 #include <fstream>
+#include "CSprite.h"
 
 //Temp for HUD
 #include <allegro5/allegro_font.h>
@@ -19,7 +20,7 @@ class Player :
 	friend Projectile;
 public:
 	Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ,
-		int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage);
+		int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage);
 	~Player();
 	
 	//Get and Set Functions
@@ -49,9 +50,7 @@ protected:
 	int deathanimationcontrol;
 	ALLEGRO_BITMAP *bulletSpriteSheet;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet;
-	ALLEGRO_BITMAP *playerDeathAnimation;
-	//Blood Splatter On Attack Animation Variables
-	ALLEGRO_BITMAP *attackSplatterAnimation;
+
 	bool attackSplatterAnimationControl;
 	float splatterAngle;
 	int attackSplatterFrameWidth;
@@ -78,5 +77,13 @@ private:
 	GameTimer *gameTimer;
 	Potion *potion;
 	HeadsUpDisplay *headsUpDisplay;
+
+
+	CSprite* m_playerSpriteSheet;
+	CSprite* m_playerDeathSprite;
+	CSprite* m_playerImage;
+
+	CSprite* m_attackSplatter;
+
 };
 
