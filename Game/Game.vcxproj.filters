@@ -19,6 +19,9 @@
     <Filter Include="ScreenManager\Screens">
       <UniqueIdentifier>{cfd9f506-9fa2-4c7d-b509-adece6801f2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{8ab45ea8-5773-4bbd-ab53-98e6e59d8e6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,12 +69,6 @@
     <ClCompile Include="HeadsUpDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CSprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CTwoDVector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ScreenManager.cpp">
       <Filter>ScreenManager</Filter>
     </ClCompile>
@@ -92,6 +89,12 @@
     </ClCompile>
     <ClCompile Include="DeathScreen.cpp">
       <Filter>ScreenManager\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="CSprite.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CTwoDVector.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,15 +140,6 @@
     <ClInclude Include="HeadsUpDisplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CSprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CTwoDVector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ScreenManager.h">
       <Filter>ScreenManager</Filter>
     </ClInclude>
@@ -166,6 +160,15 @@
     </ClInclude>
     <ClInclude Include="CScreen.h">
       <Filter>ScreenManager\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CSprite.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CTwoDVector.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

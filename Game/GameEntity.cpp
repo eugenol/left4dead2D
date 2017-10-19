@@ -6,10 +6,10 @@ GameEntity::GameEntity()
 {
 
 }
-GameEntity::GameEntity(int life, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
+GameEntity::GameEntity(int life, CTwoDVector position, int speed_x, int speed_y, int direction, bool active,
 	int hitboxRadius, int ID)
 	:
-	m_position( pos_x, pos_y ),
+	m_position( position ),
 	speed_x( speed_x ),
 	speed_y( speed_y ),
 	direction( direction ),

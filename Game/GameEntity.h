@@ -13,7 +13,7 @@ class GameEntity
 {
 public:
 	GameEntity();
-	GameEntity(int life, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
+	GameEntity(int life, CTwoDVector position, int speed_x, int speed_y, int direction, bool active,
 		int hitboxRadius, int ID);
 	virtual ~GameEntity();
 	

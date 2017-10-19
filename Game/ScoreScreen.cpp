@@ -15,13 +15,12 @@ ScoreScreen::~ScoreScreen()
 
 void ScoreScreen::Update()
 {
-	int mouse_x = InputManager::getInstance().getMouseX();
-	int mouse_y = InputManager::getInstance().getMouseY();
+	CTwoDVector mouse = InputManager::getInstance().GetMousePosition();
 
 	returnToMenu = false;
 
-	if (InputManager::getInstance().isMouseButtonPressed(LEFTM) && (mouse_x >= DISPLAY_WIDTH - 200)
-		&& (mouse_x <= DISPLAY_WIDTH) && (mouse_y >= DISPLAY_HEIGHT - 38) && (mouse_y <= DISPLAY_HEIGHT))
+	if (InputManager::getInstance().isMouseButtonPressed(LEFTM) && (mouse.m_x >= DISPLAY_WIDTH - 200)
+		&& (mouse.m_x <= DISPLAY_WIDTH) && (mouse.m_y >= DISPLAY_HEIGHT - 38) && (mouse.m_y <= DISPLAY_HEIGHT))
 	{
 		returnToMenu = true;
 	}
@@ -61,36 +60,27 @@ void ScoreScreen::LoadData()
 	}
 	file.close();
 
-	std::sort(loadhighscores.rbegin(), loadhighscores.rend());
+	std::sort(loadhighscores.rbegin(), loadhighscores.rend(), [](std::pair<int, int>& a, std::pair<int, int>& b) -> bool { return a.first < b.first; } );
 
 	if (loadhighscores.size() > 10)
 	{
-		std::vector<std::pair<int, int> >::const_iterator first = loadhighscores.begin();
-		std::vector<std::pair<int, int> >::const_iterator last = loadhighscores.begin() + 10;
-		std::vector<std::pair<int, int> > temphighscores(first, last);
-
 		highscores.clear();
-		for (std::vector<std::pair<int, int> >::iterator i = temphighscores.begin(); i != temphighscores.end(); i++)
+		for (std::vector<std::pair<int, int> >::iterator i = loadhighscores.begin(); i != loadhighscores.begin()+10; ++i)
 		{
 			highscores.push_back(*i);
 		}
 	}
 	else
 	{
-		std::vector<std::pair<int, int> >::const_iterator first = loadhighscores.begin();
-		std::vector<std::pair<int, int> >::const_iterator last = loadhighscores.end();
-		std::vector<std::pair<int, int> > temphighscores(first, last);
-
 		highscores.clear();
-		for (std::vector<std::pair<int, int> >::iterator i = temphighscores.begin(); i != temphighscores.end(); i++)
+		for (std::vector<std::pair<int, int> >::iterator i = loadhighscores.begin(); i != loadhighscores.end(); ++i)
 		{
 			highscores.push_back(*i);
 		}
 	}
 
 	file.open("highscores.txt");
-
-	for (std::vector<std::pair<int, int> >::iterator i = highscores.begin(); i != highscores.end(); i++)
+	for (std::vector<std::pair<int, int> >::iterator i = highscores.begin(); i != highscores.end(); ++i)
 	{
 		file << i->first << " " << i->second << std::endl;
 	}

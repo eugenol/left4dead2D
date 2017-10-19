@@ -32,7 +32,7 @@ private:
 	InputManager(); //Singleton
 	const int numKeys = 6;
 	std::vector<bool> keys;
-	float mouse_x, mouse_y;
+	CTwoDVector m_mousePosition;
 	bool mouseButton[3];
 	ALLEGRO_MOUSE_STATE mouseState;
 public:

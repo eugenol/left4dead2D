@@ -10,8 +10,8 @@
 #include "HeadsUpDisplay.h"
 #define PI 3.14159265
 
-Player::Player(int score, int lif, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage, ALLEGRO_BITMAP *potionImage) :
-GameEntity(lif, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity),
+Player::Player(int score, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage, ALLEGRO_BITMAP *potionImage) :
+GameEntity(lif, position, speedX, speedY, Dir, activ, hitboxR, Identity),
 healthBar(),
 playerLives(),
 gameTimer()
@@ -284,7 +284,7 @@ void Player::ShootCheck()
 		if ((shooting_control == 0) || (shooting_control > 3))
 		{
 			CTwoDVector destination = InputManager::getInstance().GetMousePosition();
-			GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination.m_x, destination.m_y, 0, m_position.m_x, m_position.m_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
+			GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination, 0, m_position, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
 			EntityManager::getInstance().AddEntity(bulletPtr);
 			shooting_control = 0;
 		}
@@ -303,7 +303,7 @@ void Player::megaShot(){//shoots 24 projectiles radially around the player
 	for (int angle = 0; angle < 360; angle += 15)
 	{
 		CTwoDVector destination(m_position.m_x + 100 * cosf(angle*PI / 180), m_position.m_y + 100 * sinf(angle*PI / 180));
-		GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination.m_x, destination.m_y, 0, m_position.m_x, m_position.m_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 80);
+		GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination, 0, m_position, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 80);
 		EntityManager::getInstance().AddEntity(bulletPtr);
 	}
 }

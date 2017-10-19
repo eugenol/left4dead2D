@@ -3,11 +3,11 @@
 #include "allegro5\allegro_primitives.h"
 #include "allegro5\allegro_image.h"
 
-Player * Enemy::m_player =  NULL;
+Player * Enemy::m_player =  nullptr;
 int Enemy::maxEnemyCount = 0;
-Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int direction, ALLEGRO_BITMAP *image,
+Enemy::Enemy(int Enemytype, CTwoDVector position, int speed_x, int speed_y, int direction, ALLEGRO_BITMAP *image,
 	bool active, int hitpoints, int regenRate,int damage, int difficulty)
-	:GameEntity(hitpoints, pos_x, pos_y, speed_x, speed_y,
+	:GameEntity(hitpoints, position, speed_x, speed_y,
 	direction, active, hitboxRadius, ID)
 {
 	

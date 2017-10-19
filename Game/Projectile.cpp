@@ -2,9 +2,9 @@
 #include <math.h>
 
 
-Projectile::Projectile(int destination_x, int destination_y, int lif, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag, int damagePower)
+Projectile::Projectile(CTwoDVector destination, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag, int damagePower)
 	: 
-	GameEntity(lif, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity)
+	GameEntity(lif, position, speedX, speedY, Dir, activ, hitboxR, Identity)
 {
 	
 	//Animation Initialisation
@@ -32,8 +32,8 @@ Projectile::Projectile(int destination_x, int destination_y, int lif, int xPos, 
 	m_explosionSprite = new CSprite(explosionImag, properties);
 
 	//Bullet Path Initialisation
-	m_oldPosition = CTwoDVector(xPos, yPos);
-	m_destination = CTwoDVector(destination_x, destination_y);
+	m_oldPosition = position;
+	m_destination = destination;
 	angleOfPath = atan2f(m_destination.m_y - m_oldPosition.m_y, m_destination.m_x - m_oldPosition.m_x);
 	hitboxHeight = 15;
 	hitboxWidth = 15;

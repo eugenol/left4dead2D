@@ -6,15 +6,15 @@
 
 #define PI 3.14159265
 
-MeleeZombie::MeleeZombie(int pos_x, int pos_y,int difficulty, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet) :
-Enemy(MELEEZOMBIE, pos_x, pos_y, 2 + rand() % 3, 2 + rand() % 3, NORTH,
+MeleeZombie::MeleeZombie( CTwoDVector position,int difficulty, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet) :
+Enemy(MELEEZOMBIE, position, 2 + rand() % 3, 2 + rand() % 3, NORTH,
 	image, true, 87, 5,4,difficulty)
 {
-	m_oldPosition = CTwoDVector(pos_x, pos_y);
+	m_oldPosition = position;
 
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)
 	if (m_player)
-		setDirection(180.0 / PI*atan2((float)((*m_player).GetPos_Y() - pos_y), (float)((*m_player).GetPos_X() - pos_x)));
+		setDirection(180.0 / PI*atan2((float)((*m_player).GetPos_Y() - position.m_y), (float)((*m_player).GetPos_X() - position.m_x)));
 
 
 	SpriteSheetProperties properties;

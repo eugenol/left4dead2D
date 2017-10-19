@@ -9,7 +9,7 @@ enum difficultyEnum{ EASY, HARD, BOSS, GODLIKE };
 
 class MeleeZombie :public Enemy {
 public:
-	MeleeZombie(int pos_x, int pos_y, int difficulty, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet);
+	MeleeZombie( CTwoDVector position, int difficulty, ALLEGRO_BITMAP* image, ALLEGRO_BITMAP* zombieDeathAnimationSpriteSheet );
 	~MeleeZombie();
 
 	void Update() override;
