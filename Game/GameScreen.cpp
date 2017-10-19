@@ -13,7 +13,7 @@ GameScreen::~GameScreen()
 }
 
 
-void GameScreen::update()
+void GameScreen::Update()
 {	
 	if (gameTimeUpdateCounter++ == 60)
 	{
@@ -21,7 +21,7 @@ void GameScreen::update()
 		gameTimeUpdateCounter = 0;
 	}
 	for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-		(*iter)->update();
+		(*iter)->Update();
 
 	//Check for collisions... Not the most efficient, but ok for now. can be changed later...
 	//for now it campares every object, I can make it sector based later...
@@ -68,7 +68,7 @@ void GameScreen::update()
 	EntityManager::getInstance().UpdateList();
 }
 
-void GameScreen::draw()
+void GameScreen::Draw()
 {
 	// Draw map
 	// Draw map
@@ -76,7 +76,7 @@ void GameScreen::draw()
 
 	//draw objects
 	for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-		(*iter)->draw();
+		(*iter)->Draw();
 }
 
 void GameScreen::newGame()
@@ -84,7 +84,7 @@ void GameScreen::newGame()
 	 //destroy all existing entities
 	EntityManager::getInstance().KillAll();
 	// Create newplayer
-	GameEntity *player = EntityManager::getInstance().MakeEntity<Player>(0, 100, 800, 600, 100, 100, 10, 10, 0, 1, 32, PLAYER, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
+	GameEntity *player = EntityManager::getInstance().MakeEntity<Player>(0, 100, 100, 100, 10, 10, 0, 1, 32, PLAYER, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
 	gameTime = 0;
 	EntityManager::getInstance().AddEntity(player);
 	Enemy::setPlayer(dynamic_cast<Player*>(player));

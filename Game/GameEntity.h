@@ -9,6 +9,26 @@ enum DIRECTIONS{NORTH,NORTHEAST,EAST,SOUTHEAST,SOUTH,SOUTHWEST,WEST,NORTHWEST};
 
 class GameEntity
 {
+public:
+	GameEntity();
+	GameEntity(int life, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
+		int hitboxRadius, int ID);
+	virtual ~GameEntity();
+
+	int getID();
+	bool active = false;	//is the entity actively being used?
+	virtual void Draw() {}
+	virtual void Update() = 0;//general Update Entity, calls specific Update Functions
+	bool getAlive() { return isAlive; } //return Alive state
+
+																			// for colissions, can make these virtual, but that can be done later.
+	bool CheckCollision(GameEntity *otherObject);
+	virtual void Collided(GameEntity *otherObject);
+
+	//Virtual Functions for Collisions (Perhaps we shall find another way...)
+	virtual void takeDamage(int damageAmount);
+	virtual int getDamagePower();
+
 protected:
 	int old_pos_x; //Used to check if the entity has had it's position updated
 	int old_pos_y; //If not then there is no need to update direction or animation (this may differ for enemies?)
@@ -35,24 +55,5 @@ protected:
 	void bounceBack(GameEntity * entity1, GameEntity * entity2);
 	void EnemyHitsPlayer(GameEntity * Player, GameEntity * Enemy);
 	void ProjectileHitsEnemy(GameEntity * Enemy, GameEntity * Projectile);
-public:
-	GameEntity();
-	GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
-		int hitboxRadius, int ID);
-	virtual ~GameEntity();
-
-	int getID();
-	bool active = false;	//is the entity actively being used?
-	virtual void draw() {}
-	virtual void update()=0;//general Update Entity, calls specific Update Functions
-	bool getAlive() { return isAlive; } //return Alive state
-
-	// for colissions, can make these virtual, but that can be done later.
-	bool CheckCollision(GameEntity *otherObject);
-	virtual void Collided(GameEntity *otherObject);
-
-	//Virtual Functions for Collisions (Perhaps we shall find another way...)
-	virtual void takeDamage(int damageAmount);
-	virtual int getDamagePower();
 };
 #endif

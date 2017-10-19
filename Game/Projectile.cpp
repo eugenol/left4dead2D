@@ -2,9 +2,9 @@
 #include <math.h>
 
 
-Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag, int damagePower)
+Projectile::Projectile(int destination_x, int destination_y, int lif, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag, int damagePower)
 	: 
-	GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity)
+	GameEntity(lif, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity)
 {
 	
 	//Animation Initialisation
@@ -93,7 +93,7 @@ void Projectile::UpdateDirection()
 {
 	
 }
-void Projectile::update()
+void Projectile::Update()
 {
 	if (active)
 	{
@@ -116,7 +116,7 @@ void Projectile::update()
 	}
 }
 
-void Projectile::draw()
+void Projectile::Draw()
 {
 	m_currentImage->Draw(CTwoDVector(pos_x, pos_y), direction);
 }

@@ -10,8 +10,8 @@
 #include "HeadsUpDisplay.h"
 #define PI 3.14159265
 
-Player::Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage, ALLEGRO_BITMAP *potionImage) :
-GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity),
+Player::Player(int score, int lif, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage, ALLEGRO_BITMAP *potionImage) :
+GameEntity(lif, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity),
 healthBar(),
 playerLives(),
 gameTimer()
@@ -104,7 +104,7 @@ Player::~Player()
 	file.close();
 }
 
-void Player::update()
+void Player::Update()
 {
 	headsUpDisplay->Update(life, livesLeft, score, megaShotCount);
 	if (active)
@@ -286,7 +286,7 @@ void Player::ShootCheck()
 		{
 			int destination_x = InputManager::getInstance().getMouseX();
 			float destination_y = InputManager::getInstance().getMouseY();
-			GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
+			GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination_x, destination_y, 0, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
 			EntityManager::getInstance().AddEntity(bulletPtr);
 			shooting_control = 0;
 		}
@@ -306,7 +306,7 @@ void Player::megaShot(){//shoots 24 projectiles radially around the player
 	{
 		int destination_x = pos_x + 100*cosf(angle*PI/180);
 		int destination_y = pos_y + 100*sinf(angle*PI/180);
-		Projectile *bulletPtr = new Projectile(destination_x, destination_y, 0, 800, 600, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 80);
+		GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination_x, destination_y, 0, pos_x, pos_y, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 80);
 		EntityManager::getInstance().AddEntity(bulletPtr);
 	}
 }
@@ -320,7 +320,7 @@ int Player::GetPos_Y()
 	return pos_y;
 }
 
-void Player::draw()
+void Player::Draw()
 {
 	m_playerImage->Draw( CTwoDVector(pos_x, pos_y), direction );
 
@@ -330,11 +330,11 @@ void Player::draw()
 		m_attackSplatter->Draw(CTwoDVector(pos_x, pos_y), 0);
 	}
 
-	headsUpDisplay->draw();
-	healthBar->draw();
-	playerLives->draw();
-	gameTimer->draw();
-	potion->draw();
+	headsUpDisplay->Draw();
+	healthBar->Draw();
+	playerLives->Draw();
+	gameTimer->Draw();
+	potion->Draw();
 }
 void Player::increaseScore(int addedScore){
 	score += addedScore;

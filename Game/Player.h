@@ -19,18 +19,20 @@ class Player :
 {
 	friend Projectile;
 public:
-	Player(int score, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ,
+	Player(int score, int lif, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ,
 		int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage);
 	~Player();
 	
 	//Get and Set Functions
 	int GetPos_X();
 	int GetPos_Y();
-	void update();
+	void Update() override;
+	void Draw() override;
+	void takeDamage(int damageAmount) override;
+	void increaseScore(int addedScore);
+
 	bool hasShot;
 	void megaShot();//do an AOE shot around player
-	virtual void takeDamage(int damageAmount);
-	void increaseScore(int addedScore);
 
 protected:
 	int score;
@@ -43,7 +45,7 @@ protected:
 	
 	bool damageCheck();
 	void ShootCheck();
-	virtual void draw();
+
 	//Animation Functions
 	void attackSplatterAnimationUpdate();
 	//Animations Variables

@@ -7,21 +7,20 @@
 
 class DeathScreen
 {
-private:
-	ALLEGRO_FONT *font18 = NULL;
-	ALLEGRO_FONT *font24 = NULL;
-	ALLEGRO_FONT *font72 = NULL;
-	ALLEGRO_BITMAP *image = NULL;
-	const int DISPLAY_HEIGHT = 600;
-	const int DISPLAY_WIDTH = 800;
-	bool returnToMenu;
 public:
 	DeathScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72);
 	~DeathScreen();
-	void update();
-	void draw();
-	bool getReturnToMenu() { return returnToMenu; }
-	void setReturnToMenu() { returnToMenu = false; }
+
+	void Update();
+	void Draw();
+	bool GetReturnToMenu() { return returnToMenu; }
+	void SetReturnToMenu() { returnToMenu = false; }
+private:
+	ALLEGRO_FONT *font18 = nullptr;
+	ALLEGRO_FONT *font24 = nullptr;
+	ALLEGRO_FONT *font72 = nullptr;
+	ALLEGRO_BITMAP *image = nullptr;
+	bool returnToMenu;
 };
 #endif
 

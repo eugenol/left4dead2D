@@ -14,7 +14,7 @@ MenuScreen::~MenuScreen()
 {
 }
 
-void MenuScreen::update()
+void MenuScreen::Update()
 {
 	mouse_x = InputManager::getInstance().getMouseX();
 	mouse_y = InputManager::getInstance().getMouseY();
@@ -61,7 +61,7 @@ void MenuScreen::update()
 	}
 }
 
-void MenuScreen::draw()
+void MenuScreen::Draw()
 {
 	int menuItem = 0;
 	al_draw_text(font24, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, menuSlot[menuItem++], ALLEGRO_ALIGN_CENTRE, "Menu");

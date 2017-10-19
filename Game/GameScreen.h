@@ -24,27 +24,28 @@
 #pragma warning (disable : 4996)
 class GameScreen
 {
-private:
-	const int DISPLAY_HEIGHT = 600;
-	const int DISPLAY_WIDTH = 800;
-	int FPS = 60; //Framerate
-	ALLEGRO_BITMAP *playerSpriteSheet = NULL;
-	ALLEGRO_BITMAP *bulletSpriteSheet = NULL;
-	ALLEGRO_BITMAP *healthBarSpriteSheet = NULL;
-	ALLEGRO_BITMAP *gameoverImage = NULL;
-	ALLEGRO_BITMAP *skullImage = NULL;
-	ALLEGRO_BITMAP *potionImage = NULL;
-	ALLEGRO_BITMAP *meleeZombieSpriteSheet = NULL;
-	ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet = NULL;
-	int EnemySpawnTimerMax = FPS*(3 + rand() % 3);
-	int EnemySpawnTimerCurrent = 0;
-	std::list<GameEntity*> objects;
 public:
 	GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m);
 	~GameScreen();
 	void newGame();
-	void update();
-	void draw();
+	void Update();
+	void Draw();
 	bool isPlayerAlive();
+
+private:
+	const int DISPLAY_HEIGHT = 600;
+	const int DISPLAY_WIDTH = 800;
+	int FPS = 60; //Framerate
+	ALLEGRO_BITMAP *playerSpriteSheet = nullptr;
+	ALLEGRO_BITMAP *bulletSpriteSheet = nullptr;
+	ALLEGRO_BITMAP *healthBarSpriteSheet = nullptr;
+	ALLEGRO_BITMAP *gameoverImage = nullptr;
+	ALLEGRO_BITMAP *skullImage = nullptr;
+	ALLEGRO_BITMAP *potionImage = nullptr;
+	ALLEGRO_BITMAP *meleeZombieSpriteSheet = nullptr;
+	ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet = nullptr;
+	int EnemySpawnTimerMax = FPS*(3 + rand() % 3);
+	int EnemySpawnTimerCurrent = 0;
+	std::list<GameEntity*> objects;
 };
 #endif

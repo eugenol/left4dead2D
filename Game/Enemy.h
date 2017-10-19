@@ -25,14 +25,14 @@ protected:
 public:
 	Enemy(int type, int pos_x, int pos_y,int speed_x,int speed_y,int direction,
 		ALLEGRO_BITMAP *image, bool active, int hitpoints,
-		int regenRate,int damage, int difficulty,ALLEGRO_DISPLAY * display);
+		int regenRate,int damage, int difficulty);
 	~Enemy();
 	void takeDamage(int damage);
 	bool UpdatePosition();
 	int static getCount();
 	static void setPlayer(Player *player);//sets player in enemy class
 	int getDamagePower();
-	void draw();
+	void Draw();
 };
 #endif
 /*GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_x,

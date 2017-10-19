@@ -14,6 +14,15 @@
 
 class MenuScreen
 {
+public:
+	MenuScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72, GameScreen *current_game);
+	~MenuScreen();
+	enum MENUSTATE { STAYMENU, NEWGAME, HIGHSCORES, CREDITS, EXITGAME, RESUMEGAME };
+	void Update();
+	void Draw();
+	int getCurrentMenuOption();
+	void clearCurrentMenuOption() { currentOption = STAYMENU; }
+
 private:
 	ALLEGRO_FONT *font18 = NULL;
 	ALLEGRO_FONT *font24 = NULL;
@@ -25,13 +34,6 @@ private:
 	int mouse_x, mouse_y;
 	int menuItem;
 	int currentOption;
-public:
-	MenuScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72, GameScreen *current_game);
-	~MenuScreen();
-	enum MENUSTATE{ STAYMENU, NEWGAME, HIGHSCORES, CREDITS, EXITGAME, RESUMEGAME };
-	void update();
-	void draw();
-	int getCurrentMenuOption();
-	void clearCurrentMenuOption(){ currentOption = STAYMENU; }
+
 };
 #endif

@@ -1,4 +1,5 @@
 #include "DeathScreen.h"
+#include "Common.h"
 
 
 DeathScreen::DeathScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72) : font18(font_18), font24(font_24), font72(font_72)
@@ -12,7 +13,7 @@ DeathScreen::~DeathScreen()
 	al_destroy_bitmap(image);
 }
 
-void DeathScreen::update()
+void DeathScreen::Update()
 {
 	int mouse_x = InputManager::getInstance().getMouseX();
 	int mouse_y = InputManager::getInstance().getMouseY();
@@ -26,7 +27,7 @@ void DeathScreen::update()
 	}
 }
 
-void DeathScreen::draw()
+void DeathScreen::Draw()
 {
 	al_draw_text(font24, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 20, ALLEGRO_ALIGN_CENTRE, "You did not survive the zombie horde!");
 	al_draw_bitmap(image, 128, 92, 0);

@@ -6,8 +6,8 @@
 Player * Enemy::m_player =  NULL;
 int Enemy::maxEnemyCount = 0;
 Enemy::Enemy(int Enemytype, int pos_x, int pos_y, int speed_x, int speed_y, int direction, ALLEGRO_BITMAP *image,
-	bool active, int hitpoints, int regenRate,int damage, int difficulty, ALLEGRO_DISPLAY * display)
-	:GameEntity(hitpoints,al_get_display_width(display),al_get_display_height(display), pos_x, pos_y, speed_x, speed_y,
+	bool active, int hitpoints, int regenRate,int damage, int difficulty)
+	:GameEntity(hitpoints, pos_x, pos_y, speed_x, speed_y,
 	direction, active, hitboxRadius, ID)
 {
 	
@@ -53,7 +53,7 @@ int Enemy::getDamagePower(){
 	return damage;
 }
 
-void Enemy::draw()
+void Enemy::Draw()
 {
 
 }

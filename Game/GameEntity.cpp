@@ -1,17 +1,18 @@
 #include "GameEntity.h"
-#include "Player.h"
+#include <cmath>
+#include "Common.h"
 
 GameEntity::GameEntity()
 {
 
 }
-GameEntity::GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
+GameEntity::GameEntity(int life, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
 	int hitboxRadius, int ID)
 {
 	this->pos_x = pos_x;
 	this->pos_y = pos_y;
-	this->maxXpos = maxXpos;
-	this->maxYpos = maxYpos;
+	this->maxXpos = DISPLAY_WIDTH;
+	this->maxYpos = DISPLAY_HEIGHT;
 	this->speed_x = speed_x;
 	this->speed_y = speed_y;
 	this->direction = direction;
@@ -37,8 +38,9 @@ bool GameEntity::CheckCollision(GameEntity *otherObject)
 	if (this->active == false || otherObject->active == false)
 	{
 		return false;
-	} 
-	else if (((pos_x - hitboxWidth / 2) > (otherObject->pos_x + otherObject->hitboxWidth / 2)) ||
+	}
+	
+	if (((pos_x - hitboxWidth / 2) > (otherObject->pos_x + otherObject->hitboxWidth / 2)) ||
 		((pos_y - hitboxHeight / 2)> (otherObject->pos_y + otherObject->hitboxHeight / 2)) ||
 		((otherObject->pos_x - otherObject->hitboxWidth / 2)>(pos_x + hitboxWidth / 2)) ||
 		((otherObject->pos_y - otherObject->hitboxHeight / 2)> (pos_y + hitboxHeight / 2)))
@@ -117,8 +119,8 @@ void GameEntity::Collided(GameEntity *otherObject)
 	{	
 		//Enemy & projectile collides
 		//To avoid writing code twice, see which is which and use the following pointers to each
-		GameEntity *zombie = NULL;
-		GameEntity *projectile = NULL;
+		GameEntity *zombie = nullptr;
+		GameEntity *projectile = nullptr;
 
 		if (this->ID == PROJECTILE)
 		{
@@ -146,8 +148,8 @@ void GameEntity::Collided(GameEntity *otherObject)
 	{	
 		//Enemy & player collides
 		//To avoid writing code twice, see which is which and use the following pointers to each
-		GameEntity *zombie = NULL;
-		GameEntity *player = NULL;
+		GameEntity *zombie = nullptr;
+		GameEntity *player = nullptr;
 
 		if (this->ID == PLAYER)
 		{

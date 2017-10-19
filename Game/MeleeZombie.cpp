@@ -9,7 +9,7 @@
 
 MeleeZombie::MeleeZombie(int pos_x, int pos_y,int difficulty, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet) :
 Enemy(MELEEZOMBIE, pos_x, pos_y, 2 + rand() % 3, 2 + rand() % 3, NORTH,
-	image, true, 87, 5,4,difficulty, al_get_current_display())
+	image, true, 87, 5,4,difficulty)
 {
 	this->old_pos_x = pos_x;
 	this->old_pos_y = pos_y;
@@ -82,7 +82,7 @@ void MeleeZombie::setDirection(float angle)
 	else direction = W;
 }
 
-void MeleeZombie::update(){
+void MeleeZombie::Update(){
 	if (m_player)
 	{
 		if (active)
@@ -127,7 +127,7 @@ void MeleeZombie::UpdateDirection(){
 	};
 };
 
-void MeleeZombie::draw(){
+void MeleeZombie::Draw(){
 	//draw a healthbar
 	if(active)
 	{

@@ -19,7 +19,7 @@ GameTimer::~GameTimer()
 
 //-------------------------------------------------------
 
-void GameTimer::draw()
+void GameTimer::Draw()
 {
 	if (isAlive)
 	{
@@ -31,7 +31,7 @@ void GameTimer::draw()
 
 //-------------------------------------------------------
 
-void GameTimer::update()
+void GameTimer::Update()
 {
 }
 

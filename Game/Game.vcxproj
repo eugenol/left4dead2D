@@ -119,6 +119,7 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common.h" />
     <ClInclude Include="CreditScreen.h" />
     <ClInclude Include="CSprite.h" />
     <ClInclude Include="CTwoDVector.h" />

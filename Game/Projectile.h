@@ -7,7 +7,7 @@ class Projectile :
 {
 
 public:
-	Projectile(int destination_x, int destination_y, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag, int damagePower);
+	Projectile(int destination_x, int destination_y, int lif, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag, int damagePower);
 	//void Collided(GameEntity *otherObject);
 	~Projectile();
 private:
@@ -17,8 +17,8 @@ private:
 	float destinationX, destinationY;
 	bool UpdatePosition();
 	void UpdateDirection();
-	void update();
-	void draw();
+	void Update();
+	void Draw();
 	int damagePower;
 	//Explosion Control
 	ALLEGRO_BITMAP *explosionSpriteSheet;

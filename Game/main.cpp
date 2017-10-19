@@ -15,23 +15,16 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
-#include "GameEntity.h"
-#include "Enemy.h"
-#include "MeleeZombie.h"
 #include "InputManager.h"
-#include "Player.h"
-#include "EntityManager.h"
 #include <cstdlib>    
 #include <ctime>
-#include <cstdio>
 
 #include "ScreenManager.h"
+#include "Common.h"
 
 //Display width & height, can move to a header file later.
 //Moved here, lots of things might use this. dont need to pass as arguments.
 
-const int DISPLAY_HEIGHT = 600;
-const int DISPLAY_WIDTH = 800;		
 int gameTime = 0;
 int gameTimeUpdateCounter = 0;
 int FPS = 60;					//Framerate
@@ -43,7 +36,7 @@ int main(int argc, char **argv)
 	bool redraw = false;				// used for rendering
 
 	int escapeDelay = 0;
-	srand(time(NULL));
+	srand(time(nullptr));
 	
 	//Allegro variables
 	ALLEGRO_DISPLAY *display = NULL;			//Pointer to display.
@@ -182,7 +175,7 @@ int main(int argc, char **argv)
 	al_flip_display();
 
 	//Start playing the music
-	al_play_sample_instance(bgInstance);//turned off for now.. it can get irritating!!
+	//al_play_sample_instance(bgInstance);//turned off for now.. it can get irritating!!
 
 	al_start_timer(timer); //Start the timer
 
@@ -237,26 +230,26 @@ int main(int argc, char **argv)
 			}
 			else if (ScreenManager::getInstance().getScreenState() == ScreenManager::CREDITS)
 			{
-				if (credits.getReturnToMenu())
+				if (credits.GetReturnToMenu())
 				{
 					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
-					credits.setReturnToMenu();
+					credits.SetReturnToMenu();
 				}
 			}
 			else if (ScreenManager::getInstance().getScreenState() == ScreenManager::HIGHSCORES)
 			{
-				if (scores.getReturnToMenu())
+				if (scores.GetReturnToMenu())
 				{
 					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
-					scores.setReturnToMenu();
+					scores.SetReturnToMenu();
 				}
 			}
 			else if (ScreenManager::getInstance().getScreenState() == ScreenManager::DIED)
 			{
-				if (death.getReturnToMenu())
+				if (death.GetReturnToMenu())
 				{
 					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
-					death.setReturnToMenu();
+					death.SetReturnToMenu();
 				}
 			}
 

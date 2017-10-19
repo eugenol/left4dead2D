@@ -24,7 +24,7 @@ Potion::~Potion()
 
 //-------------------------------------------------------
 
-void Potion::draw()
+void Potion::Draw()
 {
 	if (m_showPotionTimer.IsRunning())
 	{
@@ -37,7 +37,7 @@ void Potion::draw()
 
 //-------------------------------------------------------
 
-void Potion::update()
+void Potion::Update()
 {
 }
 

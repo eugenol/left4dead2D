@@ -34,7 +34,7 @@ PlayerLives::~PlayerLives()
 
 //-------------------------------------------------------
 
-void PlayerLives::draw()
+void PlayerLives::Draw()
 {
 	if (m_numberOfLives > 2)
 	{
@@ -69,7 +69,7 @@ void PlayerLives::draw()
 
 //-------------------------------------------------------
 
-void PlayerLives::update()
+void PlayerLives::Update()
 {
 }
 

@@ -13,13 +13,13 @@ ScreenManager::~ScreenManager()
 
 }
 
-ScreenManager & ScreenManager::getInstance()
+ScreenManager& ScreenManager::getInstance()
 {
 	static ScreenManager instance;
 	return instance;
 }
 
-void ScreenManager::changeGameState(int newState)
+void ScreenManager::changeGameState(GAMESTATE newState)
 {
 	gameState = newState;
 	if (gameState == PLAYING)
@@ -44,7 +44,7 @@ void ScreenManager::changeGameState(int newState)
 	}
 	else if (gameState == HIGHSCORES)
 	{
-		scores->loadData();
+		scores->LoadData();
 	}
 
 }
@@ -55,29 +55,29 @@ void ScreenManager::update()
 	{
 		case MENU:
 		{
-			menu->update();
+			menu->Update();
 			break;
 		}
 		case PLAYING:
 		{
-			game->update();
+			game->Update();
 			if (!game->isPlayerAlive())
 				changeGameState(DIED);
 			break;
 		}
 		case CREDITS:
 		{
-			credits->update();
+			credits->Update();
 			break;
 		}
 		case DIED:
 		{
-			death->update();
+			death->Update();
 			break;
 		}
 		case HIGHSCORES:
 		{
-			scores->update();
+			scores->Update();
 			break;
 		}
 	}
@@ -89,27 +89,27 @@ void ScreenManager::draw()
 	{
 		case MENU:
 		{
-			menu->draw();
+			menu->Draw();
 			break;
 		}
 		case PLAYING:
 		{
-			game->draw();
+			game->Draw();
 			break;
 		}
 		case CREDITS:
 		{
-			credits->draw();
+			credits->Draw();
 			break;
 		}
 		case DIED:
 		{
-			death->draw();
+			death->Draw();
 			break;
 		}
 		case HIGHSCORES:
 		{
-			scores->draw();
+			scores->Draw();
 			break;
 		}
 	}

@@ -4,7 +4,7 @@
 ScoreScreen::ScoreScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72) : font18(font_18), font24(font_24), font72(font_72)
 {
 	returnToMenu = false;
-	loadData();
+	LoadData();
 }
 
 
@@ -13,7 +13,7 @@ ScoreScreen::~ScoreScreen()
 
 }
 
-void ScoreScreen::update()
+void ScoreScreen::Update()
 {
 	int mouse_x = InputManager::getInstance().getMouseX();
 	int mouse_y = InputManager::getInstance().getMouseY();
@@ -27,7 +27,7 @@ void ScoreScreen::update()
 	}
 }
 
-void ScoreScreen::draw()
+void ScoreScreen::Draw()
 {
 	al_draw_text(font24, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 80, ALLEGRO_ALIGN_CENTRE, "High Scores");
 	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 150, ALLEGRO_ALIGN_CENTRE, "Rank \t Zombies Killed \t Time Survived");
@@ -45,7 +45,7 @@ void ScoreScreen::draw()
 	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH - 100, DISPLAY_HEIGHT - 28, ALLEGRO_ALIGN_CENTRE, "Main Menu");
 }
 
-void ScoreScreen::loadData()
+void ScoreScreen::LoadData()
 {
 	std::fstream file("highscores.txt");
 	std::vector<std::pair<int, int> > loadhighscores;
