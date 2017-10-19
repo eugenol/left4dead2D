@@ -1,9 +1,6 @@
 #ifndef DEATHSCREEN_H
 #define DEATHSCREEN_H
-#include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
-#include "InputManager.h"
 #include "CScreen.h"
 
 class DeathScreen : public CScreen

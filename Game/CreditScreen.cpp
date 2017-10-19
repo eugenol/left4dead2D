@@ -1,4 +1,5 @@
 #include "CreditScreen.h"
+#include "InputManager.h"
 
 
 CreditScreen::CreditScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72) 

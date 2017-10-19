@@ -1,9 +1,7 @@
 #ifndef CREDITSCREEN_H
 #define CREDITSCREEN_H
-#include <allegro5/allegro.h>
+
 #include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
-#include "InputManager.h"
 #include "CScreen.h"
 
 class CreditScreen : public CScreen

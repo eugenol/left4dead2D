@@ -1,4 +1,8 @@
 #include "ScoreScreen.h"
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
 
 
 ScoreScreen::ScoreScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72) : font18(font_18), font24(font_24), font72(font_72)
@@ -38,7 +42,17 @@ void ScoreScreen::Draw()
 		scoreCount++;
 		al_draw_textf(font18, al_map_rgb(255, 0, 0), 160, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%d.", scoreCount);
 		al_draw_textf(font18, al_map_rgb(255, 0, 0), 325, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%d",i->first);
-		al_draw_textf(font18, al_map_rgb(255, 0, 0), 555, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%d : %d", i->second / 60, i->second%60);
+
+		int minutes = i->second / 60;
+		int seconds = i->second % 60;
+
+		std::string time = minutes < 10 ? "0" : "";
+		time += std::to_string(minutes);
+		time += ":";
+		time += seconds < 10 ? "0" : "";
+		time += std::to_string(seconds);
+
+		al_draw_textf(font18, al_map_rgb(255, 0, 0), 555, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%s", time.c_str());
 	}
 
 	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH - 100, DISPLAY_HEIGHT - 28, ALLEGRO_ALIGN_CENTRE, "Main Menu");
@@ -48,7 +62,6 @@ void ScoreScreen::LoadData()
 {
 	std::fstream file("highscores.txt");
 	std::vector<std::pair<int, int> > loadhighscores;
-	int scorecount = 0;
 	std::string line;
 
 	while (std::getline(file,line))

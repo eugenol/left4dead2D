@@ -16,9 +16,6 @@
 #include "Player.h"
 #include "EntityManager.h"
 #include <cstdlib>
-#include <ctime>
-#include <cstdio>
-#include "mappy_A5.h"
 #include "CScreen.h"
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE

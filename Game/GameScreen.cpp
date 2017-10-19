@@ -1,5 +1,5 @@
 #include "GameScreen.h"
-#include <cmath>
+#include "mappy_A5.h"
 
 GameScreen::GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) : bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
 {
@@ -48,6 +48,7 @@ void GameScreen::Update()
 		EnemySpawnTimerMax = FPS*(4 + rand() % 4 - logf(gameTime*5)/3 );//zombies spawn after FPS*(random+3)-3*seconds elapsed
 		if (EnemySpawnTimerMax < 3)
 			EnemySpawnTimerMax = 3;
+
 		CTwoDVector spawnCentre(rand() % DISPLAY_WIDTH, rand() % DISPLAY_HEIGHT);
 		//spawns a random number of zombies + 1 zombie per 40 seconds
 		int spawnNumber = rand() % 5 + static_cast< int >(gameTime / 40);
@@ -56,7 +57,8 @@ void GameScreen::Update()
 		int diffLevel = gameTime / 30;//difficulty level
 		if (diffLevel > 3)
 			diffLevel = 3;
-		for (int i = 0; i < spawnNumber; i++){	
+		for (int i = 0; i < spawnNumber; i++)
+		{	
 			//zombies are spawned in proximity of each other, with proximity radius dependant on number spawned
 			if(Enemy::getCount()<40) //max number of zombies allowed
 			{

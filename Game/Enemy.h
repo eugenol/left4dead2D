@@ -2,7 +2,6 @@
 #define ENEMY_H
 
 #include "GameEntity.h"
-#include "allegro5\allegro_primitives.h"
 #include "Player.h"
 
 enum TYPES{ MELEEZOMBIE };
