@@ -148,7 +148,7 @@ double CTwoDVector::DotProduct( const CTwoDVector& v )
 CTwoDVector operator*( const double& d, const CTwoDVector& v )
 {
 	CTwoDVector result(v);
-	return result * 2;
+	return result * d;
 }
 
 //-------------------------------------------------------

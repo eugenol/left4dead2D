@@ -20,7 +20,7 @@ public:
 	int getID();
 	bool active = false;	//is the entity actively being used?
 	virtual void Draw() {}
-	virtual void Update() = 0;//general Update Entity, calls specific Update Functions
+	virtual void Update( double deltaTime ) = 0;//general Update Entity, calls specific Update Functions
 	bool getAlive() { return isAlive; } //return Alive state
 
 	// for colissions, can make these virtual, but that can be done later.

@@ -48,7 +48,8 @@ Enemy(MELEEZOMBIE, position, 2 + rand() % 3, 2 + rand() % 3, NORTH,
 	runDeathAnimation = false;
 }
 
-MeleeZombie::~MeleeZombie(){
+MeleeZombie::~MeleeZombie()
+{
 	if (m_player)
 		(*m_player).increaseScore(1);
 
@@ -81,7 +82,8 @@ void MeleeZombie::setDirection(float angle)
 	else direction = W;
 }
 
-void MeleeZombie::Update(){
+void MeleeZombie::Update( double deltaTime )
+{
 	if (m_player)
 	{
 		if (active)
@@ -101,13 +103,14 @@ void MeleeZombie::Update(){
 			runDeathAnimation = false;
 			m_currentSprite = m_zombieDeathSprite;
 		}
-		m_currentSprite->DoLogic();
+		m_currentSprite->DoLogic( deltaTime );
 		if ((!active) && (m_currentSprite->GetCurrentAnimationFrame() == (m_currentSprite->GetMaxFrameCount() - 1))) isAlive = false;
 	}
 		
 }
 
-void MeleeZombie::UpdateDirection(){
+void MeleeZombie::UpdateDirection()
+{
 
 	CTwoDVector playerVector = m_player->GetPosition() - m_position;
 
@@ -128,7 +131,8 @@ void MeleeZombie::UpdateDirection(){
 	};
 };
 
-void MeleeZombie::Draw(){
+void MeleeZombie::Draw()
+{
 	//draw a healthbar
 	if(active)
 	{

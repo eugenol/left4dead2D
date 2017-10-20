@@ -31,7 +31,7 @@ void GameTimer::Draw()
 
 //-------------------------------------------------------
 
-void GameTimer::Update()
+void GameTimer::Update( double deltaTime )
 {
 }
 

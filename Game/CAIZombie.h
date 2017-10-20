@@ -9,8 +9,8 @@ public:
 	CAIZombie(CTwoDVector position, ALLEGRO_BITMAP* image, ALLEGRO_BITMAP* zombieDeathAnimationSpriteSheet);
 	~CAIZombie();
 
-	void DoLogic();
-	void Update() override;
+	void DoLogic(double deltaTime);
+	void Update( double deltaTime ) override;
 	void Draw() override;
 
 	//Update functions
@@ -19,6 +19,7 @@ public:
 
 private:		
 	void LoadSprites( ALLEGRO_BITMAP* image, ALLEGRO_BITMAP* deathImage );
+	void setDirection( float angle );
 
 	CTwoDVector m_targetPosition;
 

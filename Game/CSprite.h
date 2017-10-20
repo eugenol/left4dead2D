@@ -23,8 +23,8 @@ public:
 
 	void Draw( CTwoDVector& position, int direction = 0);
 	void Draw(ALLEGRO_COLOR tintColor, CTwoDVector& position, int direction =0);
-	void DoLogic();
-	void UpdateAnimation();
+	void DoLogic( double deltaTime );
+	void UpdateAnimation( double deltaTime );
 
 	int GetFrameCount() { return m_properties.m_frameCount; }
 	int GetCurrentAnimationFrame() { return m_properties.m_currentAnimationFrame; }

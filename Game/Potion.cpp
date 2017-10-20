@@ -37,7 +37,7 @@ void Potion::Draw()
 
 //-------------------------------------------------------
 
-void Potion::Update()
+void Potion::Update( double deltaTime )
 {
 }
 

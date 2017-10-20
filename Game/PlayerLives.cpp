@@ -69,7 +69,7 @@ void PlayerLives::Draw()
 
 //-------------------------------------------------------
 
-void PlayerLives::Update()
+void PlayerLives::Update( double deltaTime )
 {
 }
 

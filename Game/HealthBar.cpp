@@ -38,7 +38,7 @@ void HealthBar::Draw()
 
 //-------------------------------------------------------
 
-void HealthBar::Update()
+void HealthBar::Update( double deltaTime )
 {
 }
 

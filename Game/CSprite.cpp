@@ -51,14 +51,14 @@ void CSprite::Draw( ALLEGRO_COLOR tintColor, CTwoDVector& position, int directio
 																position.m_y - m_properties.m_animationFrameHeight / 2, 0);
 }
 
-void CSprite::DoLogic()
+void CSprite::DoLogic( double deltaTime )
 {
-	UpdateAnimation();
+	UpdateAnimation( deltaTime );
 }
 
 //-------------------------------------------------------
 
-void CSprite::UpdateAnimation()
+void CSprite::UpdateAnimation( double deltaTime )
 {
 	//Generates /Advances Animation
 	if( ++m_properties.m_frameCount >= m_properties.m_frameDelay )

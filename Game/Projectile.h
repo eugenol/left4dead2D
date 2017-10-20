@@ -18,8 +18,8 @@ private:
 	float destinationX, destinationY;
 	bool UpdatePosition();
 	void UpdateDirection();
-	void Update();
-	void Draw();
+	void Update( double deltaTime ) override;
+	void Draw() override;
 	int damagePower;
 	//Explosion Control
 	ALLEGRO_BITMAP *explosionSpriteSheet;

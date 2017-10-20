@@ -31,5 +31,9 @@ private:
 	int EnemySpawnTimerMax = FPS*(3 + rand() % 3);
 	int EnemySpawnTimerCurrent = 0;
 	std::list<GameEntity*> objects;
+
+	double runningTime = 0;
+	double prevRunningTime = 0;
+	double deltaTime = 0;
 };
 #endif

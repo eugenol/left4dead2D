@@ -12,7 +12,7 @@ public:
 	virtual ~PlayerLives();
 
 	virtual void Draw();
-	virtual void Update();
+	virtual void Update( double deltaTime );
 	virtual void Collided(GameEntity *otherObject) {}
 	virtual bool UpdatePosition() { return false; }
 	virtual void UpdateDirection() {}

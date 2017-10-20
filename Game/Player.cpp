@@ -104,7 +104,7 @@ Player::~Player()
 	file.close();
 }
 
-void Player::Update()
+void Player::Update( double deltaTime )
 {
 	headsUpDisplay->Update(life, livesLeft, score, megaShotCount);
 	if (active)
@@ -117,7 +117,7 @@ void Player::Update()
 		if (UpdatePosition())
 		{
 			UpdateDirection();
-			m_playerImage->DoLogic();
+			m_playerImage->DoLogic( deltaTime );
 		}
 	}
 	else if ((!active) && isAlive)
@@ -128,13 +128,13 @@ void Player::Update()
 			m_playerImage = m_playerDeathSprite;
 		}
 
-		m_playerImage->DoLogic();
+		m_playerImage->DoLogic( deltaTime );
 		if (m_playerImage->GetFrameCount() == 0)
 			isAlive = false;
 	}
 	if (attackSplatterAnimationControl)
 	{
-		attackSplatterAnimationUpdate();
+		attackSplatterAnimationUpdate( deltaTime );
 	}
 	
 	healthBar->DoLogic(life);
@@ -157,10 +157,10 @@ void Player::Update()
 	}
 }
 
-void Player::attackSplatterAnimationUpdate()
+void Player::attackSplatterAnimationUpdate( double deltaTime )
 {
 	//Generates /Advances Animation
-	m_attackSplatter->DoLogic();
+	m_attackSplatter->DoLogic( deltaTime );
 
 	if( m_attackSplatter->GetCurrentAnimationFrame() >= m_attackSplatter->GetMaxFrameCount() -1 )
 	{

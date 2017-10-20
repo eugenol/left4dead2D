@@ -9,7 +9,7 @@ public:
 	MeleeZombie( CTwoDVector position, int difficulty, ALLEGRO_BITMAP* image, ALLEGRO_BITMAP* zombieDeathAnimationSpriteSheet );
 	~MeleeZombie();
 
-	void Update() override;
+	void Update( double deltaTime ) override;
 	void Draw() override;
 
 private:

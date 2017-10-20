@@ -23,9 +23,14 @@ void GameScreen::Update()
 		gameTimeUpdateCounter = 0;
 	}
 
+	//Kinda Stupid For now, but maybe better for future?
+	prevRunningTime = runningTime;
+	runningTime += 1.0 / FPS;
+	deltaTime = runningTime - prevRunningTime;
+
 	for(GameEntity* object : objects)
 	{
-		object->Update();
+		object->Update( deltaTime );
 	}
 	//for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
 	//	(*iter)->Update();

@@ -53,6 +53,11 @@ int Enemy::getDamagePower(){
 	return damage;
 }
 
+void Enemy::Update( double deltaTime )
+{
+
+}
+
 void Enemy::Draw()
 {
 

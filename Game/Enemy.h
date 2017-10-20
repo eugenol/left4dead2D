@@ -17,7 +17,8 @@ public:
 	int static getCount();
 	static void setPlayer(Player *player);//sets player in enemy class
 	int getDamagePower();
-	void Draw();
+	void Update( double deltaTime ) override;
+	void Draw() override;
 
 protected:
 	int difficulty;

@@ -91,14 +91,14 @@ void Projectile::UpdateDirection()
 {
 	
 }
-void Projectile::Update()
+void Projectile::Update( double deltaTime )
 {
 	if (active)
 	{
 		if (UpdatePosition())
 		{
 			UpdateDirection();
-			m_currentImage->DoLogic();
+			m_currentImage->DoLogic( deltaTime );
 		}
 	}
 	else if (!active && isAlive) //Explosion Sequence Out
@@ -108,7 +108,7 @@ void Projectile::Update()
 			m_currentImage = m_explosionSprite;
 			collided = false;
 		}
-		m_currentImage->DoLogic();
+		m_currentImage->DoLogic( deltaTime );
 		if (m_currentImage->GetCurrentAnimationFrame() == (m_currentImage->GetMaxFrameCount() - 1))
 			isAlive = false;
 	}

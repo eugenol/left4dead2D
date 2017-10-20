@@ -27,7 +27,7 @@ public:
 	int GetPos_X();
 	int GetPos_Y();
 	CTwoDVector GetPosition();
-	void Update() override;
+	void Update( double deltaTime ) override;
 	void Draw() override;
 	void takeDamage(int damageAmount) override;
 	void increaseScore(int addedScore);
@@ -48,7 +48,7 @@ protected:
 	void ShootCheck();
 
 	//Animation Functions
-	void attackSplatterAnimationUpdate();
+	void attackSplatterAnimationUpdate( double deltaTime );
 	//Animations Variables
 	int deathanimationcontrol;
 	ALLEGRO_BITMAP *bulletSpriteSheet;
