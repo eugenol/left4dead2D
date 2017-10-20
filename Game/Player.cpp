@@ -105,7 +105,7 @@ void Player::Update( double deltaTime )
 	{
 		if (damageCheck())
 		{
-			active = 0;
+			active = false;
 		}
 		ShootCheck();
 		if (UpdatePosition())
@@ -136,6 +136,7 @@ void Player::Update( double deltaTime )
 	healthBar->DoLogic(life);
 	playerLives->SetLivesLeft(livesLeft);
 	gameTimer->SetPlayerAliveStatus(isAlive);
+	potion->Update( deltaTime );
 	potion->DoLogic(GetPos_X(), GetPos_Y(), isAlive);
 	
 	checkForRewards();
@@ -273,10 +274,7 @@ bool Player::UpdatePosition()
 
 void Player::ShootCheck()
 {
-	hasShot = false;
 	if (InputManager::getInstance().isMouseButtonPressed(LEFTM))
-		hasShot = true;
-	if (hasShot)
 	{
 		if ((shooting_control == 0) || (shooting_control > 3))
 		{
@@ -296,7 +294,8 @@ void Player::ShootCheck()
 	}
 	
 }
-void Player::megaShot(){//shoots 24 projectiles radially around the player
+void Player::megaShot()
+{//shoots 24 projectiles radially around the player
 	for (int angle = 0; angle < 360; angle += 15)
 	{
 		CTwoDVector destination(m_position.m_x + 100 * cosf(angle*PI / 180), m_position.m_y + 100 * sinf(angle*PI / 180));

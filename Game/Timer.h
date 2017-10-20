@@ -1,8 +1,5 @@
 #pragma once
 
-#include <conio.h>
-#include <time.h>
-
 //-------------------------------------------------------
 
 class Timer 
@@ -12,12 +9,13 @@ public:
 	void Start();
 	void Stop();
 	bool IsRunning();
-	unsigned long  GetTime();
-	bool HasElapsed(unsigned long seconds);
+	void Update( double deltaTime );
+	double GetTime();
+	bool HasElapsed( double seconds );
 
 private:
 	bool m_running;
-	unsigned long m_start;
+	double m_runTime;
 };
 
 //-------------------------------------------------------

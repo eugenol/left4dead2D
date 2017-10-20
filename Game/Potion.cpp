@@ -39,6 +39,8 @@ void Potion::Draw()
 
 void Potion::Update( double deltaTime )
 {
+	m_noPotionTimer.Update( deltaTime );
+	m_showPotionTimer.Update( deltaTime );
 }
 
 //-------------------------------------------------------

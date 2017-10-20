@@ -32,7 +32,6 @@ public:
 	void takeDamage(int damageAmount) override;
 	void increaseScore(int addedScore);
 
-	bool hasShot;
 	void megaShot();//do an AOE shot around player
 
 protected:

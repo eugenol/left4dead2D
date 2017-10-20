@@ -6,6 +6,9 @@
 GameScreen::GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) : bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
 {
 	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
+
+	EnemySpawnTimerMax = (3 + rand() % 3);
+	EnemySpawnTimerCurrent = 0;
 }
 
 
@@ -54,7 +57,7 @@ void GameScreen::Update()
 		}
 	}
 
-	SpawnEnemies();
+	SpawnEnemies( deltaTime );
 
 	// Update the entity manager to remove the dead.
 	EntityManager::getInstance().UpdateList();
@@ -91,12 +94,14 @@ void GameScreen::newGame()
 	EntityManager::getInstance().AddEntity(zombie);
 }
 
-void GameScreen::SpawnEnemies()
+void GameScreen::SpawnEnemies( double deltaTime )
 {
+	EnemySpawnTimerCurrent += deltaTime;
+
 	//Attempt to create new enemy
-	if (++EnemySpawnTimerCurrent >= EnemySpawnTimerMax)
+	if( EnemySpawnTimerCurrent >= EnemySpawnTimerMax )
 	{
-		EnemySpawnTimerMax = FPS*(4 + rand() % 4 - logf(gameTime * 5) / 3);//zombies spawn after FPS*(random+3)-3*seconds elapsed
+		EnemySpawnTimerMax = 4 + rand() % 4 - logf(runningTime * 5) / 3;//zombies spawn after FPS*(random+3)-3*seconds elapsed
 		if (EnemySpawnTimerMax < 3)
 			EnemySpawnTimerMax = 3;
 

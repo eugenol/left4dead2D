@@ -14,7 +14,7 @@ public:
 	GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m);
 	~GameScreen();
 	void newGame();
-	void SpawnEnemies();
+	void SpawnEnemies( double deltaTime );
 	void Update();
 	void Draw();
 	bool isPlayerAlive();
@@ -28,8 +28,8 @@ private:
 	ALLEGRO_BITMAP *potionImage = nullptr;
 	ALLEGRO_BITMAP *meleeZombieSpriteSheet = nullptr;
 	ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet = nullptr;
-	int EnemySpawnTimerMax = FPS*(3 + rand() % 3);
-	int EnemySpawnTimerCurrent = 0;
+	double EnemySpawnTimerMax;
+	double EnemySpawnTimerCurrent;
 	std::list<GameEntity*> objects;
 
 	double runningTime = 0;

@@ -39,6 +39,7 @@ public:
 	double m_x;
 	double m_y;
 
+private:
 	const double epsilon = 1e-10;
 };
 

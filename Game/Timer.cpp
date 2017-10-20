@@ -4,7 +4,7 @@
 
 Timer::Timer() :
 m_running(false),
-m_start(0)
+m_runTime(0)
 {
 }
 
@@ -14,7 +14,7 @@ void Timer::Start()
 {
 	if (!m_running) 
 	{
-		m_start = (unsigned long)clock();
+		m_runTime = 0.0;
 		m_running = true;
 	}
 }
@@ -25,7 +25,7 @@ void Timer::Stop()
 {
 	if (m_running) 
 	{
-		m_start = 0;
+		m_runTime = 0;
 		m_running = false;
 	}
 }
@@ -39,11 +39,18 @@ bool Timer::IsRunning()
 
 //-------------------------------------------------------
 
-unsigned long Timer::GetTime() 
+void Timer::Update( double deltaTime )
+{
+	m_runTime += deltaTime;
+}
+
+//-------------------------------------------------------
+
+double Timer::GetTime() 
 {
 	if (m_running)
 	{
-		return ((unsigned long)clock() - m_start) / CLOCKS_PER_SEC;
+		return m_runTime;
 	}
 	
 	return -1;
@@ -51,9 +58,9 @@ unsigned long Timer::GetTime()
 
 //-------------------------------------------------------
 
-bool Timer::HasElapsed(unsigned long seconds) 
+bool Timer::HasElapsed( double seconds ) 
 {
-	if (GetTime() == -1)
+	if (GetTime() < 0)
 	{
 		return false;
 	}
