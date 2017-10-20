@@ -8,9 +8,8 @@
 #include "GameTimer.h"
 #include "Potion.h"
 #include "HeadsUpDisplay.h"
-#define PI 3.14159265
 
-Player::Player(int score, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP* gameoverImage, ALLEGRO_BITMAP *potionImage) :
+Player::Player(int score, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *potionImage) :
 GameEntity(lif, position, speedX, speedY, Dir, activ, hitboxR, Identity),
 healthBar(),
 playerLives(),
@@ -69,7 +68,7 @@ gameTimer()
 	healthBar = new HealthBar(healthBarSpriteSheet);
 	//EntityManager::getInstance().AddEntity(healthBar);
 
-	playerLives = new PlayerLives(skullImage, gameoverImage);
+	playerLives = new PlayerLives(skullImage);
 	//EntityManager::getInstance().AddEntity(playerLives);
 
 	gameTimer = new GameTimer();
@@ -199,9 +198,7 @@ bool Player::damageCheck()
 			noOfZombieHits = 0;		//reset zombie hit counter
 		}
 	}
-	if (playerHasDied) return 1;
-	else return 0;
-		
+	return playerHasDied;
 }
 void Player::takeDamage(int damageAmount)
 {

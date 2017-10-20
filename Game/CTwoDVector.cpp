@@ -28,6 +28,13 @@ CTwoDVector::CTwoDVector( const CTwoDVector& v )
 {
 }
 
+CTwoDVector::CTwoDVector( const std::pair<double, double>& p )
+	:
+	m_x(p.first),
+	m_y(p.second)
+{
+}
+
 //-------------------------------------------------------
 
 CTwoDVector::~CTwoDVector()
@@ -43,20 +50,37 @@ CTwoDVector& CTwoDVector::operator=( const CTwoDVector& v )
 	return *this;
 }
 
+//-------------------------------------------------------
+
+CTwoDVector& CTwoDVector::operator=( const std::pair<double, double>& p )
+{
+	m_x = p.first;
+	m_y = p.second;
+	return *this;
+}
+
+//-------------------------------------------------------
+
 CTwoDVector CTwoDVector::operator-()
 {
 	return CTwoDVector(-m_x, -m_y);
 }
+
+//-------------------------------------------------------
 
 CTwoDVector CTwoDVector::operator+( const CTwoDVector& v )
 {
 	return CTwoDVector(m_x + v.m_x, m_y + v.m_y);
 }
 
+//-------------------------------------------------------
+
 CTwoDVector CTwoDVector::operator-( const CTwoDVector& v )
 {
 	return CTwoDVector( m_x - v.m_x, m_y - v.m_y );
 }
+
+//-------------------------------------------------------
 
 CTwoDVector CTwoDVector::operator*( const double& d )
 {

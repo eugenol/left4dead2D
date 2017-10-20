@@ -8,7 +8,7 @@
 class PlayerLives : public GameEntity
 {
 public:
-	PlayerLives(ALLEGRO_BITMAP *skulls, ALLEGRO_BITMAP *gameoverImage);
+	PlayerLives(ALLEGRO_BITMAP *skulls);
 	virtual ~PlayerLives();
 
 	virtual void Draw();
@@ -24,11 +24,6 @@ private:
 	int m_imageWidth;
 	int m_imageHeight;
 	int m_frameWidth;
-
-	ALLEGRO_BITMAP *m_gameoverImage;
-	int m_gameoverImageWidth;
-	int m_gameoverImageHeight;
-	int m_gameoverImageFrameWidth;
 
 	int m_numberOfLives;
 };

@@ -20,7 +20,7 @@ class Player :
 	friend Projectile;
 public:
 	Player( int score, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ,
-		int hitboxR, int Identity, ALLEGRO_BITMAP* bulletSpriteSheet, ALLEGRO_BITMAP* healthBarSpriteSheet, ALLEGRO_BITMAP* skullImage, ALLEGRO_BITMAP* gameoverImage, ALLEGRO_BITMAP* potionImage );
+		int hitboxR, int Identity, ALLEGRO_BITMAP* bulletSpriteSheet, ALLEGRO_BITMAP* healthBarSpriteSheet, ALLEGRO_BITMAP* skullImage, ALLEGRO_BITMAP* potionImage );
 	~Player();
 	
 	//Get and Set Functions

@@ -3,7 +3,7 @@
 #include "MeleeZombie.h"
 #include "CAIZombie.h"
 
-GameScreen::GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *gameoverImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) : bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
+GameScreen::GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) : bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
 {
 	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
 
@@ -83,7 +83,7 @@ void GameScreen::newGame()
 	EntityManager::getInstance().KillAll();
 	// Create newplayer
 	CTwoDVector playerStartPosition(100, 100);
-	GameEntity* player = EntityManager::getInstance().MakeEntity<Player>(0, 100, playerStartPosition, 10, 10, 0, 1, 32, PLAYER, bulletSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage);
+	GameEntity* player = EntityManager::getInstance().MakeEntity<Player>(0, 100, playerStartPosition, 10, 10, 0, 1, 32, PLAYER, bulletSpriteSheet, healthBarSpriteSheet, skullImage, potionImage);
 	gameTime = 0;
 	gameTimeUpdateCounter = 0;
 	EntityManager::getInstance().AddEntity(player);
@@ -107,10 +107,10 @@ void GameScreen::SpawnEnemies( double deltaTime )
 
 		CTwoDVector spawnCentre(rand() % DISPLAY_WIDTH, rand() % DISPLAY_HEIGHT);
 		//spawns a random number of zombies + 1 zombie per 40 seconds
-		int spawnNumber = rand() % 5 + static_cast< int >(gameTime / 40);
+		int spawnNumber = rand() % 5 + static_cast< int >(runningTime / 40);
 		if (spawnNumber > 6)
 			spawnNumber = 6;
-		int diffLevel = gameTime / 30;//difficulty level
+		int diffLevel = runningTime / 30;//difficulty level
 		if (diffLevel > 3)
 			diffLevel = 3;
 		for (int i = 0; i < spawnNumber; i++)

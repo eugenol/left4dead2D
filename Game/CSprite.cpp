@@ -29,6 +29,43 @@ CSprite::CSprite( ALLEGRO_BITMAP* imageToUse, SpriteSheetProperties& properties)
 
 //-------------------------------------------------------
 
+CSprite::CSprite(std::string imageName)
+	:
+	m_ownsImage(true),
+	m_image(nullptr),
+	m_frameTime(0.0),
+	m_animationComplete(false),
+	m_frameDelay(-1.0)
+{
+	m_image = al_load_bitmap(imageName.c_str());
+
+	m_properties.m_animationFrameWidth = al_get_bitmap_width(m_image);
+	m_properties.m_animationFrameHeight = al_get_bitmap_height(m_image);
+	m_properties.m_maxFrameCount = 0;
+	m_properties.m_minFrameCount = 0;
+	m_properties.m_frameDelay = -1.0;
+}
+
+//-------------------------------------------------------
+
+CSprite::CSprite(ALLEGRO_BITMAP* imageToUse)
+	:
+	m_ownsImage(false),
+	m_image(imageToUse),
+	m_frameTime(0.0),
+	m_animationComplete(false),
+	m_frameDelay(-1.0)
+{
+	m_properties.m_animationFrameWidth = al_get_bitmap_width(m_image);
+	m_properties.m_animationFrameHeight = al_get_bitmap_height(m_image);
+	m_properties.m_maxFrameCount = 0;
+	m_properties.m_minFrameCount = 0;
+	m_properties.m_frameDelay = -1.0;
+}
+
+
+//-------------------------------------------------------
+
 CSprite::~CSprite()
 {
 	if( m_ownsImage &&  m_image)
@@ -65,9 +102,11 @@ void CSprite::Draw( ALLEGRO_COLOR tintColor, CTwoDVector& position, int directio
 	al_draw_tinted_bitmap_region( m_image, tintColor, frameX, frameY, frameWidth, frameHeight, posX, posY, 0);
 }
 
+//-------------------------------------------------------
+
 void CSprite::DoLogic( double deltaTime )
 {
-	UpdateAnimation( deltaTime );
+		UpdateAnimation(deltaTime);
 }
 
 //-------------------------------------------------------
@@ -88,6 +127,22 @@ void CSprite::UpdateAnimation( double deltaTime )
 			m_animationComplete = true;
 		}
 		m_frameTime = 0;
+	}
+}
+
+void CSprite::SetCurrentAnimationFrame( int frame )
+{
+	if (frame < 0)
+	{
+		m_currentFrame = 0;
+	}
+	else if( frame >= m_properties.m_maxFrameCount )
+	{
+		m_currentFrame = m_properties.m_maxFrameCount - 1;
+	}
+	else
+	{
+		m_currentFrame = frame;
 	}
 }
 

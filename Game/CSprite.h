@@ -3,6 +3,8 @@
 #include "CTwoDVector.h"
 #include <string>
 
+//-------------------------------------------------------
+
 struct SpriteSheetProperties
 {
 	int m_animationFrameWidth;//this is the width of the bitmap region
@@ -12,11 +14,15 @@ struct SpriteSheetProperties
 	double m_frameDelay; //delay associated to animation
 };
 
+//-------------------------------------------------------
+
 class CSprite
 {
 public:
 	CSprite( std::string imageName, SpriteSheetProperties& properties);
 	CSprite( ALLEGRO_BITMAP* imageToUse, SpriteSheetProperties& properties); //Sprite does not own this image and will not destroy it.
+	CSprite(std::string imageName);
+	CSprite(ALLEGRO_BITMAP* imageToUse);
 	~CSprite();
 
 	void Draw( CTwoDVector& position, int direction = 0);
@@ -24,11 +30,10 @@ public:
 	void DoLogic( double deltaTime );
 	void UpdateAnimation( double deltaTime );
 
-	//int GetFrameCount() { return m_currentFrame; }
-	//int GetCurrentAnimationFrame() { return m_currentFrame; }
+	int GetCurrentAnimationFrame() { return m_currentFrame; }
+	void SetCurrentAnimationFrame( int frame );
 	int GetFrameWidth() { return m_properties.m_animationFrameWidth; }
 	int GetFrameHeight() { return m_properties.m_animationFrameHeight; }
-	//int GetMaxFrameCount() { return m_properties.m_maxFrameCount; }
 	bool AnimationComplete() { return m_animationComplete; }
 	void ResetAnimation();
 	double GetAnimationFramDelay() { return m_frameDelay; }
@@ -46,3 +51,5 @@ private:
   SpriteSheetProperties m_properties;
 
 };
+
+//-------------------------------------------------------

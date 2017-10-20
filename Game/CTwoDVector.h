@@ -7,11 +7,13 @@ class CTwoDVector
 {
 public:
 	CTwoDVector();
-	CTwoDVector(double x, double y );
+	CTwoDVector( double x, double y );
 	CTwoDVector( const CTwoDVector& v); //copy constructor
+	CTwoDVector( const std::pair<double, double>& p );
 	~CTwoDVector();
 
 	CTwoDVector& operator=(const CTwoDVector& v); //copy assignment
+	CTwoDVector& operator=(const std::pair<double, double>& p);
 
 	//operators
 

@@ -4,6 +4,7 @@
 #include "CScreen.h"
 #include "CButton.h"
 #include <memory>
+#include "CSprite.h"
 
 class DeathScreen : public CScreen
 {
@@ -19,9 +20,11 @@ private:
 	ALLEGRO_FONT *font18 = nullptr;
 	ALLEGRO_FONT *font24 = nullptr;
 	ALLEGRO_FONT *font72 = nullptr;
-	ALLEGRO_BITMAP *image = nullptr;
+
 	bool returnToMenu;
+	std::unique_ptr<CSprite> m_image = nullptr;
 	std::unique_ptr<CButton> m_button;
+	CTwoDVector m_imagePosition;
 };
 #endif
 

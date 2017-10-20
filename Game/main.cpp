@@ -50,7 +50,6 @@ int main(int argc, char **argv)
 	ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet = NULL;
 	ALLEGRO_BITMAP *healthBarSpriteSheet = NULL;
 	ALLEGRO_BITMAP *skullImage = NULL;
-	ALLEGRO_BITMAP *gameoverImage = NULL;
 	ALLEGRO_BITMAP *potionImage = NULL;
 	ALLEGRO_BITMAP *bulletSpriteSheet = NULL;
 	ALLEGRO_BITMAP *bulletExplosionSpriteSheet = NULL;
@@ -104,7 +103,6 @@ int main(int argc, char **argv)
 	healthBarSpriteSheet = al_load_bitmap("healthbar.png");
 	skullImage = al_load_bitmap("skull.png");
 	potionImage = al_load_bitmap("potion.png");
-	gameoverImage = al_load_bitmap("gameover.png");
 	meleeZombieSpriteSheet = al_load_bitmap("zombie_0.png");				//Enemy Image
 	zombieDeathAnimationSpriteSheet = al_load_bitmap("Zombie_death_spritesheet.png");
 	bulletSpriteSheet = al_load_bitmap("spike_ball_projectile.png");//Bullet Image
@@ -143,7 +141,7 @@ int main(int argc, char **argv)
 		return -5;
 
 	//create screens and add to screenmanager
-	GameScreen game(bulletSpriteSheet, meleeZombieSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage, zombieDeathAnimationSpriteSheet);
+	GameScreen game(bulletSpriteSheet, meleeZombieSpriteSheet, healthBarSpriteSheet, skullImage, potionImage, zombieDeathAnimationSpriteSheet);
 	ScreenManager::getInstance().addGameScreen(&game);
 	MenuScreen menu(font_18, font_24, font_72, &game);
 	ScreenManager::getInstance().addMenuScreen(&menu);
@@ -309,7 +307,6 @@ int main(int argc, char **argv)
 	al_destroy_sample(bg_music);
 	//Clear Bitmaps
 	al_destroy_bitmap(healthBarSpriteSheet);
-	al_destroy_bitmap(gameoverImage);
 	al_destroy_bitmap(skullImage);
 	al_destroy_bitmap(potionImage);
 	al_destroy_bitmap(bulletSpriteSheet);

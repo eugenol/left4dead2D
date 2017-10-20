@@ -2,15 +2,11 @@
 
 //-------------------------------------------------------
 
-PlayerLives::PlayerLives(ALLEGRO_BITMAP *skull, ALLEGRO_BITMAP *gameoverImage) :
+PlayerLives::PlayerLives(ALLEGRO_BITMAP *skull) :
 m_skull(skull),
 m_imageWidth(0),
 m_imageHeight(0),
 m_frameWidth(0),
-m_gameoverImage(gameoverImage),
-m_gameoverImageWidth(0),
-m_gameoverImageHeight(0),
-m_gameoverImageFrameWidth(0),
 m_numberOfLives(3)
 {
 	al_convert_mask_to_alpha(m_skull, al_map_rgb(255, 255, 255));
@@ -20,10 +16,6 @@ m_numberOfLives(3)
 
 	m_frameWidth = m_imageWidth / 5;
 
-	m_gameoverImageWidth = al_get_bitmap_width(gameoverImage);
-	m_gameoverImageHeight = al_get_bitmap_height(gameoverImage);
-
-	m_gameoverImageFrameWidth = m_gameoverImageWidth / 5;
 }
 
 //-------------------------------------------------------
@@ -57,14 +49,6 @@ void PlayerLives::Draw()
 					   550,
 			           0);          
 	}
-
-	//if (m_numberOfLives == 0)
-	//{
-	//	al_draw_bitmap(m_gameoverImage,
-	//				  (300 - (m_gameoverImageWidth / 2)),
-	//				  (400 - (m_gameoverImageHeight / 2)),
-	//				   0);
-	//}
 }
 
 //-------------------------------------------------------
