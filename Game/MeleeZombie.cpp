@@ -111,7 +111,7 @@ void MeleeZombie::UpdateDirection(){
 
 	CTwoDVector playerVector = m_player->GetPosition() - m_position;
 
-	float vectorMagnitude = playerVector.Magnitude();
+	double vectorMagnitude = playerVector.Magnitude();
 
 	if (vectorMagnitude >3){
 		setDirection(180.0 / PI * atan2(playerVector.m_y, playerVector.m_x));

@@ -1,27 +1,47 @@
 #pragma once
+#include <utility>
+
+//-------------------------------------------------------
+
 class CTwoDVector
 {
 public:
 	CTwoDVector();
-	CTwoDVector( int x, int y );
-	CTwoDVector( const CTwoDVector& obj); //copy constructor
+	CTwoDVector(double x, double y );
+	CTwoDVector( const CTwoDVector& v); //copy constructor
 	~CTwoDVector();
 
-	CTwoDVector& operator=(const CTwoDVector& obj); //copy assignment
+	CTwoDVector& operator=(const CTwoDVector& v); //copy assignment
 
 	//operators
-	CTwoDVector operator+(const CTwoDVector& obj);
-	CTwoDVector operator-(const CTwoDVector& obj);
-	CTwoDVector operator*(const int& obj);
-	CTwoDVector operator/(const int& obj);
-	bool operator==( const CTwoDVector& obj );
 
+	CTwoDVector operator-();
 
-	double DistanceToSq(const CTwoDVector& obj);
-	double DistanceTo(const CTwoDVector& obj);
-	double Magnitude();
+	CTwoDVector operator+(const CTwoDVector& v);
+	CTwoDVector operator-(const CTwoDVector& v);
+	CTwoDVector operator*(const double& d);
+	CTwoDVector operator/(const double& d);
+
+	CTwoDVector& operator+=( const CTwoDVector& v );
+	CTwoDVector& operator-=( const CTwoDVector& v );
+
+	bool operator==( const CTwoDVector& v );
+	bool operator!=( const CTwoDVector& v );
 	
-	int m_x;
-	int m_y;
+
+	CTwoDVector EuclideanNorm();
+	double DistanceToSq(const CTwoDVector& v);
+	double DistanceTo(const CTwoDVector& v);
+	double Magnitude();
+
+	double DotProduct(const CTwoDVector& v);
+	
+	double m_x;
+	double m_y;
+
+	const double epsilon = 1e-10;
 };
 
+//-------------------------------------------------------
+
+CTwoDVector operator*(const double& d, const CTwoDVector& v);

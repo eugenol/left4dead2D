@@ -69,10 +69,10 @@ void GameEntity::Collided(GameEntity *otherObject)
 	// If the objects intersect, move them back until they dont.
 	if ((this->getID() == PLAYER || this->getID() == ENEMY) && (otherObject->getID() == PLAYER || otherObject->getID() == ENEMY))
 	{
-		float diffx = m_position.m_x - otherObject->m_position.m_x;
-		float diffy = m_position.m_y - otherObject->m_position.m_y;
-		float vertdist = otherObject->hitboxWidth / 2 + hitboxWidth / 2;
-		float hordist = otherObject->hitboxHeight / 2 + hitboxHeight / 2;
+		double diffx = m_position.m_x - otherObject->m_position.m_x;
+		double diffy = m_position.m_y - otherObject->m_position.m_y;
+		double vertdist = otherObject->hitboxWidth / 2 + hitboxWidth / 2;
+		double hordist = otherObject->hitboxHeight / 2 + hitboxHeight / 2;
 		vertdist /= 2;
 		hordist /= 2;
 

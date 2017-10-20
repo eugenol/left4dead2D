@@ -12,7 +12,7 @@ CTwoDVector::CTwoDVector()
 
 //-------------------------------------------------------
 
-CTwoDVector::CTwoDVector( int x, int y )
+CTwoDVector::CTwoDVector( double x, double y )
 	:
 	m_x(x),
 	m_y(y)
@@ -21,10 +21,10 @@ CTwoDVector::CTwoDVector( int x, int y )
 
 //-------------------------------------------------------
 
-CTwoDVector::CTwoDVector( const CTwoDVector& obj )
+CTwoDVector::CTwoDVector( const CTwoDVector& v )
 	:
-	m_x(obj.m_x),
-	m_y(obj.m_y)
+	m_x(v.m_x),
+	m_y(v.m_y)
 {
 }
 
@@ -36,79 +36,119 @@ CTwoDVector::~CTwoDVector()
 
 //-------------------------------------------------------
 
-CTwoDVector& CTwoDVector::operator=( const CTwoDVector& obj )
+CTwoDVector& CTwoDVector::operator=( const CTwoDVector& v )
 {
-	m_x = obj.m_x;
-	m_y = obj.m_y;
+	m_x = v.m_x;
+	m_y = v.m_y;
 	return *this;
 }
 
-CTwoDVector CTwoDVector::operator+( const CTwoDVector& obj )
+CTwoDVector CTwoDVector::operator-()
 {
-	CTwoDVector result;
-	result.m_x = this->m_x + obj.m_x;
-	result.m_y = this->m_y + obj.m_y;
-	return result;
+	return CTwoDVector(-m_x, -m_y);
 }
 
-CTwoDVector CTwoDVector::operator-( const CTwoDVector& obj )
+CTwoDVector CTwoDVector::operator+( const CTwoDVector& v )
 {
-	CTwoDVector result;
-	result.m_x = this->m_x - obj.m_x;
-	result.m_y = this->m_y - obj.m_y;
-	return result;
+	return CTwoDVector(m_x + v.m_x, m_y + v.m_y);
 }
 
-CTwoDVector CTwoDVector::operator*( const int& obj )
+CTwoDVector CTwoDVector::operator-( const CTwoDVector& v )
 {
-	CTwoDVector result;
-	result.m_x = this->m_x*obj;
-	result.m_y = this->m_y*obj;
+	return CTwoDVector( m_x - v.m_x, m_y - v.m_y );
+}
+
+CTwoDVector CTwoDVector::operator*( const double& d )
+{
+	return CTwoDVector( m_x*d, m_y*d );
+}
+
+//-------------------------------------------------------
+
+CTwoDVector CTwoDVector::operator/( const double& d )
+{
+	return CTwoDVector( m_x / d, m_y / d);
+}
+
+//-------------------------------------------------------
+
+CTwoDVector& CTwoDVector::operator+=(const CTwoDVector& v)
+{
+	m_x += v.m_x;
+	m_y += v.m_y;
+	return *this;
+}
+
+//-------------------------------------------------------
+
+CTwoDVector& CTwoDVector::operator-=( const CTwoDVector& v )
+{
+	m_x -= v.m_x;
+	m_y -= v.m_y;
+	return *this;
+}
+
+//-------------------------------------------------------
+
+bool CTwoDVector::operator==( const CTwoDVector& v )
+{
+	if( abs(m_x -v.m_x) < epsilon && abs(m_y - v.m_y) < epsilon )
+	{
+		return true;
+	}
+	return false;
+}
+
+//-------------------------------------------------------
+
+bool CTwoDVector::operator!=( const CTwoDVector& v )
+{
+	return !(*this == v);
+}
+
+CTwoDVector CTwoDVector::EuclideanNorm()
+{
+	CTwoDVector result = *this;
+	result = result/Magnitude();
 	return result;
 }
 
 //-------------------------------------------------------
 
-CTwoDVector CTwoDVector::operator/( const int& obj )
+double CTwoDVector::DistanceToSq( const CTwoDVector& v )
 {
-	CTwoDVector result;
-	result.m_x = this->m_x/obj;
-	result.m_y = this->m_y/obj;
-	return result;
+	double dX = m_x - v.m_x;
+	double dY = m_y - v.m_y;
+	return dX*dX + dY*dY;
 }
 
 //-------------------------------------------------------
 
-bool CTwoDVector::operator==( const CTwoDVector& obj )
+double CTwoDVector::DistanceTo( const CTwoDVector& v )
 {
-	return(m_x == obj.m_x && m_y == obj.m_y);
-}
-
-//-------------------------------------------------------
-
-double CTwoDVector::DistanceToSq( const CTwoDVector& obj )
-{
-	int dX = this->m_x - obj.m_x;
-	int dY = this->m_y - obj.m_y;
-	double result = dX*dX + dY*dY;
-	return result;
-}
-
-//-------------------------------------------------------
-
-double CTwoDVector::DistanceTo( const CTwoDVector& obj )
-{
-	return sqrt( DistanceToSq( obj ) );
+	return sqrt( DistanceToSq( v ) );
 }
 
 //-------------------------------------------------------
 
 double CTwoDVector::Magnitude()
 {
-	int dX = this->m_x;
-	int dY = this->m_y;
-	double result = sqrt(dX*dX + dY*dY);
-	return result;
+	return sqrt( m_x*m_x + m_y*m_y);
+}
+
+//-------------------------------------------------------
+
+double CTwoDVector::DotProduct( const CTwoDVector& v )
+{
+	return (m_x*v.m_x + m_y*v.m_y);
+}
+
+//-------------------------------------------------------
+
+CTwoDVector operator*( const double& d, const CTwoDVector& v )
+{
+	CTwoDVector result(v);
+	return result * 2;
 }
 
 //-------------------------------------------------------

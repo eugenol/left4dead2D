@@ -6,14 +6,26 @@ CAIZombie::CAIZombie( CTwoDVector position, ALLEGRO_BITMAP* image, ALLEGRO_BITMA
 	: Enemy( 0, position, 0, 0, 0, image, true, 0, 0, 0, 0 )
 {
 	LoadSprites( image, zombieDeathAnimationSpriteSheet );
+	m_targetPosition = CTwoDVector( 700, 500 );
 }
 
 CAIZombie::~CAIZombie()
 {
+	m_currentSprite = nullptr;
+}
+
+void CAIZombie::DoLogic()
+{
+	if( m_targetPosition != m_position )
+	{
+		CTwoDVector diff = 1.5*(m_targetPosition - m_position).EuclideanNorm();
+		m_position += diff;
+	}
 }
 
 void CAIZombie::Update()
 {
+	DoLogic();
 	m_currentSprite->DoLogic();
 }
 
