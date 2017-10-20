@@ -21,22 +21,18 @@ Enemy(MELEEZOMBIE, position, 2 + rand() % 3, 2 + rand() % 3, NORTH,
 	//properties for zombie sprite sheet
 	properties.m_maxFrameCount = 8;
 	properties.m_minFrameCount = 0;
-	properties.m_currentAnimationFrame = 0;
 	properties.m_animationFrameHeight = 128;
 	properties.m_animationFrameWidth = 128;
-	properties.m_frameCount = 0;
 	//to provide a slower, more visible animation
-	properties.m_frameDelay = 5;
+	properties.m_frameDelay = 5.0 / FPS;
 
 	m_zombieSprite = new CSprite(image, properties);
 	m_currentSprite = m_zombieSprite;
 
 	//Death animation spritesheet
-	properties.m_currentAnimationFrame = 0;
 	properties.m_maxFrameCount = 7;
-	properties.m_frameDelay = 5;
+	properties.m_frameDelay = 5.0 / FPS;
 	properties.m_minFrameCount = 0;
-	properties.m_frameCount = 0;
 
 	m_zombieDeathSprite = new CSprite(zombieDeathAnimationSpriteSheet, properties);
 
@@ -104,7 +100,11 @@ void MeleeZombie::Update( double deltaTime )
 			m_currentSprite = m_zombieDeathSprite;
 		}
 		m_currentSprite->DoLogic( deltaTime );
-		if ((!active) && (m_currentSprite->GetCurrentAnimationFrame() == (m_currentSprite->GetMaxFrameCount() - 1))) isAlive = false;
+
+		if (!active && m_currentSprite->AnimationComplete())
+		{
+			isAlive = false;
+		}
 	}
 		
 }

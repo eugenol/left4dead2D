@@ -86,22 +86,18 @@ void CAIZombie::LoadSprites(ALLEGRO_BITMAP* image, ALLEGRO_BITMAP* deathImage)
 	//properties for zombie sprite sheet
 	properties.m_maxFrameCount = 8;
 	properties.m_minFrameCount = 0;
-	properties.m_currentAnimationFrame = 0;
 	properties.m_animationFrameHeight = 128;
 	properties.m_animationFrameWidth = 128;
-	properties.m_frameCount = 0;
 	//to provide a slower, more visible animation
-	properties.m_frameDelay = 5;
+	properties.m_frameDelay = 8.0 / FPS;
 
 	m_zombieSprite = std::make_unique<CSprite>(image, properties);
 	m_currentSprite = m_zombieSprite.get();
 
 	//Death animation spritesheet
-	properties.m_currentAnimationFrame = 0;
 	properties.m_maxFrameCount = 7;
-	properties.m_frameDelay = 5;
+	properties.m_frameDelay = 5.0 / FPS;
 	properties.m_minFrameCount = 0;
-	properties.m_frameCount = 0;
 
 	m_zombieDeathSprite = std::make_unique<CSprite>(deathImage, properties);
 

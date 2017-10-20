@@ -11,9 +11,7 @@ Projectile::Projectile(CTwoDVector destination, int lif, CTwoDVector position, i
 	SpriteSheetProperties properties;
 	properties.m_animationFrameHeight = 15;
 	properties.m_animationFrameWidth = 15;
-	properties.m_currentAnimationFrame = 0;
-	properties.m_frameCount = 0;
-	properties.m_frameDelay = 3;
+	properties.m_frameDelay = 3.0 / FPS;
 	properties.m_maxFrameCount = 3;
 	properties.m_minFrameCount = 0;
 	direction = 0;
@@ -23,9 +21,7 @@ Projectile::Projectile(CTwoDVector destination, int lif, CTwoDVector position, i
 
 	properties.m_animationFrameHeight = 32;
 	properties.m_animationFrameWidth = 32;
-	properties.m_currentAnimationFrame = 0;
-	properties.m_frameCount = 0;
-	properties.m_frameDelay = 1;
+	properties.m_frameDelay = 1.0 / FPS;
 	properties.m_maxFrameCount = 12;
 	properties.m_minFrameCount = 0;
 
@@ -109,8 +105,10 @@ void Projectile::Update( double deltaTime )
 			collided = false;
 		}
 		m_currentImage->DoLogic( deltaTime );
-		if (m_currentImage->GetCurrentAnimationFrame() == (m_currentImage->GetMaxFrameCount() - 1))
+		if( m_currentImage->AnimationComplete() )
+		{
 			isAlive = false;
+		}
 	}
 }
 

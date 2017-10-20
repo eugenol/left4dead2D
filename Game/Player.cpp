@@ -20,9 +20,7 @@ gameTimer()
 	struct SpriteSheetProperties properties;
 	properties.m_animationFrameHeight = 32;
 	properties.m_animationFrameWidth = 32;
-	properties.m_currentAnimationFrame = 0;
-	properties.m_frameCount = 0;
-	properties.m_frameDelay = 5;
+	properties.m_frameDelay = 5.0 / FPS;
 	properties.m_maxFrameCount = 8;
 	properties.m_minFrameCount = 0;
 
@@ -32,9 +30,7 @@ gameTimer()
 	//set spritesheet properties PleayerDeathSprite
 	properties.m_animationFrameHeight = 66;
 	properties.m_animationFrameWidth = 68;
-	properties.m_currentAnimationFrame = 0;
-	properties.m_frameCount = 0;
-	properties.m_frameDelay = 6;
+	properties.m_frameDelay = 6.0 / FPS;
 	properties.m_maxFrameCount = 7;
 	properties.m_minFrameCount = 0;
 	
@@ -44,9 +40,7 @@ gameTimer()
 	//set spritesheet properties AttackSplatter
 	properties.m_animationFrameHeight = 42;
 	properties.m_animationFrameWidth = 32;
-	properties.m_currentAnimationFrame = 0;
-	properties.m_frameCount = 0;
-	properties.m_frameDelay = 2;
+	properties.m_frameDelay = 2.0 / FPS;
 	properties.m_maxFrameCount = 10;
 	properties.m_minFrameCount = 0;
 	attackSplatterAnimationControl = false;
@@ -129,8 +123,10 @@ void Player::Update( double deltaTime )
 		}
 
 		m_playerImage->DoLogic( deltaTime );
-		if (m_playerImage->GetFrameCount() == 0)
+		if (m_playerImage->AnimationComplete()) 
+		{
 			isAlive = false;
+		}
 	}
 	if (attackSplatterAnimationControl)
 	{
@@ -162,9 +158,10 @@ void Player::attackSplatterAnimationUpdate( double deltaTime )
 	//Generates /Advances Animation
 	m_attackSplatter->DoLogic( deltaTime );
 
-	if( m_attackSplatter->GetCurrentAnimationFrame() >= m_attackSplatter->GetMaxFrameCount() -1 )
+	if( m_attackSplatter->AnimationComplete() )
 	{
 			attackSplatterAnimationControl = false;
+			m_attackSplatter->ResetAnimation();
 	}
 }
 

@@ -7,11 +7,9 @@ struct SpriteSheetProperties
 {
 	int m_animationFrameWidth;//this is the width of the bitmap region
 	int m_animationFrameHeight;//this is the height of bitmap region
-	int m_currentAnimationFrame;//this is the frame we are on
-	int m_frameCount; //frame Count
 	int m_maxFrameCount; //the last frames of animation sequence
 	int m_minFrameCount;//the first frame of animation sequence
-	int m_frameDelay; //delay associated to animation
+	double m_frameDelay; //delay associated to animation
 };
 
 class CSprite
@@ -22,16 +20,26 @@ public:
 	~CSprite();
 
 	void Draw( CTwoDVector& position, int direction = 0);
-	void Draw(ALLEGRO_COLOR tintColor, CTwoDVector& position, int direction =0);
+	void Draw(ALLEGRO_COLOR tintColor, CTwoDVector& position, int direction = 0);
 	void DoLogic( double deltaTime );
 	void UpdateAnimation( double deltaTime );
 
-	int GetFrameCount() { return m_properties.m_frameCount; }
-	int GetCurrentAnimationFrame() { return m_properties.m_currentAnimationFrame; }
+	//int GetFrameCount() { return m_currentFrame; }
+	//int GetCurrentAnimationFrame() { return m_currentFrame; }
 	int GetFrameWidth() { return m_properties.m_animationFrameWidth; }
 	int GetFrameHeight() { return m_properties.m_animationFrameHeight; }
-	int GetMaxFrameCount() { return m_properties.m_maxFrameCount; }
+	//int GetMaxFrameCount() { return m_properties.m_maxFrameCount; }
+	bool AnimationComplete() { return m_animationComplete; }
+	void ResetAnimation();
+	double GetAnimationFramDelay() { return m_frameDelay; }
+	void SetAnimationFramDelay(double newAnimationSpeed) { m_frameDelay = newAnimationSpeed; }
+
 private:
+
+	double m_frameTime = 0;
+	double m_frameDelay = 0;
+	int m_currentFrame = 0;
+	bool m_animationComplete = false;
 
 	bool m_ownsImage;
 	ALLEGRO_BITMAP* m_image;
