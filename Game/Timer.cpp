@@ -2,9 +2,10 @@
 
 //-------------------------------------------------------
 
-Timer::Timer() :
-m_running(false),
-m_runTime(0)
+Timer::Timer( double timerDuration ) :
+m_running( false ),
+m_runTime( 0 ),
+m_timerDuration( timerDuration )
 {
 }
 
@@ -58,14 +59,14 @@ double Timer::GetTime()
 
 //-------------------------------------------------------
 
-bool Timer::HasElapsed( double seconds ) 
+bool Timer::HasElapsed() 
 {
 	if (GetTime() < 0)
 	{
 		return false;
 	}
 
-	return GetTime() >= seconds;
+	return GetTime() >= m_timerDuration;
 }
 
 //-------------------------------------------------------

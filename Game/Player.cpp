@@ -29,7 +29,7 @@ gameTimer()
 	//set spritesheet properties PleayerDeathSprite
 	properties.m_animationFrameHeight = 66;
 	properties.m_animationFrameWidth = 68;
-	properties.m_frameDelay = 6.0 / FPS;
+	properties.m_frameDelay = 8.0 / FPS;
 	properties.m_maxFrameCount = 7;
 	properties.m_minFrameCount = 0;
 	
@@ -110,8 +110,8 @@ void Player::Update( double deltaTime )
 		if (UpdatePosition())
 		{
 			UpdateDirection();
-			m_playerImage->DoLogic( deltaTime );
 		}
+		m_playerImage->DoLogic(deltaTime);
 	}
 	else if (!active && isAlive)
 	{
@@ -248,7 +248,6 @@ bool Player::UpdatePosition()
 	{
 		horizontal = -1;
 	}
-
 	
 	//move position
 	if (((m_position.m_x + speed_x*horizontal) > m_playerImage->GetFrameWidth()/2) && ((m_position.m_x + speed_x*horizontal) < (maxXpos - m_playerImage->GetFrameWidth()/2)))
@@ -260,12 +259,11 @@ bool Player::UpdatePosition()
 		m_position.m_y += speed_y*vertical;
 	}
 
-		if (m_oldPosition == m_position)
-		{
-			return false;
-		}
+	if (m_oldPosition == m_position)
+	{
+		return false;
+	}
 
-		
 	return true;
 }
 
@@ -273,7 +271,7 @@ void Player::ShootCheck()
 {
 	if (InputManager::getInstance().isMouseButtonPressed(LEFTM))
 	{
-		if ((shooting_control == 0) || (shooting_control > 3))
+		if ((shooting_control == 0) || (shooting_control > 7))
 		{
 			CTwoDVector destination = InputManager::getInstance().GetMousePosition();
 			GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination, 0, m_position, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
@@ -281,8 +279,8 @@ void Player::ShootCheck()
 			shooting_control = 0;
 		}
 		shooting_control++;
-		
 	}
+
 	if ((InputManager::getInstance().isMouseButtonPressed(RIGHTM)) && (megaShotCount > 0))
 	{
 		InputManager::getInstance().clearInput();
@@ -296,7 +294,7 @@ void Player::megaShot()
 	for (int angle = 0; angle < 360; angle += 15)
 	{
 		CTwoDVector destination(m_position.m_x + 100 * cosf(angle*PI / 180), m_position.m_y + 100 * sinf(angle*PI / 180));
-		GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination, 0, m_position, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 80);
+		GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination, 0, m_position, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 500);
 		EntityManager::getInstance().AddEntity(bulletPtr);
 	}
 }

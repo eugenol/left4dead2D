@@ -6,8 +6,8 @@ Potion::Potion(ALLEGRO_BITMAP *potionImage) :
 m_potionImage(potionImage),
 m_randomPosX(0),
 m_randomPosY(0),
-m_noPotionTimer(),
-m_showPotionTimer(),
+m_noPotionTimer( 10.0 ),
+m_showPotionTimer( 5.0 ),
 m_collectedPotion(false)
 {
 	al_convert_mask_to_alpha(m_potionImage, al_map_rgb(255, 255, 255));
@@ -56,7 +56,7 @@ void Potion::DoLogic(int playerXPos, int playerYPos, bool isAlive)
 	}
 	else
 	{
-		if (m_noPotionTimer.HasElapsed(10.0))
+		if (m_noPotionTimer.HasElapsed())
 		{
 			m_noPotionTimer.Stop();
 			m_showPotionTimer.Start();
@@ -64,7 +64,7 @@ void Potion::DoLogic(int playerXPos, int playerYPos, bool isAlive)
 			m_randomPosX = rand() % 800 + 1;
 			m_randomPosY = rand() % 600 + 1;
 		}
-		if (m_showPotionTimer.HasElapsed(5.0))
+		if (m_showPotionTimer.HasElapsed())
 		{
 			m_showPotionTimer.Stop();
 			m_noPotionTimer.Start();

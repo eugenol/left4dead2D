@@ -179,7 +179,7 @@ void GameEntity::Collided(GameEntity *otherObject)
 
 		// Now code only has to be here once... use player and zombie pointers.
 		//Player Specific Code
-		player->takeDamage((*zombie).getDamagePower()); //should put zombie->damgeAmount in this bracket, so each zombie type can damage differently
+		player->takeDamage(zombie->getDamagePower()); //should put zombie->damgeAmount in this bracket, so each zombie type can damage differently
 		if (!(player->collided)) player->collided = true;
 		
 		//Zombie Specific Code Here

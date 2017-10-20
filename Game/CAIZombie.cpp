@@ -73,6 +73,7 @@ void CAIZombie::Update( double deltaTime )
 {
 	DoLogic( deltaTime );
 	m_currentSprite->DoLogic( deltaTime );
+	DoStateLogic( deltaTime );
 }
 
 void CAIZombie::Draw()
@@ -122,4 +123,15 @@ void CAIZombie::setDirection(float angle)
 	else if (angle < 135 - 22.5) direction = S;
 	else if (angle < 180 - 22.5) direction = SW;
 	else direction = W;
+}
+
+void CAIZombie::DoStateLogic(double delta_time)
+{
+	switch( m_state )
+	{
+	case RandomWalk:
+			 break;
+	case ChasePlayer:
+			break;
+	}
 }
