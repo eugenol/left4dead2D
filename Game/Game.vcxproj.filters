@@ -22,6 +22,12 @@
     <Filter Include="Common">
       <UniqueIdentifier>{8ab45ea8-5773-4bbd-ab53-98e6e59d8e6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappy">
+      <UniqueIdentifier>{52fbbb18-9a5c-454e-a69f-c6c7de22dd18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TinyXML2">
+      <UniqueIdentifier>{19578e89-deff-4978-8e53-a7d4848f2415}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -47,9 +53,6 @@
     </ClCompile>
     <ClCompile Include="MeleeZombie.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mappy_A5.c">
-      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="HealthBar.cpp">
       <Filter>Source Files</Filter>
@@ -105,6 +108,12 @@
     <ClCompile Include="CAIZombie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mappy_A5.c">
+      <Filter>Mappy</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>TinyXML2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEntity.h">
@@ -126,9 +135,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MeleeZombie.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mappy_A5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HealthBar.h">
@@ -187,6 +193,12 @@
     </ClInclude>
     <ClInclude Include="CAIZombie.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mappy_A5.h">
+      <Filter>Mappy</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml2.h">
+      <Filter>TinyXML2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

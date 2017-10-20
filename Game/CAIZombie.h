@@ -22,6 +22,7 @@ private:
 	void setDirection( float angle );
 
 	CTwoDVector m_targetPosition;
+	CTwoDVector m_intermediateTargetPosition;
 
 	CSprite* m_currentSprite;
 	std::unique_ptr<CSprite> m_zombieSprite;

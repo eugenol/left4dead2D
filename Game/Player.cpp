@@ -114,7 +114,7 @@ void Player::Update( double deltaTime )
 			m_playerImage->DoLogic( deltaTime );
 		}
 	}
-	else if ((!active) && isAlive)
+	else if (!active && isAlive)
 	{
 		if (deathanimationcontrol == 0)
 		{	

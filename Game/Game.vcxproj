@@ -121,6 +121,7 @@
     <ClCompile Include="ScoreScreen.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAIZombie.h" />
@@ -150,6 +151,7 @@
     <ClInclude Include="ScoreScreen.h" />
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="tinyxml2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
