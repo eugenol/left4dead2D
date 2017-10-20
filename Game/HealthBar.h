@@ -11,8 +11,8 @@ public:
 	HealthBar(ALLEGRO_BITMAP *healthBarSpriteSheet);
 	virtual ~HealthBar();
 
-	virtual void draw();
-	virtual void update();
+	virtual void Draw();
+	virtual void Update( double deltaTime );
 	virtual void Collided(GameEntity *otherObject) {}
 	virtual bool UpdatePosition() { return false; }
 	virtual void UpdateDirection() {}

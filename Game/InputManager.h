@@ -21,6 +21,7 @@
 
 #include <allegro5/allegro.h>
 #include <vector>
+#include "CTwoDVector.h"
 
 enum KEYS{ UP, DOWN, LEFT, RIGHT, SPACE, ESCAPE };
 enum MOUSEBUTTONS{ LEFTM, RIGHTM, MIDDLEM };
@@ -31,7 +32,7 @@ private:
 	InputManager(); //Singleton
 	const int numKeys = 6;
 	std::vector<bool> keys;
-	float mouse_x, mouse_y;
+	CTwoDVector m_mousePosition;
 	bool mouseButton[3];
 	ALLEGRO_MOUSE_STATE mouseState;
 public:
@@ -42,6 +43,7 @@ public:
 	bool isKeyPressed(int key);
 	float getMouseX();
 	float getMouseY();
+	CTwoDVector GetMousePosition();
 	bool isMouseButtonPressed(int button);
 
 	void clearInput(); //fix for double reading the same input.

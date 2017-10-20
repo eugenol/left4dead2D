@@ -1,10 +1,21 @@
 #include "ScoreScreen.h"
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
+#include "Common.h"
 
 
 ScoreScreen::ScoreScreen(ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_24, ALLEGRO_FONT *font_72) : font18(font_18), font24(font_24), font72(font_72)
 {
 	returnToMenu = false;
-	loadData();
+
+	CTwoDVector buttonLocation(DISPLAY_WIDTH - 100, DISPLAY_HEIGHT - 28);
+	ALLEGRO_COLOR buttonColor = al_map_rgb(255, 0, 0);
+	auto callback = [this]() {this->returnToMenu = true; };
+	m_button = std::make_unique<CButton>(buttonLocation, 200, 38, "Main Menu", font_18, buttonColor, callback);
+
+	LoadData();
 }
 
 
@@ -13,21 +24,19 @@ ScoreScreen::~ScoreScreen()
 
 }
 
-void ScoreScreen::update()
+void ScoreScreen::Update()
 {
-	int mouse_x = InputManager::getInstance().getMouseX();
-	int mouse_y = InputManager::getInstance().getMouseY();
+	CTwoDVector mouse = InputManager::getInstance().GetMousePosition();
 
 	returnToMenu = false;
 
-	if (InputManager::getInstance().isMouseButtonPressed(LEFTM) && (mouse_x >= DISPLAY_WIDTH - 200)
-		&& (mouse_x <= DISPLAY_WIDTH) && (mouse_y >= DISPLAY_HEIGHT - 38) && (mouse_y <= DISPLAY_HEIGHT))
+	if (InputManager::getInstance().isMouseButtonPressed(LEFTM))
 	{
-		returnToMenu = true;
+		m_button->OnClicked(mouse);
 	}
 }
 
-void ScoreScreen::draw()
+void ScoreScreen::Draw()
 {
 	al_draw_text(font24, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 80, ALLEGRO_ALIGN_CENTRE, "High Scores");
 	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH / 2, 150, ALLEGRO_ALIGN_CENTRE, "Rank \t Zombies Killed \t Time Survived");
@@ -39,17 +48,26 @@ void ScoreScreen::draw()
 		scoreCount++;
 		al_draw_textf(font18, al_map_rgb(255, 0, 0), 160, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%d.", scoreCount);
 		al_draw_textf(font18, al_map_rgb(255, 0, 0), 325, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%d",i->first);
-		al_draw_textf(font18, al_map_rgb(255, 0, 0), 555, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%d : %d", i->second / 60, i->second%60);
+
+		int minutes = i->second / 60;
+		int seconds = i->second % 60;
+
+		std::string time = minutes < 10 ? "0" : "";
+		time += std::to_string(minutes);
+		time += ":";
+		time += seconds < 10 ? "0" : "";
+		time += std::to_string(seconds);
+
+		al_draw_textf(font18, al_map_rgb(255, 0, 0), 555, 180 + scoreCount * 20, ALLEGRO_ALIGN_LEFT, "%s", time.c_str());
 	}
 
-	al_draw_text(font18, al_map_rgb(255, 0, 0), DISPLAY_WIDTH - 100, DISPLAY_HEIGHT - 28, ALLEGRO_ALIGN_CENTRE, "Main Menu");
+	m_button->Draw();
 }
 
-void ScoreScreen::loadData()
+void ScoreScreen::LoadData()
 {
 	std::fstream file("highscores.txt");
 	std::vector<std::pair<int, int> > loadhighscores;
-	int scorecount = 0;
 	std::string line;
 
 	while (std::getline(file,line))
@@ -61,36 +79,27 @@ void ScoreScreen::loadData()
 	}
 	file.close();
 
-	std::sort(loadhighscores.rbegin(), loadhighscores.rend());
+	std::sort(loadhighscores.rbegin(), loadhighscores.rend(), [](std::pair<int, int>& a, std::pair<int, int>& b) -> bool { return a.first < b.first; } );
 
 	if (loadhighscores.size() > 10)
 	{
-		std::vector<std::pair<int, int> >::const_iterator first = loadhighscores.begin();
-		std::vector<std::pair<int, int> >::const_iterator last = loadhighscores.begin() + 10;
-		std::vector<std::pair<int, int> > temphighscores(first, last);
-
 		highscores.clear();
-		for (std::vector<std::pair<int, int> >::iterator i = temphighscores.begin(); i != temphighscores.end(); i++)
+		for (std::vector<std::pair<int, int> >::iterator i = loadhighscores.begin(); i != loadhighscores.begin()+10; ++i)
 		{
 			highscores.push_back(*i);
 		}
 	}
 	else
 	{
-		std::vector<std::pair<int, int> >::const_iterator first = loadhighscores.begin();
-		std::vector<std::pair<int, int> >::const_iterator last = loadhighscores.end();
-		std::vector<std::pair<int, int> > temphighscores(first, last);
-
 		highscores.clear();
-		for (std::vector<std::pair<int, int> >::iterator i = temphighscores.begin(); i != temphighscores.end(); i++)
+		for (std::vector<std::pair<int, int> >::iterator i = loadhighscores.begin(); i != loadhighscores.end(); ++i)
 		{
 			highscores.push_back(*i);
 		}
 	}
 
 	file.open("highscores.txt");
-
-	for (std::vector<std::pair<int, int> >::iterator i = highscores.begin(); i != highscores.end(); i++)
+	for (std::vector<std::pair<int, int> >::iterator i = highscores.begin(); i != highscores.end(); ++i)
 	{
 		file << i->first << " " << i->second << std::endl;
 	}

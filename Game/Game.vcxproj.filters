@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ScreenManager">
+      <UniqueIdentifier>{8288e8c0-3842-484f-b525-d570a42d9e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScreenManager\Screens">
+      <UniqueIdentifier>{cfd9f506-9fa2-4c7d-b509-adece6801f2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{8ab45ea8-5773-4bbd-ab53-98e6e59d8e6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -36,25 +45,7 @@
     <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InitData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MeleeZombie.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScreenManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CreditScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="mappy_A5.c">
@@ -78,7 +69,40 @@
     <ClCompile Include="HeadsUpDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ScreenManager.cpp">
+      <Filter>ScreenManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditScreen.cpp">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="CScreen.cpp">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScreen.cpp">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreScreen.cpp">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScreen.cpp">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClCompile>
     <ClCompile Include="DeathScreen.cpp">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="CSprite.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CTwoDVector.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CButton.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CDisableableButton.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CAIZombie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,25 +125,7 @@
     <ClInclude Include="EntityManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InitData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MeleeZombie.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScreenManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CreditScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="mappy_A5.h">
@@ -143,7 +149,43 @@
     <ClInclude Include="HeadsUpDisplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ScreenManager.h">
+      <Filter>ScreenManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreScreen.h">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScreen.h">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreen.h">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClInclude>
     <ClInclude Include="DeathScreen.h">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditScreen.h">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="CScreen.h">
+      <Filter>ScreenManager\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CSprite.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CTwoDVector.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CButton.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CDisableableButton.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CAIZombie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

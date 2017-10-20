@@ -15,29 +15,19 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
-#include "GameEntity.h"
-#include "Enemy.h"
-#include "MeleeZombie.h"
 #include "InputManager.h"
-#include "Player.h"
-#include "EntityManager.h"
-#include "InitData.h"
 #include <cstdlib>    
 #include <ctime>
-#include <cstdio>
 
 #include "ScreenManager.h"
+#include "Common.h"
+#include "mappy_A5.h"
 
 //Display width & height, can move to a header file later.
 //Moved here, lots of things might use this. dont need to pass as arguments.
 
-const int DISPLAY_HEIGHT = 600;
-const int DISPLAY_WIDTH = 800;		
 int gameTime = 0;
 int gameTimeUpdateCounter = 0;
-int FPS = 60;					//Framerate
-
-static void*loading_thread(ALLEGRO_THREAD*load, void*data); // Prototype for loading thread
 
 int main(int argc, char **argv)
 {
@@ -46,10 +36,8 @@ int main(int argc, char **argv)
 	bool redraw = false;				// used for rendering
 
 	int escapeDelay = 0;
-	srand(time(NULL));
-	//Parallel load
-	InitData data;
-
+	srand(time(nullptr));
+	
 	//Allegro variables
 	ALLEGRO_DISPLAY *display = NULL;			//Pointer to display.
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;	//Pointer to event queue
@@ -60,7 +48,6 @@ int main(int argc, char **argv)
 	//Bitmaps
 	ALLEGRO_BITMAP *meleeZombieSpriteSheet = NULL;
 	ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet = NULL;
-	ALLEGRO_BITMAP *playerSpriteSheet = NULL;
 	ALLEGRO_BITMAP *healthBarSpriteSheet = NULL;
 	ALLEGRO_BITMAP *skullImage = NULL;
 	ALLEGRO_BITMAP *gameoverImage = NULL;
@@ -88,6 +75,14 @@ int main(int argc, char **argv)
 		return -1; //exit program
 	}
 
+	//Intitialize addons
+	al_install_keyboard();		//Keyboard
+	al_install_mouse();			//Mouse
+	al_init_primitives_addon(); //Primitives (shapes)
+	al_init_image_addon();		//Images
+	al_install_audio();			//Audio
+	al_init_acodec_addon();		//Audio
+
 
 	// create display & check if succesful.
 	display = al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT);
@@ -97,53 +92,49 @@ int main(int argc, char **argv)
 		return -1; // exit program
 	}
 	al_set_window_title(display, "Zombie Rush"); //Sets title on window
-	data.display = display; //might not be needed now, but can use in case.
 
 	//create font for loading screen
 	font_72 = al_load_ttf_font("pirulen.ttf", 72, 0); //can use different font
 
-	// Load using a parallel thread, while displaying a loading image
-	loading = al_create_thread(loading_thread, &data);
-	al_start_thread(loading);
-	while (!data.done_loading)
-	{
-		static int  a = 0;
+																										//Set up cursor Image
+	cursorImage = al_load_bitmap("target.png");
+	al_convert_mask_to_alpha(cursorImage, al_map_rgb(255, 255, 255));
 
-		if (a >= 1200)
-			a = 0;
+	//Load images
+	healthBarSpriteSheet = al_load_bitmap("healthbar.png");
+	skullImage = al_load_bitmap("skull.png");
+	potionImage = al_load_bitmap("potion.png");
+	gameoverImage = al_load_bitmap("gameover.png");
+	meleeZombieSpriteSheet = al_load_bitmap("zombie_0.png");				//Enemy Image
+	zombieDeathAnimationSpriteSheet = al_load_bitmap("Zombie_death_spritesheet.png");
+	bulletSpriteSheet = al_load_bitmap("spike_ball_projectile.png");//Bullet Image
+	bulletExplosionSpriteSheet = al_load_bitmap("explosion.png"); //Bullet Explosion Animation
 
-		if (a < 300)
-			al_draw_text(font_72, al_map_rgb(255, 255, 255), 150, DISPLAY_HEIGHT / 2, ALLEGRO_ALIGN_LEFT, "Loading   ");
-		else if (a < 600)
-			al_draw_text(font_72, al_map_rgb(255, 255, 255), 150, DISPLAY_HEIGHT / 2, ALLEGRO_ALIGN_LEFT, "Loading.  ");
-		else if (a <900)
-			al_draw_text(font_72, al_map_rgb(255, 255, 255), 150, DISPLAY_HEIGHT / 2, ALLEGRO_ALIGN_LEFT, "Loading.. ");
-		else if (a < 1200)
-			al_draw_text(font_72, al_map_rgb(255, 255, 255), 150, DISPLAY_HEIGHT / 2, ALLEGRO_ALIGN_LEFT, "Loading...");
-		a++;
-		al_flip_display();
-		al_clear_to_color(al_map_rgb(0, 0, 0));
-	}
-	al_destroy_thread(loading);
+																																			//Data->background = al_load_bitmap("city_background.png");	//Load Background
+																																			//Sounds & Musics
+	al_reserve_samples(1);
+	bg_music = al_load_sample("A Night of Dizzy Spells.ogg");
+	bgInstance = al_create_sample_instance(bg_music);
+	al_set_sample_instance_playmode(bgInstance, ALLEGRO_PLAYMODE_LOOP);
+	//can set other properties here such as speed, gain, etc..
+	al_attach_sample_instance_to_mixer(bgInstance, al_get_default_mixer());
 
-	//Get loaded data
-	//display = data.display;
-	event_queue = data.event_queue;
-	timer = data.timer;
-	playerSpriteSheet = al_clone_bitmap(data.playerSpriteSheet);
-	healthBarSpriteSheet = al_clone_bitmap(data.healthBarSpriteSheet);
-	gameoverImage = al_clone_bitmap(data.gameoverImage);
-	skullImage = al_clone_bitmap(data.skullImage);
-	potionImage = al_clone_bitmap(data.potionImage);
-	bg_music = data.bg_music;
-	bgInstance = data.bgInstance;
-	cursorImage = al_clone_bitmap(data.cursorImage);
-	bulletSpriteSheet = al_clone_bitmap(data.bulletSpriteSheet);
-	bulletExplosionSpriteSheet = al_clone_bitmap(data.bulletExplosionSpriteSheet);
-	meleeZombieSpriteSheet = al_clone_bitmap(data.enemy_image);
-	zombieDeathAnimationSpriteSheet = al_clone_bitmap(data.zombieDeathAnimationSpriteSheet);
-	font_18 = data.font_18;
-	font_24 = data.font_24;
+	//Create additional Fonts
+	font_18 = al_load_ttf_font("pirulen.ttf", 18, 0); //can use different font
+	font_24 = al_load_ttf_font("pirulen.ttf", 24, 0); //can use different font
+
+																													//Create Timer
+	timer = al_create_timer(1.0 / FPS);
+	//Create Event Queue
+	event_queue = al_create_event_queue();
+
+	//Register Event Sources
+	al_register_event_source(event_queue, al_get_display_event_source(display)); //display events
+	al_register_event_source(event_queue, al_get_timer_event_source(timer)); // timer events
+	al_register_event_source(event_queue, al_get_keyboard_event_source()); // keyboard events
+	al_register_event_source(event_queue, al_get_mouse_event_source()); // mouse events
+
+
 	//Mouse cursor
 	cursor = al_create_mouse_cursor(cursorImage, 16, 16);
 	al_set_mouse_cursor(display, cursor);
@@ -152,7 +143,7 @@ int main(int argc, char **argv)
 		return -5;
 
 	//create screens and add to screenmanager
-	GameScreen game(playerSpriteSheet, bulletSpriteSheet, meleeZombieSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage, zombieDeathAnimationSpriteSheet);
+	GameScreen game(bulletSpriteSheet, meleeZombieSpriteSheet, healthBarSpriteSheet, skullImage, gameoverImage, potionImage, zombieDeathAnimationSpriteSheet);
 	ScreenManager::getInstance().addGameScreen(&game);
 	MenuScreen menu(font_18, font_24, font_72, &game);
 	ScreenManager::getInstance().addMenuScreen(&menu);
@@ -184,7 +175,7 @@ int main(int argc, char **argv)
 	al_flip_display();
 
 	//Start playing the music
-	al_play_sample_instance(bgInstance);//turned off for now.. it can get irritating!!
+	//al_play_sample_instance(bgInstance);//turned off for now.. it can get irritating!!
 
 	al_start_timer(timer); //Start the timer
 
@@ -239,30 +230,30 @@ int main(int argc, char **argv)
 			}
 			else if (ScreenManager::getInstance().getScreenState() == ScreenManager::CREDITS)
 			{
-				if (credits.getReturnToMenu())
+				if (credits.GetReturnToMenu())
 				{
 					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
-					credits.setReturnToMenu();
+					credits.SetReturnToMenu();
 				}
 			}
 			else if (ScreenManager::getInstance().getScreenState() == ScreenManager::HIGHSCORES)
 			{
-				if (scores.getReturnToMenu())
+				if (scores.GetReturnToMenu())
 				{
 					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
-					scores.setReturnToMenu();
+					scores.SetReturnToMenu();
 				}
 			}
 			else if (ScreenManager::getInstance().getScreenState() == ScreenManager::DIED)
 			{
-				if (death.getReturnToMenu())
+				if (death.GetReturnToMenu())
 				{
 					ScreenManager::getInstance().changeGameState(ScreenManager::MENU);
-					death.setReturnToMenu();
+					death.SetReturnToMenu();
 				}
 			}
 
-			ScreenManager::getInstance().update();
+			ScreenManager::getInstance().Update();
 		}
 
 
@@ -303,7 +294,7 @@ int main(int argc, char **argv)
 			
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 
-			ScreenManager::getInstance().draw();
+			ScreenManager::getInstance().Draw();
 			al_flip_display();
 		}
 	}
@@ -317,7 +308,6 @@ int main(int argc, char **argv)
 	al_destroy_sample_instance(bgInstance);
 	al_destroy_sample(bg_music);
 	//Clear Bitmaps
-	al_destroy_bitmap(playerSpriteSheet);
 	al_destroy_bitmap(healthBarSpriteSheet);
 	al_destroy_bitmap(gameoverImage);
 	al_destroy_bitmap(skullImage);
@@ -330,64 +320,4 @@ int main(int argc, char **argv)
 	al_destroy_font(font_72);
 	MapFreeMem();
 	return 0;
-}
-
-static void*loading_thread(ALLEGRO_THREAD*load, void*data)
-{
-	InitData *Data = (InitData*)data;
-
-	//Intitialize addons
-	al_install_keyboard();		//Keyboard
-	al_install_mouse();			//Mouse
-	al_init_primitives_addon(); //Primitives (shapes)
-	al_init_image_addon();		//Images
-	al_install_audio();			//Audio
-	al_init_acodec_addon();		//Audio
-
-	//Set up cursor Image
-	Data->cursorImage = al_load_bitmap("target.png");
-	al_convert_mask_to_alpha(Data->cursorImage, al_map_rgb(255, 255, 255));
-	
-	//Load images
-	Data->playerSpriteSheet = al_load_bitmap("player_sprite.png");
-	Data->healthBarSpriteSheet = al_load_bitmap("healthbar.png");
-	Data->skullImage = al_load_bitmap("skull.png");
-	Data->potionImage = al_load_bitmap("potion.png");
-	Data->gameoverImage = al_load_bitmap("gameover.png");
-	Data->enemy_image = al_load_bitmap("zombie_0.png");				//Enemy Image
-	Data->zombieDeathAnimationSpriteSheet = al_load_bitmap("Zombie_death_spritesheet.png");
-	Data->bulletSpriteSheet = al_load_bitmap("spike_ball_projectile.png");//Bullet Image
-	Data->bulletExplosionSpriteSheet = al_load_bitmap("explosion.png"); //Bullet Explosion Animation
-
-	//Data->background = al_load_bitmap("city_background.png");	//Load Background
-
-	//Sounds & Musics
-	al_reserve_samples(1);
-	Data->bg_music = al_load_sample("A Night of Dizzy Spells.ogg");
-	Data->bgInstance = al_create_sample_instance(Data->bg_music);
-	al_set_sample_instance_playmode(Data->bgInstance, ALLEGRO_PLAYMODE_LOOP);
-	//can set other properties here such as speed, gain, etc..
-	al_attach_sample_instance_to_mixer(Data->bgInstance, al_get_default_mixer());
-
-	//Create additional Fonts
-	Data->font_18 = al_load_ttf_font("pirulen.ttf", 18, 0); //can use different font
-	Data->font_24 = al_load_ttf_font("pirulen.ttf", 24, 0); //can use different font
-
-	//Create Timer
-	Data->timer = al_create_timer(1.0 / FPS);
-	//Create Event Queue
-	Data->event_queue = al_create_event_queue();
-
-	//Register Event Sources
-	al_register_event_source(Data->event_queue, al_get_display_event_source(Data->display)); //display events
-	al_register_event_source(Data->event_queue, al_get_timer_event_source(Data->timer)); // timer events
-	al_register_event_source(Data->event_queue, al_get_keyboard_event_source()); // keyboard events
-	al_register_event_source(Data->event_queue, al_get_mouse_event_source()); // mouse events
-
-	al_rest(2.5);
-
-
-	Data->done_loading = true;
-
-	return NULL;
 }

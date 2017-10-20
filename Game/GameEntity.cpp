@@ -1,57 +1,49 @@
 #include "GameEntity.h"
-#include "InputManager.h"
-#include "allegro5\allegro_primitives.h"
-#include "Player.h"
+#include <cmath>
+#include "Common.h"
 
 GameEntity::GameEntity()
 {
 
 }
-GameEntity::GameEntity(int life, int maxXpos, int maxYpos, int pos_x, int pos_y, int speed_x, int speed_y, int direction, bool active,
-	int hitboxRadius, int ID, ALLEGRO_BITMAP *image)
+GameEntity::GameEntity(int life, CTwoDVector position, int speed_x, int speed_y, int direction, bool active,
+	int hitboxRadius, int ID)
+	:
+	m_position( position ),
+	speed_x( speed_x ),
+	speed_y( speed_y ),
+	direction( direction ),
+	active( active ),
+	hitboxRadius( hitboxRadius ),
+	ID( ID ),
+	life( life )
 {
-	this->pos_x = pos_x;
-	this->pos_y = pos_y;
-	this->maxXpos = maxXpos;
-	this->maxYpos = maxYpos;
-	this->speed_x = speed_x;
-	this->speed_y = speed_y;
-	this->direction = direction;
-	this->active = active;
-	this->hitboxRadius = hitboxRadius;
-	this->ID = ID;
-	this->image = image;
-	this->life = life;
 	collided = false;
 }
 
 
 GameEntity::~GameEntity()
 {
-	//image connot be destroyed here, as it was not created in this object, it is created in main, and a reference is passed to the object,
-	//we do it this way to save memory, otherwise every new enemy will have a new bitmap instead of sharing one.
-	//al_destroy_bitmap(image);
 }
 
-void GameEntity::draw()
-{
-	al_draw_bitmap_region(image, currentAnimationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x - animationFrameWidth / 2, pos_y - animationFrameHeight / 2, 0);
-}
-void GameEntity::draw(ALLEGRO_COLOR tintColor){
-	al_draw_tinted_bitmap_region(image,tintColor, currentAnimationFrame*animationFrameWidth, direction*animationFrameHeight, animationFrameWidth, animationFrameHeight, pos_x - animationFrameWidth / 2, pos_y - animationFrameHeight / 2, 0);
-}
 
-void GameEntity::UpdateAnimation()
+bool GameEntity::SameRegion(GameEntity *otherObject)
 {
-	//Generates /Advances Animation
-	if (++frameCount>= frameDelay)
+
+	if (this->active == false || otherObject->active == false)
 	{
-		if (++currentAnimationFrame >= maxFrameCount)
-			currentAnimationFrame = minFrameCount;
-		frameCount = 0;
+		return false;
 	}
-}
 
+	if (((m_position.m_x - 100) > (otherObject->m_position.m_x + 100)) ||
+		  ((m_position.m_y - 100) > (otherObject->m_position.m_y + 100)) ||
+		  ((otherObject->m_position.m_x - 100) >(m_position.m_x + 100)) ||
+		  ((otherObject->m_position.m_y - 100) > (m_position.m_y + 100)))
+	{
+		return false;
+	}
+	return true;
+}
 
 bool GameEntity::CheckCollision(GameEntity *otherObject)
 {
@@ -59,11 +51,12 @@ bool GameEntity::CheckCollision(GameEntity *otherObject)
 	if (this->active == false || otherObject->active == false)
 	{
 		return false;
-	} 
-	else if (((pos_x - hitboxWidth / 2) > (otherObject->pos_x + otherObject->hitboxWidth / 2)) ||
-		((pos_y - hitboxHeight / 2)> (otherObject->pos_y + otherObject->hitboxHeight / 2)) ||
-		((otherObject->pos_x - otherObject->hitboxWidth / 2)>(pos_x + hitboxWidth / 2)) ||
-		((otherObject->pos_y - otherObject->hitboxHeight / 2)> (pos_y + hitboxHeight / 2)))
+	}
+	
+	if (((m_position.m_x - hitboxWidth / 2) > (otherObject->m_position.m_x + otherObject->hitboxWidth / 2)) ||
+		((m_position.m_y - hitboxHeight / 2)> (otherObject->m_position.m_y + otherObject->hitboxHeight / 2)) ||
+		((otherObject->m_position.m_x - otherObject->hitboxWidth / 2)>(m_position.m_x + hitboxWidth / 2)) ||
+		((otherObject->m_position.m_y - otherObject->hitboxHeight / 2)> (m_position.m_y + hitboxHeight / 2)))
 	{
 		return false;
 	}
@@ -76,55 +69,55 @@ void GameEntity::Collided(GameEntity *otherObject)
 	// If the objects intersect, move them back until they dont.
 	if ((this->getID() == PLAYER || this->getID() == ENEMY) && (otherObject->getID() == PLAYER || otherObject->getID() == ENEMY))
 	{
-		float diffx = pos_x - otherObject->pos_x;
-		float diffy = pos_y - otherObject->pos_y;
-		float vertdist = otherObject->hitboxWidth / 2 + hitboxWidth / 2;
-		float hordist = otherObject->hitboxHeight / 2 + hitboxHeight / 2;
+		double diffx = m_position.m_x - otherObject->m_position.m_x;
+		double diffy = m_position.m_y - otherObject->m_position.m_y;
+		double vertdist = otherObject->hitboxWidth / 2 + hitboxWidth / 2;
+		double hordist = otherObject->hitboxHeight / 2 + hitboxHeight / 2;
 		vertdist /= 2;
 		hordist /= 2;
 
-		if (pos_x < otherObject->pos_x)
+		if (m_position.m_x < otherObject->m_position.m_x)
 		{
 			while (abs(diffx) < vertdist)
 			{
-				if (pos_x > hitboxWidth/2)
-					pos_x--;
-				if (otherObject->pos_x < 800 - otherObject->hitboxWidth / 2)
-					otherObject->pos_x++;
-				diffx = pos_x - otherObject->pos_x;
+				if (m_position.m_x > hitboxWidth/2)
+					m_position.m_x--;
+				if (otherObject->m_position.m_x < maxXpos - otherObject->hitboxWidth / 2)
+					otherObject->m_position.m_x++;
+				diffx = m_position.m_x - otherObject->m_position.m_x;
 			}
 		}
-		if (pos_x > otherObject->pos_x)
+		if (m_position.m_x > otherObject->m_position.m_x)
 		{
 			while (abs(diffx) < vertdist)
 			{
-				if (pos_x < 800 - hitboxWidth/2)
-					pos_x++;
-				if (otherObject->pos_x > otherObject->hitboxWidth / 2)
-					otherObject->pos_x--;
-				diffx = pos_x - otherObject->pos_x;
+				if (m_position.m_x < maxXpos - hitboxWidth/2)
+					m_position.m_x++;
+				if (otherObject->m_position.m_x > otherObject->hitboxWidth / 2)
+					otherObject->m_position.m_x--;
+				diffx = m_position.m_x - otherObject->m_position.m_x;
 			}
 		}
-		if (pos_y < otherObject->pos_y)
+		if (m_position.m_y < otherObject->m_position.m_y)
 		{
 			while (abs(diffy) < hordist)
 			{
-				if (pos_y > hitboxHeight / 2)
-					pos_y--;
-				if (otherObject->pos_y < 600 - otherObject->hitboxHeight / 2)
-					otherObject->pos_y++;
-				diffy = pos_y - otherObject->pos_y;
+				if (m_position.m_y > hitboxHeight / 2)
+					m_position.m_y--;
+				if (otherObject->m_position.m_y < maxYpos - otherObject->hitboxHeight / 2)
+					otherObject->m_position.m_y++;
+				diffy = m_position.m_y - otherObject->m_position.m_y;
 			}
 		}
-		if (pos_y > otherObject->pos_y)
+		if (m_position.m_y > otherObject->m_position.m_y)
 		{
 			while (abs(diffy) < hordist)
 			{
-				if (pos_y < 600 - hitboxHeight / 2)
-					pos_y++;
-				if (otherObject->pos_y > otherObject->hitboxHeight / 2)
-					otherObject->pos_y--;
-				diffy = pos_y - otherObject->pos_y;
+				if (m_position.m_y < maxYpos - hitboxHeight / 2)
+					m_position.m_y++;
+				if (otherObject->m_position.m_y > otherObject->hitboxHeight / 2)
+					otherObject->m_position.m_y--;
+				diffy = m_position.m_y - otherObject->m_position.m_y;
 			}
 		}
 	}
@@ -139,8 +132,8 @@ void GameEntity::Collided(GameEntity *otherObject)
 	{	
 		//Enemy & projectile collides
 		//To avoid writing code twice, see which is which and use the following pointers to each
-		GameEntity *zombie = NULL;
-		GameEntity *projectile = NULL;
+		GameEntity *zombie = nullptr;
+		GameEntity *projectile = nullptr;
 
 		if (this->ID == PROJECTILE)
 		{
@@ -168,8 +161,8 @@ void GameEntity::Collided(GameEntity *otherObject)
 	{	
 		//Enemy & player collides
 		//To avoid writing code twice, see which is which and use the following pointers to each
-		GameEntity *zombie = NULL;
-		GameEntity *player = NULL;
+		GameEntity *zombie = nullptr;
+		GameEntity *player = nullptr;
 
 		if (this->ID == PLAYER)
 		{

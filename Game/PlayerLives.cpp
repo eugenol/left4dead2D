@@ -1,5 +1,4 @@
 #include "PlayerLives.h"
-#include "InitData.h"
 
 //-------------------------------------------------------
 
@@ -35,7 +34,7 @@ PlayerLives::~PlayerLives()
 
 //-------------------------------------------------------
 
-void PlayerLives::draw()
+void PlayerLives::Draw()
 {
 	if (m_numberOfLives > 2)
 	{
@@ -70,7 +69,7 @@ void PlayerLives::draw()
 
 //-------------------------------------------------------
 
-void PlayerLives::update()
+void PlayerLives::Update( double deltaTime )
 {
 }
 

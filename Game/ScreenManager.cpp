@@ -13,13 +13,13 @@ ScreenManager::~ScreenManager()
 
 }
 
-ScreenManager & ScreenManager::getInstance()
+ScreenManager& ScreenManager::getInstance()
 {
 	static ScreenManager instance;
 	return instance;
 }
 
-void ScreenManager::changeGameState(int newState)
+void ScreenManager::changeGameState(GAMESTATE newState)
 {
 	gameState = newState;
 	if (gameState == PLAYING)
@@ -31,86 +31,41 @@ void ScreenManager::changeGameState(int newState)
 		}
 		else
 		{
-			
+
 		}
+		m_currentScreen = game;
 	}
 	else if (gameState == MENU)
 	{
-
+		m_currentScreen = menu;
 	}
 	else if (gameState == DIED)
 	{
 		EntityManager::getInstance().KillAll();
+		m_currentScreen = death;
 	}
 	else if (gameState == HIGHSCORES)
 	{
-		scores->loadData();
+		scores->LoadData();
+		m_currentScreen = scores;
 	}
-
-}
-
-void ScreenManager::update()
-{
-	switch (gameState)
+	else if (gameState == CREDITS)
 	{
-		case MENU:
-		{
-			menu->update();
-			break;
-		}
-		case PLAYING:
-		{
-			game->update();
-			if (!game->isPlayerAlive())
-				changeGameState(DIED);
-			break;
-		}
-		case CREDITS:
-		{
-			credits->update();
-			break;
-		}
-		case DIED:
-		{
-			death->update();
-			break;
-		}
-		case HIGHSCORES:
-		{
-			scores->update();
-			break;
-		}
+		m_currentScreen = credits;
 	}
 }
 
-void ScreenManager::draw()
+void ScreenManager::Update()
 {
-	switch (gameState)
+	m_currentScreen->Update();
+	
+	if (gameState == PLAYING && !game->isPlayerAlive())
 	{
-		case MENU:
-		{
-			menu->draw();
-			break;
-		}
-		case PLAYING:
-		{
-			game->draw();
-			break;
-		}
-		case CREDITS:
-		{
-			credits->draw();
-			break;
-		}
-		case DIED:
-		{
-			death->draw();
-			break;
-		}
-		case HIGHSCORES:
-		{
-			scores->draw();
-			break;
-		}
+		changeGameState(DIED);
 	}
+}
+
+void ScreenManager::Draw()
+{
+	m_currentScreen->Draw();
 }

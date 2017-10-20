@@ -9,8 +9,7 @@ InputManager::InputManager()
 	for (int i = 0; i < 3; i++)
 		mouseButton[i] = false;
 
-	mouse_x = 0;
-	mouse_y = 0;
+	m_mousePosition = CTwoDVector(0, 0);
 }
 
 
@@ -89,8 +88,8 @@ void InputManager::getInput(ALLEGRO_EVENT &ev)
 		|| ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN || ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
 	{
 		al_get_mouse_state(&mouseState);
-		mouse_x = mouseState.x;
-		mouse_y = mouseState.y;
+		m_mousePosition.m_x = mouseState.x;
+		m_mousePosition.m_y = mouseState.y;
 		mouseButton[LEFTM] = mouseState.buttons & 1; // left mouse button pressed
 		mouseButton[RIGHTM] = mouseState.buttons & 2; // right mouse button pressed
 		mouseButton[MIDDLEM] = mouseState.buttons & 3; // middle mouse button pressed
@@ -109,12 +108,17 @@ bool InputManager::isMouseButtonPressed(int button)
 
 float InputManager::getMouseX()
 {
-	return mouse_x;
+	return m_mousePosition.m_x;
 }
 
 float InputManager::getMouseY()
 {
-	return mouse_y;
+	return m_mousePosition.m_y;
+}
+
+CTwoDVector InputManager::GetMousePosition()
+{
+	return m_mousePosition;
 }
 
 void InputManager::clearInput()

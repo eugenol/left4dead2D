@@ -2,13 +2,24 @@
 #define ENEMY_H
 
 #include "GameEntity.h"
-#include "allegro5\allegro.h"
-#include "allegro5\allegro_primitives.h"
-#include "allegro5\allegro_image.h"
 #include "Player.h"
+
 enum TYPES{ MELEEZOMBIE };
 class Enemy :public GameEntity{//class contains all enemies
-private:
+public:
+	Enemy(int Enemytype, CTwoDVector position, int speed_x, int speed_y, int direction,
+		ALLEGRO_BITMAP* image, bool active, int hitpoints,
+		int regenRate, int damage, int difficulty);
+	~Enemy();
+
+	void takeDamage(int damage);
+	bool UpdatePosition();
+	int static getCount();
+	static void setPlayer(Player *player);//sets player in enemy class
+	int getDamagePower();
+	void Update( double deltaTime ) override;
+	void Draw() override;
+
 protected:
 	int difficulty;
 	int type;//type of enemy
@@ -21,21 +32,9 @@ protected:
 
 	//Death Animation Variables
 	bool runDeathAnimation;
-public:
-	Enemy(int type, int pos_x, int pos_y,int speed_x,int speed_y,int direction,
-		ALLEGRO_BITMAP *image, bool active, int hitpoints,
-		int regenRate,int damage, int difficulty,ALLEGRO_DISPLAY * display);
-	~Enemy();
-	void takeDamage(int damage);
-	bool UpdatePosition();
-	int static getCount();
-	static void setPlayer(Player *player);//sets player in enemy class
-	int getDamagePower();
+
 };
 #endif
-/*GameEntity(int pos_x, int pos_y, int speed_x, int speed_y, int direction_x,
-int direction_y, bool active,int hitboxRadius, int ID, ALLEGRO_BITMAP *image);*/
-
 
 /*CREDITS:
 Sprite sheets:

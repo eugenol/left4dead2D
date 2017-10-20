@@ -2,25 +2,35 @@
 #include <math.h>
 
 
-Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, int maxY, int xPos, int yPos, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag, int damagePower) : GameEntity(lif, maxX, maxY, xPos, yPos, speedX, speedY, Dir, activ, hitboxR, Identity, imag)
+Projectile::Projectile(CTwoDVector destination, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *imag, ALLEGRO_BITMAP *explosionImag, int damagePower)
+	: 
+	GameEntity(lif, position, speedX, speedY, Dir, activ, hitboxR, Identity)
 {
 	
 	//Animation Initialisation
-	explosionSpriteSheet = explosionImag;
-	animationFrameHeight = 15;
-	animationFrameWidth = 15;
-	currentAnimationFrame = 0;
-	frameCount = 0;
-	frameDelay = 3;
-	maxFrameCount = 3;
+	SpriteSheetProperties properties;
+	properties.m_animationFrameHeight = 15;
+	properties.m_animationFrameWidth = 15;
+	properties.m_frameDelay = 3.0 / FPS;
+	properties.m_maxFrameCount = 3;
+	properties.m_minFrameCount = 0;
 	direction = 0;
+	m_bulletSprite = new CSprite(imag, properties);
+
+	m_currentImage = m_bulletSprite;
+
+	properties.m_animationFrameHeight = 32;
+	properties.m_animationFrameWidth = 32;
+	properties.m_frameDelay = 1.0 / FPS;
+	properties.m_maxFrameCount = 12;
+	properties.m_minFrameCount = 0;
+
+	m_explosionSprite = new CSprite(explosionImag, properties);
 
 	//Bullet Path Initialisation
-	old_pos_x = xPos;
-	old_pos_y = yPos;
-	destinationY = destination_y;
-	destinationX = destination_x;
-	angleOfPath = atan2f(destinationY - old_pos_y, destinationX - old_pos_x);
+	m_oldPosition = position;
+	m_destination = destination;
+	angleOfPath = atan2f(m_destination.m_y - m_oldPosition.m_y, m_destination.m_x - m_oldPosition.m_x);
 	hitboxHeight = 15;
 	hitboxWidth = 15;
 
@@ -32,66 +42,79 @@ Projectile::Projectile(int destination_x, int destination_y, int lif, int maxX, 
 
 Projectile::~Projectile()
 {
+	if(m_bulletSprite)
+	{
+		delete m_bulletSprite;
+	}
+
+	if (m_explosionSprite)
+	{
+		delete m_explosionSprite;
+	}
+
+	m_currentImage = nullptr;
+
 }
 
 bool Projectile::UpdatePosition()
 {
 	if (active)
 	{
-		if (((pos_x + int(speed_x*cosf(angleOfPath))) > 0) && ((pos_x + int(speed_x*cosf(angleOfPath))) < (maxXpos - animationFrameWidth)))
+		if (((m_position.m_x + int(speed_x*cosf(angleOfPath))) > 0) && ((m_position.m_x + int(speed_x*cosf(angleOfPath))) < (maxXpos - m_currentImage->GetFrameWidth())))
 		{
-			pos_x += int(speed_x*cosf(angleOfPath));
+			m_position.m_x += int(speed_x*cosf(angleOfPath));
 		}
 		else
 		{
-			active = 0;
+			active = false;
 			if (!collided) collided = true;
 		}
-		if (((pos_y + int(speed_y*sinf(angleOfPath))) > 0) && ((pos_y + int(speed_y*sinf(angleOfPath))) < (maxYpos - animationFrameHeight)))
+		if (((m_position.m_y + int(speed_y*sinf(angleOfPath))) > 0) && ((m_position.m_y + int(speed_y*sinf(angleOfPath))) < (maxYpos - m_currentImage->GetFrameHeight())))
 		{
-			pos_y += int(speed_y*sinf(angleOfPath));
+			m_position.m_y += int(speed_y*sinf(angleOfPath));
 		}
 		else
 		{
-			active = 0;
+			active = false;
 			if (!collided) collided = true;
 		}
-		return 1;
+		return true;
 	}
-	else return 0;
+	return false;
 }
 
 void Projectile::UpdateDirection()
 {
 	
 }
-void Projectile::update()
+void Projectile::Update( double deltaTime )
 {
 	if (active)
 	{
 		if (UpdatePosition())
 		{
 			UpdateDirection();
-			UpdateAnimation();
+			m_currentImage->DoLogic( deltaTime );
 		}
 	}
-	else if ((!active) && isAlive) //Explosion Sequence Out
+	else if (!active && isAlive) //Explosion Sequence Out
 	{
 		if (collided)
 		{
-			image = explosionSpriteSheet;
-			animationFrameHeight = 32;
-			animationFrameWidth = 32;
-			currentAnimationFrame = 0;
-			frameCount = 0;
-			frameDelay = 5;
-			maxFrameCount = 12;
+			m_currentImage = m_explosionSprite;
 			collided = false;
 		}
-		UpdateAnimation();
-		if (frameCount == 0)
+		m_currentImage->DoLogic( deltaTime );
+		if( m_currentImage->AnimationComplete() )
+		{
 			isAlive = false;
+		}
 	}
+}
+
+void Projectile::Draw()
+{
+	m_currentImage->Draw( m_position, direction);
 }
 
 int Projectile::getDamagePower()

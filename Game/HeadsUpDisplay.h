@@ -8,7 +8,7 @@ public:
 	HeadsUpDisplay();
 	~HeadsUpDisplay();
 	void Update(int health, int lives, int score, int megashotCount);
-	void draw();
+	void Draw();
 private:
 	//Variables from Player to Display on the HUD
 	int health, lives, score, megaShotCount;

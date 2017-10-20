@@ -36,7 +36,7 @@ void EntityManager::UpdateList()
 			tempPtr = *prev;
 			if (tempPtr->getID() == PLAYER)
 			{
-				Enemy::setPlayer(NULL);
+				Enemy::setPlayer( nullptr );
 			}
 			entityList->erase(prev);
 			delete tempPtr;
@@ -62,7 +62,7 @@ void EntityManager::KillAll()
 		tempPtr = *prev;
 		if (tempPtr->getID() == PLAYER)
 		{
-			Enemy::setPlayer(NULL);
+			Enemy::setPlayer( nullptr );
 		}
 		entityList->erase(prev);
 		delete tempPtr;

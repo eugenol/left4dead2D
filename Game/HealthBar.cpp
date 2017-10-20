@@ -1,5 +1,4 @@
 #include "HealthBar.h"
-#include "InitData.h"
 
 //-------------------------------------------------------
 
@@ -25,7 +24,7 @@ HealthBar::~HealthBar()
 
 //-------------------------------------------------------
 
-void HealthBar::draw()
+void HealthBar::Draw()
 {
 	al_draw_bitmap_region(m_healthBar,
 					      m_currentAnimationFrame * m_frameWidth,
@@ -39,7 +38,7 @@ void HealthBar::draw()
 
 //-------------------------------------------------------
 
-void HealthBar::update()
+void HealthBar::Update( double deltaTime )
 {
 }
 

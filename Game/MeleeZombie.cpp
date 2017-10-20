@@ -1,39 +1,67 @@
 #include "MeleeZombie.h"
 #include "Enemy.h"
 #include <allegro5\allegro.h>
-#include <allegro5\allegro_image.h>
 #include <cmath>
 #include <allegro5\allegro_primitives.h>
 
 #define PI 3.14159265
 
-MeleeZombie::MeleeZombie(int pos_x, int pos_y,int difficulty, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet) :
-Enemy(MELEEZOMBIE, pos_x, pos_y, 2 + rand() % 3, 2 + rand() % 3, NORTH,
-	image, true, 87, 5,4,difficulty, al_get_current_display()){
-	this->old_pos_x = pos_x;
-	this->old_pos_y = pos_y;
+MeleeZombie::MeleeZombie( CTwoDVector position,int difficulty, ALLEGRO_BITMAP * image, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet) :
+Enemy(MELEEZOMBIE, position, 2 + rand() % 3, 2 + rand() % 3, NORTH,
+	image, true, 87, 5,4,difficulty)
+{
+	m_oldPosition = position;
+
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)
 	if (m_player)
-		setDirection(180.0 / PI*atan2((float)((*m_player).GetPos_Y() - pos_y), (float)((*m_player).GetPos_X() - pos_x)));
-	maxFrameCount = 8;
-	minFrameCount = 0;
-	currentAnimationFrame = 0;
-	animationFrameHeight = 128;
-	animationFrameWidth = 128;
+		setDirection(180.0 / PI*atan2((float)(m_player->GetPos_Y() - position.m_y), (float)(m_player->GetPos_X() - position.m_x)));
+
+
+	SpriteSheetProperties properties;
+	//properties for zombie sprite sheet
+	properties.m_maxFrameCount = 8;
+	properties.m_minFrameCount = 0;
+	properties.m_animationFrameHeight = 128;
+	properties.m_animationFrameWidth = 128;
 	//to provide a slower, more visible animation
-	frameDelay = 5;
+	properties.m_frameDelay = 5.0 / FPS;
+
+	m_zombieSprite = new CSprite(image, properties);
+	m_currentSprite = m_zombieSprite;
+
+	//Death animation spritesheet
+	properties.m_maxFrameCount = 7;
+	properties.m_frameDelay = 5.0 / FPS;
+	properties.m_minFrameCount = 0;
+
+	m_zombieDeathSprite = new CSprite(zombieDeathAnimationSpriteSheet, properties);
+
+
 	hitboxWidth = 36;
 	hitboxHeight = 60;
 	//Death Animation Variables
 	//Death Animation Variables
 	runDeathAnimation = false;
-	this->zombieDeathAnimationSpriteSheet = zombieDeathAnimationSpriteSheet;
-};
+}
 
-MeleeZombie::~MeleeZombie(){
+MeleeZombie::~MeleeZombie()
+{
 	if (m_player)
 		(*m_player).increaseScore(1);
-};
+
+	if(m_zombieSprite)
+	{
+		delete m_zombieSprite;
+	}
+
+	if (m_zombieDeathSprite)
+	{
+		delete m_zombieDeathSprite;
+	}
+
+	m_currentSprite = nullptr;
+
+}
 
 void MeleeZombie::setDirection(float angle)
 {
@@ -50,10 +78,10 @@ void MeleeZombie::setDirection(float angle)
 	else direction = W;
 }
 
-void MeleeZombie::update(){
+void MeleeZombie::Update( double deltaTime )
+{
 	if (m_player)
 	{
-		UpdateAnimation();
 		if (active)
 		{
 			UpdateDirection();
@@ -69,53 +97,58 @@ void MeleeZombie::update(){
 		else if ((!active) && isAlive && runDeathAnimation)
 		{
 			runDeathAnimation = false;
-			GameEntity::image = zombieDeathAnimationSpriteSheet;
-			currentAnimationFrame = 0;
-			maxFrameCount = 7;
-			frameDelay = 5;
-			minFrameCount = 0;
-
+			m_currentSprite = m_zombieDeathSprite;
 		}
-		if ((!active) && (currentAnimationFrame == (maxFrameCount - 1))) isAlive = false;
+		m_currentSprite->DoLogic( deltaTime );
+
+		if (!active && m_currentSprite->AnimationComplete())
+		{
+			isAlive = false;
+		}
 	}
 		
-};
+}
 
-void MeleeZombie::UpdateDirection(){
-	float playerVector_X = (*m_player).GetPos_X() - pos_x;
-	float playerVector_Y = (*m_player).GetPos_Y() - pos_y;
-	float vectorMagnitude = sqrtf(playerVector_X*playerVector_X + playerVector_Y*playerVector_Y);
+void MeleeZombie::UpdateDirection()
+{
+
+	CTwoDVector playerVector = m_player->GetPosition() - m_position;
+
+	double vectorMagnitude = playerVector.Magnitude();
+
 	if (vectorMagnitude >3){
-		setDirection(180.0 / PI * atan2(playerVector_Y, playerVector_X));
-		pos_x += speed_x*(playerVector_X / vectorMagnitude);
-		pos_y += speed_y*(playerVector_Y / vectorMagnitude);
-		if (pos_x - hitboxWidth / 2 < 0)
-			pos_x = hitboxWidth / 2;
-		if (pos_x + hitboxWidth / 2 > 800)
-			pos_x = 800-hitboxWidth/2;
-		if (pos_y - hitboxHeight / 2 < 0)
-			pos_y = hitboxHeight / 2;
-		if (pos_y + hitboxHeight / 2 > 600)
-			pos_y = 600-hitboxHeight / 2;
+		setDirection(180.0 / PI * atan2(playerVector.m_y, playerVector.m_x));
+		m_position.m_x += speed_x*(playerVector.m_x / vectorMagnitude);
+		m_position.m_y += speed_y*(playerVector.m_y / vectorMagnitude);
+		if (m_position.m_x - hitboxWidth / 2 < 0)
+			m_position.m_x = hitboxWidth / 2;
+		if (m_position.m_x + hitboxWidth / 2 > 800)
+			m_position.m_x = DISPLAY_WIDTH-hitboxWidth/2;
+		if (m_position.m_y - hitboxHeight / 2 < 0)
+			m_position.m_y = hitboxHeight / 2;
+		if (m_position.m_y + hitboxHeight / 2 > 600)
+			m_position.m_y = DISPLAY_HEIGHT-hitboxHeight / 2;
 	};
 };
 
-void MeleeZombie::draw(){
+void MeleeZombie::Draw()
+{
 	//draw a healthbar
-	if(active){
+	if(active)
+	{
 		//draw red background
-		al_draw_filled_rectangle(pos_x - 11, pos_y - hitboxHeight + 30, pos_x + 11,
-			pos_y - hitboxHeight + 23, al_map_rgba(255, 0, 0, 0));
+		al_draw_filled_rectangle(m_position.m_x - 11, m_position.m_y - hitboxHeight + 30, m_position.m_x + 11,
+			m_position.m_y - hitboxHeight + 23, al_map_rgba(255, 0, 0, 0));
 		//draw green bar
-		al_draw_filled_rectangle(pos_x - 10, pos_y - hitboxHeight + 29,
-			pos_x - 10 + life * 20 / max_hitpoints, pos_y - hitboxHeight + 24,
+		al_draw_filled_rectangle(m_position.m_x - 10, m_position.m_y - hitboxHeight + 29,
+			m_position.m_x - 10 + life * 20 / max_hitpoints, m_position.m_y - hitboxHeight + 24,
 			al_map_rgba(0, 255, 0, 120));
 	}
 	//draws the zombie sprite
-	if (difficulty == EASY)
-		GameEntity::draw();
-	else{
-		GameEntity::draw();
-		GameEntity::draw(al_map_rgba(0, 255, 0, difficulty * 60));
+	m_currentSprite->Draw( m_position, direction);
+	if (difficulty != EASY)
+	{
+		//draw overlay
+		m_currentSprite->Draw(al_map_rgba(0, 255, 0, difficulty * 60), m_position, direction);
 	}
 }

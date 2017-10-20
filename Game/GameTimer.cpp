@@ -1,6 +1,5 @@
 #include "GameTimer.h"
-#include "InitData.h"
-#include "string.h"
+#include <string>
 
 //-------------------------------------------------------
 
@@ -20,7 +19,7 @@ GameTimer::~GameTimer()
 
 //-------------------------------------------------------
 
-void GameTimer::draw()
+void GameTimer::Draw()
 {
 	if (isAlive)
 	{
@@ -32,7 +31,7 @@ void GameTimer::draw()
 
 //-------------------------------------------------------
 
-void GameTimer::update()
+void GameTimer::Update( double deltaTime )
 {
 }
 
