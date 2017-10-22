@@ -2,6 +2,7 @@
 #include <allegro5\allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include "CEvent.h"
 
 HeadsUpDisplay::HeadsUpDisplay()
 {
@@ -30,4 +31,14 @@ void HeadsUpDisplay::Draw()
 {
 	al_draw_textf(Scorefont20, al_map_rgb(255, 0, 0), 0, 560, 0, "Zombies Killed: %i", score);
 	al_draw_textf(Scorefont20, al_map_rgb(255, 0, 0), 0, 580, 0, "MegaShots Stored: %i", megaShotCount);
+}
+
+void HeadsUpDisplay::OnNotify( const GameEntity& entity, CEvent event )
+{
+	switch(event.GetEventType())
+	{
+	case EVENT_TEST:
+
+		break;
+	}
 }

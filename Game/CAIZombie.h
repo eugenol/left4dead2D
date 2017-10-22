@@ -36,5 +36,8 @@ private:
 	std::unique_ptr<CSprite> m_zombieSprite;
 	std::unique_ptr<CSprite> m_zombieDeathSprite;
 
+	double m_speed;
+	double m_baseSpeed;
+	CTwoDVector m_velocity;
 	State m_state = RandomWalk;
 };

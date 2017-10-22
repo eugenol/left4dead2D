@@ -7,6 +7,7 @@ CAIZombie::CAIZombie( CTwoDVector position, ALLEGRO_BITMAP* image, ALLEGRO_BITMA
 {
 	LoadSprites( image, zombieDeathAnimationSpriteSheet );
 	m_targetPosition = CTwoDVector( 700, 500 );
+	m_baseSpeed = 1600;
 }
 
 CAIZombie::~CAIZombie()
@@ -23,45 +24,9 @@ void CAIZombie::DoLogic( double deltaTime )
 
 	if( diff.Magnitude() > 2 )
 	{
-		//random jagged step
-		CTwoDVector step0(0, 0);
-		CTwoDVector step1(1, 1);
-		CTwoDVector step2(-1, -1);
-		CTwoDVector step3(1, -1);
-		CTwoDVector step4(-1, 1);
-		CTwoDVector step5(0, 1);
-		CTwoDVector step6(0, -1);
-		CTwoDVector step7(1, 0);
-		CTwoDVector step8(-1, 0);
-
-		CTwoDVector stepVector;
-
-		int randSelect = rand() % 9;
-		switch (randSelect)
-		{
-		case 0: stepVector = step0;
-			break;
-		case 1: stepVector = step1;
-			break;
-		case 2: stepVector = step2;
-			break;
-		case 3: stepVector = step3;
-			break;
-		case 4: stepVector = step4;
-			break;
-		case 5: stepVector = step5;
-			break;
-		case 6: stepVector = step6;
-			break;
-		case 7: stepVector = step7;
-			break;
-		case 8: stepVector = step8;
-			break;
-		}
-
-		//CTwoDVector step = (12.5*diff.EuclideanNorm() + 2*stepVector)*deltaTime;
-		CTwoDVector step = 80*diff.EuclideanNorm()*deltaTime;
-		m_position += step;
+		m_speed = m_baseSpeed/diff.Magnitude();
+		m_velocity = m_speed*diff.EuclideanNorm();
+		m_position += m_velocity*deltaTime;
 	}
 	else
 	{

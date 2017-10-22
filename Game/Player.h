@@ -8,14 +8,15 @@
 //Temp for HUD
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include "IObservee.h"
 
 class HealthBar;
 class PlayerLives;
 class GameTimer;
 class Potion;
 
-class Player :
-	public GameEntity
+class Player : public GameEntity,
+							 public IObservee
 {
 	friend Projectile;
 public:

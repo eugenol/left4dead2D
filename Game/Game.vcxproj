@@ -97,6 +97,7 @@
     <ClCompile Include="CAIZombie.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CDisableableButton.cpp" />
+    <ClCompile Include="IObservee.cpp" />
     <ClCompile Include="CreditScreen.cpp" />
     <ClCompile Include="CScreen.cpp" />
     <ClCompile Include="CSprite.cpp" />
@@ -104,12 +105,14 @@
     <ClCompile Include="DeathScreen.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="CEvent.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="HeadsUpDisplay.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="IObserver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mappy_A5.c" />
     <ClCompile Include="MeleeZombie.cpp" />
@@ -127,6 +130,7 @@
     <ClInclude Include="CAIZombie.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CDisableableButton.h" />
+    <ClInclude Include="IObservee.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="CreditScreen.h" />
     <ClInclude Include="CScreen.h" />
@@ -135,12 +139,14 @@
     <ClInclude Include="DeathScreen.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="CEvent.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="HeadsUpDisplay.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="IObserver.h" />
     <ClInclude Include="mappy_A5.h" />
     <ClInclude Include="MeleeZombie.h" />
     <ClInclude Include="MenuScreen.h" />

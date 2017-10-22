@@ -8,6 +8,7 @@
 #include "GameTimer.h"
 #include "Potion.h"
 #include "HeadsUpDisplay.h"
+#include "CEvent.h"
 
 Player::Player(int score, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *potionImage) :
 GameEntity(lif, position, speedX, speedY, Dir, activ, hitboxR, Identity),
@@ -47,6 +48,7 @@ gameTimer()
 	m_attackSplatter = new CSprite("attack_splatter_42_32.png", properties);
 
 	headsUpDisplay = new HeadsUpDisplay();
+	AddObserver( headsUpDisplay );
 	this->score = score;
 	shooting_control = 0;
 
@@ -86,6 +88,7 @@ gameTimer()
 
 Player::~Player()
 {
+	RemoveObserver( headsUpDisplay );
 	delete headsUpDisplay;
 	delete healthBar;
 	delete playerLives;
@@ -104,6 +107,7 @@ void Player::Update( double deltaTime )
 	{
 		if (damageCheck())
 		{
+			Notify(*this, CEvent(EVENT_TEST, "Dead"));
 			active = false;
 		}
 		ShootCheck();
