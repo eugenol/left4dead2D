@@ -21,11 +21,6 @@ GameTimer::~GameTimer()
 
 void GameTimer::Draw()
 {
-	if (isAlive)
-	{
-		UpdateTime();
-	}
-
 	al_draw_text(timerFont, al_map_rgb(78, 239, 9), 620, 5, 0, deltaTimeStr);
 }
 
@@ -33,6 +28,7 @@ void GameTimer::Draw()
 
 void GameTimer::Update( double deltaTime )
 {
+		UpdateTime();
 }
 
 //-------------------------------------------------------

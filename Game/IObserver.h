@@ -9,7 +9,7 @@ public:
 	IObserver();
 	virtual ~IObserver();
 	
-	virtual void OnNotify( const GameEntity& entity, CEvent event ) = 0;
+	virtual void OnNotify( const GameEntity& entity, CEvent* event ) = 0;
 
 };
 

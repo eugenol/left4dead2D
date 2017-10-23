@@ -3,18 +3,13 @@
 #include "EntityManager.h"
 #include <allegro5/allegro_font.h>  //Temp for hud
 #include <allegro5/allegro_ttf.h>	//Temp for hud
-#include "HealthBar.h"
-#include "PlayerLives.h"
-#include "GameTimer.h"
 #include "Potion.h"
 #include "HeadsUpDisplay.h"
 #include "CEvent.h"
+#include <fstream>
 
 Player::Player(int score, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *potionImage) :
-GameEntity(lif, position, speedX, speedY, Dir, activ, hitboxR, Identity),
-healthBar(),
-playerLives(),
-gameTimer()
+GameEntity(lif, position, speedX, speedY, Dir, activ, hitboxR, Identity)
 {
 	//set spritesheet properties PlayerSprite
 	struct SpriteSheetProperties properties;
@@ -67,15 +62,6 @@ gameTimer()
 	al_init_ttf_addon();
 	font_18 = al_load_ttf_font("pirulen.ttf", 18, 0);
 
-	healthBar = new HealthBar(healthBarSpriteSheet);
-	//EntityManager::getInstance().AddEntity(healthBar);
-
-	playerLives = new PlayerLives(skullImage);
-	//EntityManager::getInstance().AddEntity(playerLives);
-
-	gameTimer = new GameTimer();
-	//EntityManager::getInstance().AddEntity(gameTimer);
-
 	potion = new Potion(potionImage);
 	//EntityManager::getInstance().AddEntity(potion);
 
@@ -90,9 +76,6 @@ Player::~Player()
 {
 	RemoveObserver( headsUpDisplay );
 	delete headsUpDisplay;
-	delete healthBar;
-	delete playerLives;
-	delete gameTimer;
 	delete potion;
 	//When Player dies save the current score and gametime to a file
 	std::fstream file("highscores.txt", std::ios::app);
@@ -102,12 +85,11 @@ Player::~Player()
 
 void Player::Update( double deltaTime )
 {
-	headsUpDisplay->Update(life, livesLeft, score, megaShotCount);
+	headsUpDisplay->Update( deltaTime );
 	if (active)
 	{
 		if (damageCheck())
 		{
-			Notify(*this, CEvent(EVENT_TEST, "Dead"));
 			active = false;
 		}
 		ShootCheck();
@@ -136,9 +118,6 @@ void Player::Update( double deltaTime )
 		attackSplatterAnimationUpdate( deltaTime );
 	}
 	
-	healthBar->DoLogic(life);
-	playerLives->SetLivesLeft(livesLeft);
-	gameTimer->SetPlayerAliveStatus(isAlive);
 	potion->Update( deltaTime );
 	potion->DoLogic(GetPos_X(), GetPos_Y(), isAlive);
 	
@@ -155,6 +134,10 @@ void Player::Update( double deltaTime )
 			livesLeft++;
 		}
 	}
+
+	CPlayerStatEvent playerStats(EVENT_PLAYER_STATS, 0, life, livesLeft, score, megaShotCount);
+
+	Notify(*this, &playerStats);
 }
 
 void Player::attackSplatterAnimationUpdate( double deltaTime )
@@ -328,9 +311,6 @@ void Player::Draw()
 	}
 
 	headsUpDisplay->Draw();
-	healthBar->Draw();
-	playerLives->Draw();
-	gameTimer->Draw();
 	potion->Draw();
 }
 void Player::increaseScore(int addedScore){

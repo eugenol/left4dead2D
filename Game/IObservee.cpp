@@ -28,7 +28,7 @@ void IObservee::RemoveObserver( IObserver* observer )
 	m_observers.erase(std::remove(begin(m_observers), end(m_observers), observer), end(m_observers));
 }
 
-void IObservee::Notify( const GameEntity& entity, CEvent event )
+void IObservee::Notify( const GameEntity& entity, CEvent* event )
 {
 	for( IObserver* observer: m_observers )
 	{

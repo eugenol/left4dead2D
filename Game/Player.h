@@ -2,7 +2,6 @@
 #include "GameEntity.h"
 #include "Projectile.h"
 #include "HeadsUpDisplay.h"
-#include <fstream>
 #include "CSprite.h"
 
 //Temp for HUD
@@ -10,9 +9,6 @@
 #include <allegro5/allegro_ttf.h>
 #include "IObservee.h"
 
-class HealthBar;
-class PlayerLives;
-class GameTimer;
 class Potion;
 
 class Player : public GameEntity,
@@ -32,7 +28,7 @@ public:
 	void Draw() override;
 	void takeDamage(int damageAmount) override;
 	void increaseScore(int addedScore);
-
+	int gethealth() const { return life; }
 	void megaShot();//do an AOE shot around player
 
 protected:
@@ -75,12 +71,8 @@ protected:
 	int oldScore;
 
 private:
-	HealthBar *healthBar;
-	PlayerLives *playerLives;
-	GameTimer *gameTimer;
 	Potion *potion;
 	HeadsUpDisplay *headsUpDisplay;
-
 
 	CSprite* m_playerSpriteSheet;
 	CSprite* m_playerDeathSprite;

@@ -2,28 +2,18 @@
 
 //-------------------------------------------------------
 
-HealthBar::HealthBar(ALLEGRO_BITMAP *healthBarSpriteSheet) :
-//m_healthBar(healthBarSpriteSheet),
-m_imageWidth(0),
-m_imageHeight(0),
-m_frameWidth(0),
+HealthBar::HealthBar() :
 m_currentAnimationFrame(0),
 m_position(CTwoDVector(532, 575))
 {
-	//al_convert_mask_to_alpha(m_healthBar, al_map_rgb(255, 255, 255));
-
-	m_imageWidth = al_get_bitmap_width(healthBarSpriteSheet);
-	m_imageHeight = al_get_bitmap_height(healthBarSpriteSheet);
-	m_frameWidth = m_imageWidth / 5;
-
 	SpriteSheetProperties properties;
-	properties.m_animationFrameWidth = m_frameWidth;
-	properties.m_animationFrameHeight = m_imageHeight;
+	properties.m_animationFrameWidth = 204;
+	properties.m_animationFrameHeight = 30;
 	properties.m_maxFrameCount = 5;
 	properties.m_minFrameCount = 0;
 	properties.m_frameDelay = -1;
 
-	m_healthBar = std::make_unique<CSprite>( healthBarSpriteSheet, properties );
+	m_healthBar = std::make_unique<CSprite>( "healthbar.png", properties );
 }
 
 //-------------------------------------------------------

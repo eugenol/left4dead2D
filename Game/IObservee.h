@@ -15,7 +15,7 @@ public:
 
 protected:
 	IObservee();
-	void Notify( const GameEntity& entity, CEvent event );
+	void Notify( const GameEntity& entity, CEvent* event );
 
 private:
 	std::vector<IObserver*> m_observers;

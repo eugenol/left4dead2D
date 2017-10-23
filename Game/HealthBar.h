@@ -10,7 +10,7 @@
 class HealthBar : public GameEntity
 {
 public:
-	HealthBar(ALLEGRO_BITMAP *healthBarSpriteSheet);
+	HealthBar();
 	virtual ~HealthBar();
 
 	virtual void Draw();
@@ -22,9 +22,6 @@ public:
 	void DoLogic(double lifePercentage);
 
 private:
-	int m_imageWidth;
-	int m_imageHeight;
-	int m_frameWidth;
 	int m_currentAnimationFrame;
 	std::unique_ptr<CSprite> m_healthBar;
 	CTwoDVector m_position;
