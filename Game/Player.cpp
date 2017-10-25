@@ -262,7 +262,6 @@ void Player::ShootCheck()
 		{
 			CTwoDVector destination = InputManager::getInstance().GetMousePosition();
 			GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination, 0, m_position, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
-			EntityManager::getInstance().AddEntity(bulletPtr);
 			shooting_control = 0;
 		}
 		shooting_control++;
@@ -282,7 +281,6 @@ void Player::megaShot()
 	{
 		CTwoDVector destination(m_position.m_x + 100 * cosf(angle*PI / 180), m_position.m_y + 100 * sinf(angle*PI / 180));
 		GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination, 0, m_position, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 500);
-		EntityManager::getInstance().AddEntity(bulletPtr);
 	}
 }
 int Player::GetPos_X()

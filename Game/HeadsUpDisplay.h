@@ -7,7 +7,8 @@
 #include "PlayerLives.h"
 #include "GameTimer.h"
 
-class HeadsUpDisplay : public IObserver
+class HeadsUpDisplay : public GameEntity,
+											 public IObserver
 {
 public:
 	HeadsUpDisplay();

@@ -31,24 +31,34 @@
 
 class EntityManager
 {
-private:
-	EntityManager(); //Make constructor Private, so that only one instance can be made
-	std::list<GameEntity*> *entityList;
+
 public:
 	static EntityManager & getInstance();
 	~EntityManager();
 
-	void getEntityList(std::list<GameEntity*> *entityList);
+	std::list<GameEntity*>& getEntityList();
 	void UpdateList();
 	void AddEntity(GameEntity *entity);
 	void KillAll();
 
+	void Update( double deltaTime );
+	void Draw();
+	void DoCollisions();
+
+	void RegisterPlayer( Player* player );
+	void UnregisterPlayer();
+	Player* GetPlayer();
 
 	template<typename T, typename... TArgs>
 	GameEntity* MakeEntity(TArgs&&... mArgs);
 	//Can't use these methods to accidentally copy the input manager.
 	EntityManager(EntityManager const&) = delete;
 	void operator=(EntityManager const&) = delete;
+
+private:
+	EntityManager(); //Make constructor Private, so that only one instance can be made
+	std::list<GameEntity*> entityList;
+	Player* m_player;
 };
 
 template < typename T, typename ... TArgs >
@@ -59,7 +69,15 @@ GameEntity* EntityManager::MakeEntity( TArgs&&... mArgs )
 
 	GameEntity* ptr = new T(std::forward<TArgs>(mArgs)...);
 	
+	entityList.push_back( ptr );
+
+	if ( std::is_same< Player, T >::value )
+	{
+		RegisterPlayer(dynamic_cast<Player*>(ptr));
+	}
+
 	return ptr;
 }
+
 #endif
 

@@ -10,12 +10,11 @@ public:
 	Enemy(int Enemytype, CTwoDVector position, int speed_x, int speed_y, int direction,
 		ALLEGRO_BITMAP* image, bool active, int hitpoints,
 		int regenRate, int damage, int difficulty);
-	~Enemy();
+	virtual ~Enemy();
 
 	void takeDamage(int damage);
 	bool UpdatePosition();
 	int static getCount();
-	static void setPlayer(Player *player);//sets player in enemy class
 	int getDamagePower();
 	void Update( double deltaTime ) override;
 	void Draw() override;
@@ -27,7 +26,7 @@ protected:
 	int regenRate;//hitpoints regen rate per a second
 	int regenCounter;
 	int damage;
-	static Player *m_player;//pointer to the player, for creating AI
+	Player *m_player;//pointer to the player, for creating AI
 	static int maxEnemyCount;
 
 	//Death Animation Variables

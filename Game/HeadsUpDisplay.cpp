@@ -68,7 +68,7 @@ void HeadsUpDisplay::GetPlayerStats( CEvent* event )
 	}
 
 	health = playerStats->GetPlayerHealth();
-	lives = playerStats->GetPlayerLives();
+	m_lives = playerStats->GetPlayerLives();
 	score = playerStats->GetPlayerScore();
 	megaShotCount = playerStats->GetPlayerMegaShotCount();
 }

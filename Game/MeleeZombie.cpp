@@ -3,6 +3,7 @@
 #include <allegro5\allegro.h>
 #include <cmath>
 #include <allegro5\allegro_primitives.h>
+#include "EntityManager.h"
 
 #define PI 3.14159265
 
@@ -12,9 +13,11 @@ Enemy(MELEEZOMBIE, position, 2 + rand() % 3, 2 + rand() % 3, NORTH,
 {
 	m_oldPosition = position;
 
+	m_player = EntityManager::getInstance().GetPlayer();
+
 	//sets direction to always face downwards and towards the middle (until we have a way to point to the player)
 	if (m_player)
-		setDirection(180.0 / PI*atan2((float)(m_player->GetPos_Y() - position.m_y), (float)(m_player->GetPos_X() - position.m_x)));
+		setDirection(180.0 / PI*atan2((m_player->GetPos_Y() - position.m_y), (m_player->GetPos_X() - position.m_x)));
 
 
 	SpriteSheetProperties properties;
@@ -80,6 +83,8 @@ void MeleeZombie::setDirection(float angle)
 
 void MeleeZombie::Update( double deltaTime )
 {
+	m_player = EntityManager::getInstance().GetPlayer();
+
 	if (m_player)
 	{
 		if (active)

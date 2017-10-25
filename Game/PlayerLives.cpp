@@ -39,28 +39,16 @@ void PlayerLives::Draw()
 {
 	if (m_numberOfLives > 2)
 	{
-		//al_draw_bitmap(m_skull,
-		//			   750,
-		//			   550,
-		//			   0);
 		CTwoDVector heart0Pos(750 + m_imageHeight / 2, 550 + m_imageHeight / 2);
 		m_heart0->Draw(heart0Pos);
 	}
 	if (m_numberOfLives > 1)
 	{
-		//al_draw_bitmap(m_skull,
-		//			   700,
-		//			   550,
-		//			   0);
 		CTwoDVector heart1Pos(700 + m_imageHeight / 2, 550 + m_imageHeight / 2);
 		m_heart1->Draw(heart1Pos);
 	}
 	if (m_numberOfLives > 0)
-	{
-/*		al_draw_bitmap(m_skull,
-			           650,
-					   550,
-			           0);     */     
+	{  
 		CTwoDVector heart2Pos(650 + m_imageHeight / 2, 550 + m_imageHeight / 2);
 		m_heart2->Draw(heart2Pos);
 	}

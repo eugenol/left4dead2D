@@ -30,7 +30,7 @@ private:
 	ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet = nullptr;
 	double EnemySpawnTimerMax;
 	double EnemySpawnTimerCurrent;
-	std::list<GameEntity*> objects;
+	std::list<GameEntity*>* objects;
 
 	double runningTime = 0;
 	double prevRunningTime = 0;

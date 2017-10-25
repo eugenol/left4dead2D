@@ -50,8 +50,8 @@ protected:
 	CTwoDVector m_oldPosition;
 
 	//Update functions
-	virtual bool UpdatePosition() = 0;
-	virtual void UpdateDirection() = 0;
+	//virtual bool UpdatePosition() = 0;
+	//virtual void UpdateDirection() = 0;
 	
 	//Collision functions
 	void bounceBack(GameEntity * entity1, GameEntity * entity2);

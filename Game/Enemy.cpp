@@ -3,12 +3,13 @@
 #include "allegro5\allegro_primitives.h"
 #include "allegro5\allegro_image.h"
 
-Player * Enemy::m_player =  nullptr;
+
 int Enemy::maxEnemyCount = 0;
 Enemy::Enemy(int Enemytype, CTwoDVector position, int speed_x, int speed_y, int direction, ALLEGRO_BITMAP *image,
 	bool active, int hitpoints, int regenRate,int damage, int difficulty)
 	:GameEntity(hitpoints, position, speed_x, speed_y,
-	direction, active, hitboxRadius, ID)
+	direction, active, hitboxRadius, ID),
+	m_player( nullptr )
 {
 	
 	this->difficulty = difficulty;
@@ -23,7 +24,7 @@ Enemy::Enemy(int Enemytype, CTwoDVector position, int speed_x, int speed_y, int 
 };
 Enemy::~Enemy(){
 	maxEnemyCount--;
-};
+}
 
 bool Enemy::UpdatePosition(){
 	//random roaming, will update when player class is made
@@ -31,10 +32,8 @@ bool Enemy::UpdatePosition(){
 	if not in range, move randomly every few ticks, with an added offset of a small number towards
 	player location to ensure entities end up near player*/
 	return false;
-};
-void Enemy::setPlayer(Player *player){
-	m_player = player;
-};
+}
+
 void Enemy::takeDamage(int damage){
 	life -= damage;
 	if (life < 0)
@@ -42,8 +41,7 @@ void Enemy::takeDamage(int damage){
 		active = false;
 		runDeathAnimation = true;
 	}
-		
-};
+}
 
 int Enemy::getCount(){
 	return maxEnemyCount;

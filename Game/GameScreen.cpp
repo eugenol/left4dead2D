@@ -5,7 +5,7 @@
 
 GameScreen::GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) : bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
 {
-	EntityManager::getInstance().getEntityList(&objects); // send to object manager.
+	objects = &EntityManager::getInstance().getEntityList(); // send to object manager.
 
 	EnemySpawnTimerMax = (3 + rand() % 3);
 	EnemySpawnTimerCurrent = 0;
@@ -31,31 +31,9 @@ void GameScreen::Update()
 	runningTime += 1.0 / FPS;
 	deltaTime = runningTime - prevRunningTime;
 
-	for(GameEntity* object : objects)
-	{
-		object->Update( deltaTime );
-	}
-	//for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-	//	(*iter)->Update();
+	EntityManager::getInstance().Update( deltaTime );
 
-	//Check for collisions... Not the most efficient, but ok for now. can be changed later...
-	//for now it campares every object, I can make it sector based later...
-	for (std::list<GameEntity*>::iterator iter1 = objects.begin(); iter1 != objects.end(); iter1++)
-	{
-		for (std::list<GameEntity*>::iterator iter2 = objects.begin(); iter2 != objects.end(); iter2++)
-		{
-			if (iter1 != iter2) // Can't collide with yourself
-			{
-				if ((*iter1)->SameRegion(*iter2)) //Same Region?
-				{
-					if ((*iter1)->CheckCollision(*iter2)) //Did you collide?
-					{
-						(*iter1)->Collided(*iter2); //Do something about it.
-					}
-				}
-			}
-		}
-	}
+	EntityManager::getInstance().DoCollisions();
 
 	SpawnEnemies( deltaTime );
 
@@ -69,12 +47,7 @@ void GameScreen::Draw()
 	MapDrawBG(20, 20, 0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
 	//draw objects
-	for (GameEntity* object : objects)
-	{
-		object->Draw();
-	}
-	//for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-	//	(*iter)->Draw();
+	EntityManager::getInstance().Draw();
 }
 
 void GameScreen::newGame()
@@ -86,12 +59,9 @@ void GameScreen::newGame()
 	GameEntity* player = EntityManager::getInstance().MakeEntity<Player>(0, 100, playerStartPosition, 10, 10, 0, 1, 32, PLAYER, bulletSpriteSheet, healthBarSpriteSheet, skullImage, potionImage);
 	gameTime = 0;
 	gameTimeUpdateCounter = 0;
-	EntityManager::getInstance().AddEntity(player);
-	Enemy::setPlayer(dynamic_cast<Player*>(player));
 
 	CTwoDVector zombieStartPosition(400, 300);
 	GameEntity* zombie = EntityManager::getInstance().MakeEntity<CAIZombie>(zombieStartPosition, meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
-	EntityManager::getInstance().AddEntity(zombie);
 }
 
 void GameScreen::SpawnEnemies( double deltaTime )
@@ -122,7 +92,6 @@ void GameScreen::SpawnEnemies( double deltaTime )
 				CTwoDVector zombieSpawnPoint = spawnCentre + spawnOffset;
 				GameEntity* entity = EntityManager::getInstance().MakeEntity<MeleeZombie>(zombieSpawnPoint, diffLevel,
 					meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
-				EntityManager::getInstance().AddEntity(entity);
 			}
 		}
 		EnemySpawnTimerCurrent = 0;
@@ -133,19 +102,12 @@ void GameScreen::SpawnEnemies( double deltaTime )
 
 bool GameScreen::isPlayerAlive()
 {
-	for (GameEntity* object : objects)
-	{
-		if(object->getID() == PLAYER)
-		{
-			return true;
-		}
-	}
-	return false;
+	GameEntity* player = EntityManager::getInstance().GetPlayer();
 
-	//for (std::list<GameEntity*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
-	//{
-	//	if ((*iter)->getID() == PLAYER)
-	//		return true;
-	//}
-	//return false;
+	if (player && player->getAlive())
+	{
+		return true;
+	}
+
+	return false;
 }
