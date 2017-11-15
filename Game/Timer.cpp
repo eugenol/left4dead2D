@@ -70,3 +70,10 @@ bool Timer::HasElapsed()
 }
 
 //-------------------------------------------------------
+
+void Timer::SetTimerDuration( double timerDuration )
+{
+	m_timerDuration = timerDuration;
+}
+
+//-------------------------------------------------------

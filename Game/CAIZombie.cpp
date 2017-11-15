@@ -7,7 +7,14 @@ CAIZombie::CAIZombie( CTwoDVector position, ALLEGRO_BITMAP* image, ALLEGRO_BITMA
 {
 	LoadSprites( image, zombieDeathAnimationSpriteSheet );
 	m_targetPosition = CTwoDVector( 700, 500 );
-	m_baseSpeed = 1600;
+	m_baseSpeed = 3;
+
+	std::vector<CTwoDVector> path;
+	path.emplace_back(100, 100);
+	path.emplace_back(700, 100);
+	path.emplace_back(700, 500);
+	path.emplace_back(100, 500);
+	m_path = path;
 }
 
 CAIZombie::~CAIZombie()
@@ -17,21 +24,20 @@ CAIZombie::~CAIZombie()
 
 void CAIZombie::DoLogic( double deltaTime )
 {
+	FollowPath( 30, deltaTime );
+
 	// random walks
-	CTwoDVector diff = m_targetPosition - m_position;
+	//CTwoDVector diff = m_targetPosition - m_position;
 
-	setDirection(180.0 / PI * atan2(diff.m_y, diff.m_x));
-
-	if( diff.Magnitude() > 2 )
-	{
-		m_speed = m_baseSpeed/diff.Magnitude();
-		m_velocity = m_speed*diff.EuclideanNorm();
-		m_position += m_velocity*deltaTime;
-	}
-	else
-	{
-		m_targetPosition = CTwoDVector( rand() % DISPLAY_WIDTH , rand() % DISPLAY_HEIGHT);
-	}
+	//if( diff.Magnitude() > 2 )
+	//{
+	//	m_speed = m_baseSpeed*(diff.Magnitude()+1);
+	//	WalkToTarget(m_targetPosition, m_speed, deltaTime);
+	//}
+	//else
+	//{
+	//	m_targetPosition = CTwoDVector( rand() % DISPLAY_WIDTH , rand() % DISPLAY_HEIGHT);
+	//}
 }
 
 void CAIZombie::Update( double deltaTime )
@@ -44,6 +50,7 @@ void CAIZombie::Update( double deltaTime )
 void CAIZombie::Draw()
 {
 	m_currentSprite->Draw( m_position, direction );
+	m_path.Draw();
 }
 
 void CAIZombie::LoadSprites(ALLEGRO_BITMAP* image, ALLEGRO_BITMAP* deathImage)
@@ -88,6 +95,37 @@ void CAIZombie::setDirection(float angle)
 	else if (angle < 135 - 22.5) direction = S;
 	else if (angle < 180 - 22.5) direction = SW;
 	else direction = W;
+}
+
+void CAIZombie::WalkToTarget( CTwoDVector target, double speed, double deltaTime )
+{
+	m_direction = (target - m_position).EuclideanNorm();
+
+	setDirection(180.0 / PI * atan2(m_direction.m_y, m_direction.m_x));
+
+	m_velocity = speed*m_direction;
+	m_position += m_velocity*deltaTime;
+}
+
+void CAIZombie::FollowPath( double speed, double deltaTime )
+{
+	static size_t index = 0;
+
+	if (index < m_path.Size())
+	{
+		CTwoDVector target = m_path[index];
+		WalkToTarget( target, speed, deltaTime );
+		CTwoDVector diff = target - m_position;
+
+		if (diff.Magnitude() < 2)
+		{
+			index++;
+		}
+	}
+	else
+	{
+		index = 0;
+	}
 }
 
 void CAIZombie::DoStateLogic(double delta_time)

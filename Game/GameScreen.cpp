@@ -3,10 +3,10 @@
 #include "MeleeZombie.h"
 #include "CAIZombie.h"
 
-GameScreen::GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) : bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), healthBarSpriteSheet(healthBarSpriteSheet), skullImage(skullImage), gameoverImage(gameoverImage), potionImage(potionImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
+GameScreen::GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m) 
+:
+bulletSpriteSheet(bulletImage), meleeZombieSpriteSheet(zombieImage), zombieDeathAnimationSpriteSheet(zombieDeathAnimationSpriteSheet_m)
 {
-	objects = &EntityManager::getInstance().getEntityList(); // send to object manager.
-
 	EnemySpawnTimerMax = (3 + rand() % 3);
 	EnemySpawnTimerCurrent = 0;
 }
@@ -56,9 +56,15 @@ void GameScreen::newGame()
 	EntityManager::getInstance().KillAll();
 	// Create newplayer
 	CTwoDVector playerStartPosition(100, 100);
-	GameEntity* player = EntityManager::getInstance().MakeEntity<Player>(0, 100, playerStartPosition, 10, 10, 0, 1, 32, PLAYER, bulletSpriteSheet, healthBarSpriteSheet, skullImage, potionImage);
+	GameEntity* player = EntityManager::getInstance().MakeEntity<Player>(0, 100, playerStartPosition, 10, 10, 1, 32, PLAYER, bulletSpriteSheet);
+	GameEntity* HUD = EntityManager::getInstance().MakeEntity<HeadsUpDisplay>();
+
+	dynamic_cast<Player*>(player)->AddObserver(dynamic_cast<HeadsUpDisplay*>(HUD));
+
 	gameTime = 0;
 	gameTimeUpdateCounter = 0;
+	runningTime = 0.0;
+
 
 	CTwoDVector zombieStartPosition(400, 300);
 	GameEntity* zombie = EntityManager::getInstance().MakeEntity<CAIZombie>(zombieStartPosition, meleeZombieSpriteSheet, zombieDeathAnimationSpriteSheet);
@@ -71,7 +77,7 @@ void GameScreen::SpawnEnemies( double deltaTime )
 	//Attempt to create new enemy
 	if( EnemySpawnTimerCurrent >= EnemySpawnTimerMax )
 	{
-		EnemySpawnTimerMax = 4 + rand() % 4 - logf(runningTime * 5) / 3;//zombies spawn after FPS*(random+3)-3*seconds elapsed
+		EnemySpawnTimerMax = 4 + rand() % 4 - log(runningTime * 5) / 3;//zombies spawn after FPS*(random+3)-3*seconds elapsed
 		if (EnemySpawnTimerMax < 3)
 			EnemySpawnTimerMax = 3;
 

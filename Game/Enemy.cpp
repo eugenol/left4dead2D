@@ -8,7 +8,7 @@ int Enemy::maxEnemyCount = 0;
 Enemy::Enemy(int Enemytype, CTwoDVector position, int speed_x, int speed_y, int direction, ALLEGRO_BITMAP *image,
 	bool active, int hitpoints, int regenRate,int damage, int difficulty)
 	:GameEntity(hitpoints, position, speed_x, speed_y,
-	direction, active, hitboxRadius, ID),
+	direction, active, ID),
 	m_player( nullptr )
 {
 	

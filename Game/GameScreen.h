@@ -11,7 +11,7 @@
 class GameScreen : public CScreen
 {
 public:
-	GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *potionImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m);
+	GameScreen(ALLEGRO_BITMAP *bulletImage, ALLEGRO_BITMAP *zombieImage, ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet_m);
 	~GameScreen();
 	void newGame();
 	void SpawnEnemies( double deltaTime );
@@ -22,15 +22,10 @@ public:
 private:
 	ALLEGRO_BITMAP *playerSpriteSheet = nullptr;
 	ALLEGRO_BITMAP *bulletSpriteSheet = nullptr;
-	ALLEGRO_BITMAP *healthBarSpriteSheet = nullptr;
-	ALLEGRO_BITMAP *gameoverImage = nullptr;
-	ALLEGRO_BITMAP *skullImage = nullptr;
-	ALLEGRO_BITMAP *potionImage = nullptr;
 	ALLEGRO_BITMAP *meleeZombieSpriteSheet = nullptr;
 	ALLEGRO_BITMAP *zombieDeathAnimationSpriteSheet = nullptr;
 	double EnemySpawnTimerMax;
 	double EnemySpawnTimerCurrent;
-	std::list<GameEntity*>* objects;
 
 	double runningTime = 0;
 	double prevRunningTime = 0;

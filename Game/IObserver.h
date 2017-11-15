@@ -9,7 +9,10 @@ public:
 	IObserver();
 	virtual ~IObserver();
 	
-	virtual void OnNotify( const GameEntity& entity, CEvent* event ) = 0;
+	IObserver(const IObserver&) = delete;
+	IObserver& operator=(const IObserver&) = delete;
 
+
+	virtual void OnNotify( const GameEntity& entity, CEvent* event ) = 0;
 };
 

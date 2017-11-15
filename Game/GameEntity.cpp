@@ -1,20 +1,17 @@
 #include "GameEntity.h"
 #include <cmath>
-#include "Common.h"
 
 GameEntity::GameEntity()
 {
 
 }
-GameEntity::GameEntity(int life, CTwoDVector position, int speed_x, int speed_y, int direction, bool active,
-	int hitboxRadius, int ID)
+GameEntity::GameEntity(int life, CTwoDVector position, int speed_x, int speed_y, int direction, bool active, int ID)
 	:
 	m_position( position ),
 	speed_x( speed_x ),
 	speed_y( speed_y ),
 	direction( direction ),
 	active( active ),
-	hitboxRadius( hitboxRadius ),
 	ID( ID ),
 	life( life )
 {

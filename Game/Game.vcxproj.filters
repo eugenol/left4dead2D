@@ -123,6 +123,9 @@
     <ClCompile Include="IObservee.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CPath.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEntity.h">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="CEventValue.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPath.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

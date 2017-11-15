@@ -41,6 +41,9 @@ public:
 
 private:
 
+	CTwoDVector m_position;
+	CTwoDVector m_centrePoint;
+
 	double m_frameTime = 0;
 	double m_frameDelay = 0;
 	int m_currentFrame = 0;

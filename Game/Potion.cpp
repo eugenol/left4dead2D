@@ -2,24 +2,27 @@
 
 //-------------------------------------------------------
 
-Potion::Potion(ALLEGRO_BITMAP *potionImage) :
-m_potionImage(potionImage),
+Potion::Potion( ) :
 m_randomPosX(0),
 m_randomPosY(0),
 m_noPotionTimer( 10.0 ),
 m_showPotionTimer( 5.0 ),
 m_collectedPotion(false)
 {
+	m_potionImage = al_load_bitmap("potion.png");
 	al_convert_mask_to_alpha(m_potionImage, al_map_rgb(255, 255, 255));
 	m_imageWidth = al_get_bitmap_width(m_potionImage);
 	m_imageHeight = al_get_bitmap_height(m_potionImage);
 	m_noPotionTimer.Start();
+
+	m_potionSprite = std::make_unique<CSprite>(m_potionImage);
 }
 
 //-------------------------------------------------------
 
 Potion::~Potion()
 {
+	al_destroy_bitmap( m_potionImage );
 }
 
 //-------------------------------------------------------
@@ -28,11 +31,10 @@ void Potion::Draw()
 {
 	if (m_showPotionTimer.IsRunning())
 	{
-		al_draw_bitmap(m_potionImage,
-					   m_randomPosX,
-					   m_randomPosY,
-					   0);
+		CTwoDVector position(m_randomPosX, m_randomPosY);
+		m_potionSprite->Draw(position);
 	}
+
 }
 
 //-------------------------------------------------------

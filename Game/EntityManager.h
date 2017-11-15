@@ -36,7 +36,6 @@ public:
 	static EntityManager & getInstance();
 	~EntityManager();
 
-	std::list<GameEntity*>& getEntityList();
 	void UpdateList();
 	void AddEntity(GameEntity *entity);
 	void KillAll();
@@ -58,6 +57,7 @@ public:
 private:
 	EntityManager(); //Make constructor Private, so that only one instance can be made
 	std::list<GameEntity*> entityList;
+	std::vector<GameEntity*> m_collidableList;
 	Player* m_player;
 };
 
@@ -78,6 +78,7 @@ GameEntity* EntityManager::MakeEntity( TArgs&&... mArgs )
 
 	return ptr;
 }
+
 
 #endif
 

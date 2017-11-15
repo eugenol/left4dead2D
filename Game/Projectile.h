@@ -7,7 +7,7 @@ class Projectile :
 {
 
 public:
-	Projectile( CTwoDVector destination, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP* imag, ALLEGRO_BITMAP* explosionImag, int damagePower );
+	Projectile( CTwoDVector destination, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ, int Identity, ALLEGRO_BITMAP* imag, ALLEGRO_BITMAP* explosionImag, int damagePower );
 	//void Collided(GameEntity *otherObject);
 	~Projectile();
 private:

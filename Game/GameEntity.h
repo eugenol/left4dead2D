@@ -13,8 +13,7 @@ class GameEntity
 {
 public:
 	GameEntity();
-	GameEntity(int life, CTwoDVector position, int speed_x, int speed_y, int direction, bool active,
-		int hitboxRadius, int ID);
+	GameEntity(int life, CTwoDVector position, int speed_x, int speed_y, int direction, bool active, int ID);
 	virtual ~GameEntity();
 	
 	int getID();
@@ -40,7 +39,6 @@ protected:
 
 	bool collided;
 	
-	int hitboxRadius;		//defines radius (for a square) for entity collision detection
 	int hitboxWidth;
 	int hitboxHeight;
 	int ID;
@@ -54,9 +52,9 @@ protected:
 	//virtual void UpdateDirection() = 0;
 	
 	//Collision functions
-	void bounceBack(GameEntity * entity1, GameEntity * entity2);
-	void EnemyHitsPlayer(GameEntity * Player, GameEntity * Enemy);
-	void ProjectileHitsEnemy(GameEntity * Enemy, GameEntity * Projectile);
+	//void bounceBack(GameEntity * entity1, GameEntity * entity2);
+	//void EnemyHitsPlayer(GameEntity * Player, GameEntity * Enemy);
+	//void ProjectileHitsEnemy(GameEntity * Enemy, GameEntity * Projectile);
 
 	//Hold window size to prevent the player from moving off the screen
 	int maxXpos = DISPLAY_WIDTH;

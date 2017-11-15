@@ -42,7 +42,7 @@ public:
 	double m_y;
 
 private:
-	const double epsilon = 1e-10;
+	const double epsilon = 0.0000001;
 };
 
 //-------------------------------------------------------

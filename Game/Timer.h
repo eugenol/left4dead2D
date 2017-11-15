@@ -12,6 +12,7 @@ public:
 	void Update( double deltaTime );
 	double GetTime();
 	bool HasElapsed();
+	void SetTimerDuration(double timerDuration);
 
 private:
 	bool m_running;

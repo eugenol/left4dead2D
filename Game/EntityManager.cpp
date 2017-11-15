@@ -1,4 +1,5 @@
 #include "EntityManager.h"
+#include <algorithm>
 
 
 EntityManager::EntityManager()
@@ -19,56 +20,52 @@ EntityManager & EntityManager::getInstance()
 	return instance;
 }
 
-std::list<GameEntity*>& EntityManager::getEntityList()
-{
-	return entityList;
-}
 
 void EntityManager::UpdateList()
 {
 	// Call this each update loop, if the object is dead, delete it
-
-	std::list<GameEntity*>::iterator iter = entityList.begin();
-	while (iter != entityList.end())
+	
+	auto removeFunc = [this](GameEntity* entity) -> bool
 	{
-		if (!(*iter)->getAlive())
+		if (!entity->getAlive())
 		{
-			std::list<GameEntity*>::iterator prev = iter++;
-			GameEntity *tempPtr = *prev;
+			GameEntity* tempPtr = entity;
 			if (tempPtr->getID() == PLAYER)
 			{
 				m_player = nullptr;
 			}
-			entityList.erase(prev);
 			delete tempPtr;
+			return true;
 		}
 		else
 		{
-			++iter;
+			return false;
 		}
-	}
+	};
+
+	entityList.erase(std::remove_if(std::begin(entityList), std::end(entityList), removeFunc), std::end(entityList));
 }
 
 void EntityManager::AddEntity(GameEntity *entity)
 {
 	// add entity to the list
-	entityList.push_front(entity);
+	entityList.push_back(entity);
 }
 
 void EntityManager::KillAll()
 {
-	std::list<GameEntity*>::iterator iter = entityList.begin();
-	while (iter != entityList.end())
+	auto removeFunc = [this](GameEntity* entity) -> bool
 	{
-		std::list<GameEntity*>::iterator prev = iter++;
-		GameEntity *tempPtr = *prev;
-		if (tempPtr->getID() == PLAYER)
-		{
-			m_player = nullptr;
-		}
-		entityList.erase(prev);
-		delete tempPtr;
-	}
+			GameEntity* tempPtr = entity;
+			if (tempPtr->getID() == PLAYER)
+			{
+				m_player = nullptr;
+			}
+			delete tempPtr;
+			return true;
+	};
+
+	entityList.erase(std::remove_if(std::begin(entityList), std::end(entityList), removeFunc), std::end(entityList));
 }
 
 void EntityManager::Update( double deltaTime )
@@ -91,18 +88,16 @@ void EntityManager::DoCollisions()
 {
 	//Check for collisions... Not the most efficient, but ok for now. can be changed later...
 	//for now it campares every object, I can make it sector based later...
-	for (std::list<GameEntity*>::iterator iter1 = begin(entityList); iter1 != end(entityList); ++iter1)
+
+	for( GameEntity* entity1 : entityList )
 	{
-		for (std::list<GameEntity*>::iterator iter2 = begin(entityList); iter2 != end(entityList); ++iter2)
+		for (GameEntity* entity2 : entityList)
 		{
-			if (iter1 != iter2) // Can't collide with yourself
+			if (entity1 != entity2 && entity1->SameRegion(entity2) ) // Can't collide with yourself
 			{
-				if ((*iter1)->SameRegion(*iter2)) //Same Region?
+				if (entity1->CheckCollision(entity2)) //Did you collide?
 				{
-					if ((*iter1)->CheckCollision(*iter2)) //Did you collide?
-					{
-						(*iter1)->Collided(*iter2); //Do something about it.
-					}
+					entity1->Collided(entity2); //Do something about it.
 				}
 			}
 		}

@@ -3,13 +3,15 @@
 #include "allegro5\allegro.h"
 #include "GameEntity.h"
 #include "Timer.h"
+#include "CSprite.h"
+#include <memory>
 
 //-------------------------------------------------------
 
 class Potion : public GameEntity
 {
 public:
-	Potion(ALLEGRO_BITMAP *potionImage);
+	Potion();
 	virtual ~Potion();
 
 	virtual void Draw();
@@ -23,6 +25,7 @@ public:
 
 private:
 	ALLEGRO_BITMAP *m_potionImage;
+	std::unique_ptr<CSprite> m_potionSprite;
 	int m_randomPosX;
 	int m_randomPosY;
 	Timer m_noPotionTimer;

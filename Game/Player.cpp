@@ -8,8 +8,8 @@
 #include "CEvent.h"
 #include <fstream>
 
-Player::Player(int score, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ, int hitboxR, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet, ALLEGRO_BITMAP *healthBarSpriteSheet, ALLEGRO_BITMAP *skullImage, ALLEGRO_BITMAP *potionImage) :
-GameEntity(lif, position, speedX, speedY, Dir, activ, hitboxR, Identity)
+Player::Player(int score, int lif, CTwoDVector position, int speedX, int speedY, int Dir, bool activ, int Identity, ALLEGRO_BITMAP *bulletSpriteSheet) :
+GameEntity(lif, position, speedX, speedY, Dir, activ, Identity)
 {
 	//set spritesheet properties PlayerSprite
 	struct SpriteSheetProperties properties;
@@ -42,8 +42,8 @@ GameEntity(lif, position, speedX, speedY, Dir, activ, hitboxR, Identity)
 
 	m_attackSplatter = new CSprite("attack_splatter_42_32.png", properties);
 
-	headsUpDisplay = new HeadsUpDisplay();
-	AddObserver( headsUpDisplay );
+	//headsUpDisplay = new HeadsUpDisplay();
+	//AddObserver( headsUpDisplay );
 	this->score = score;
 	shooting_control = 0;
 
@@ -62,7 +62,7 @@ GameEntity(lif, position, speedX, speedY, Dir, activ, hitboxR, Identity)
 	al_init_ttf_addon();
 	font_18 = al_load_ttf_font("pirulen.ttf", 18, 0);
 
-	potion = new Potion(potionImage);
+	potion = new Potion();
 	//EntityManager::getInstance().AddEntity(potion);
 
 	//Reward Initialisation
@@ -74,8 +74,8 @@ GameEntity(lif, position, speedX, speedY, Dir, activ, hitboxR, Identity)
 
 Player::~Player()
 {
-	RemoveObserver( headsUpDisplay );
-	delete headsUpDisplay;
+	//RemoveObserver( headsUpDisplay );
+	//delete headsUpDisplay;
 	delete potion;
 	//When Player dies save the current score and gametime to a file
 	std::fstream file("highscores.txt", std::ios::app);
@@ -85,7 +85,7 @@ Player::~Player()
 
 void Player::Update( double deltaTime )
 {
-	headsUpDisplay->Update( deltaTime );
+	//headsUpDisplay->Update( deltaTime );
 	if (active)
 	{
 		if (damageCheck())
@@ -261,7 +261,7 @@ void Player::ShootCheck()
 		if ((shooting_control == 0) || (shooting_control > 7))
 		{
 			CTwoDVector destination = InputManager::getInstance().GetMousePosition();
-			GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination, 0, m_position, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
+			GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination, 0, m_position, 10, 10, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 20);
 			shooting_control = 0;
 		}
 		shooting_control++;
@@ -280,7 +280,7 @@ void Player::megaShot()
 	for (int angle = 0; angle < 360; angle += 15)
 	{
 		CTwoDVector destination(m_position.m_x + 100 * cosf(angle*PI / 180), m_position.m_y + 100 * sinf(angle*PI / 180));
-		GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination, 0, m_position, 10, 10, 0, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 500);
+		GameEntity* bulletPtr = EntityManager::getInstance().MakeEntity<Projectile>(destination, 0, m_position, 10, 10, 1, 2, PROJECTILE, bulletSpriteSheet, bulletExplosionSpriteSheet, 500);
 	}
 }
 int Player::GetPos_X()
@@ -308,7 +308,7 @@ void Player::Draw()
 		m_attackSplatter->Draw(m_position, 0);
 	}
 
-	headsUpDisplay->Draw();
+	//headsUpDisplay->Draw();
 	potion->Draw();
 }
 void Player::increaseScore(int addedScore){
